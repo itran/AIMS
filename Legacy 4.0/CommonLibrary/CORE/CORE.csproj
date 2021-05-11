@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>Legacy.CORE</AssemblyName>
+    <RootNamespace>Legacy.CORE</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\DAL\DAL\DAL.csproj" />
+    <ProjectReference Include="..\..\Pocos\Models\Models.csproj" />
+  </ItemGroup>
+
+</Project>

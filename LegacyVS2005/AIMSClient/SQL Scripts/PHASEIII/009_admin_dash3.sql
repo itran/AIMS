@@ -1,0 +1,11 @@
+create PROCEDURE AIMS_PATIENTS_ADMIN_UNAssigned_FILES      
+AS      
+BEGIN      
+select b.GUARANTOR_NAME , c.MODIFIED_USER ,a.*, d.SUPPLIER_NAME from AIMS_PATIENT a   
+left outer join AIMS_GUARANTOR b on b.GUARANTOR_ID = a.GUARANTOR_ID  
+inner join AIMS_A_PATIENT c on c.PATIENT_ID = a.PATIENT_ID    
+left outer join AIMS_SUPPLIER d on d.SUPPLIER_ID = a.SUPPLIER_ID  
+where (a.FILE_ASSIGNED_TO_USERID is null or a.FILE_ASSIGNED_TO_USERID = '') and a.SENT_TO_ADMIN  = 'Y'  
+and a.CREATION_DTTM >= '01 January 2018' and a.CANCELLED = 'N' and a.PATIENT_FILE_ACTIVE_YN = 'Y'  
+and c.AUDIT_ID = (select MIN(AUDIT_ID) from  AIMS_A_PATIENT where PATIENT_ID = a.PATIENT_ID)  
+END  

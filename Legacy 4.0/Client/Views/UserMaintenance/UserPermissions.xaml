@@ -1,0 +1,58 @@
+﻿<UserControl x:Class="Legacy.WPFRegionalManager.Views.UserPermissions"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <DockPanel Margin="10,5" Grid.Row="4" Grid.RowSpan="3" Grid.ColumnSpan="5">
+            <ListView x:Name="DocumentList"  
+                                          Background="WhiteSmoke"
+                                          ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                                          ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                          ItemsSource="{Binding UserList}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="User Name" Width="0" DisplayMemberBinding="{Binding User_Name}"/>
+                        <GridViewColumn Header="User Full Name" Width="130" DisplayMemberBinding="{Binding User_Full_Name}"/>
+                        <GridViewColumn Header="Edit" Width="60">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button 
+                                                            Margin="2,2,2,2" Name="btnEdit" Height="40" 
+                                                            CommandParameter="{Binding Id}"
+                                                            IsEnabled="{Binding IsEditable}"
+								                            Command="{Binding Path=DataContext.OpenEditDocumentCommand, 
+										                    RelativeSource={RelativeSource FindAncestor, 
+										                    AncestorType={x:Type ItemsControl}}}">
+                                    </Button>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </DockPanel>
+    </Grid>
+</UserControl>

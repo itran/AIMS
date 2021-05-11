@@ -1,0 +1,10 @@
+CREATE proc AIMS_GET_PATIENT_LOG  
+@Patient_ID varchar(50)  
+as  
+begin  
+SELECT *  
+  FROM aims_ews_email_documents a, aims_ews_patient_enquiry b  
+ WHERE a.doc_type_id = 12 AND b.patient_enquiry_id = a.patient_enquiry_id   
+ AND b.patient_id=  @Patient_ID and b.active_yn = 'Y'  
+ order by a.email_document_id desc  
+end  

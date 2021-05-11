@@ -1,0 +1,290 @@
+﻿<UserControl x:Class="Legacy.WPFRegionalManager.Views.UserMaintainer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style x:Key="GridSplitterVerticalGripStyle" TargetType="{x:Type GridSplitter}">
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="Cursor" Value="SizeWE" />
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="Background"  Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type GridSplitter}">
+                        <Border BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Background="{TemplateBinding Background}"
+                                Width="{TemplateBinding Width}">
+                            <Border Height="50" Width="4" VerticalAlignment="Center"
+                                    HorizontalAlignment="Center" BorderThickness="1 0"
+                                    Background="White" BorderBrush="#A0A0A0">
+                            </Border>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="VerticalGridSplitter" TargetType="{x:Type GridSplitter}"
+                BasedOn="{StaticResource GridSplitterVerticalGripStyle}">
+            <Setter Property="Width" Value="10" />
+            <Setter Property="Margin" Value="15 0" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+        </Style>
+
+        <Style x:Key="GrayHeader" TargetType="{x:Type GridViewColumnHeader}">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Offset="0.0" Color="DarkCyan" />
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="5, 5" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderBrush" Value="DarkCyan" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="450"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <GridSplitter  Grid.Column="0"   Height="20" BorderThickness="10" BorderBrush="Red" />
+        <StackPanel Grid.Row="1" Grid.Column="0" Margin="10">
+            <TextBlock FontWeight="ExtraBold" FontSize="15" Margin="5">- Department -</TextBlock>
+            <ComboBox Margin="5" 
+                ItemsSource="{Binding DepartmentList}" 
+                SelectedItem="{Binding SelectedDepartment,Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
+                IsSynchronizedWithCurrentItem="True" 
+                TextSearch.TextPath="DEPARTMENT_NAME" 
+                DisplayMemberPath="DEPARTMENT_NAME"
+                SelectedValuePath="DEPARTMENT_ID"/>
+            <TextBlock FontWeight="ExtraBold" FontSize="15" Margin="2">- Users -</TextBlock>
+            <ComboBox Margin="5" 
+                ItemsSource="{Binding SourceCollection}" 
+                SelectedItem="{Binding SelectedUser,Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
+                IsSynchronizedWithCurrentItem="True" 
+                                     TextSearch.TextPath="User_Full_Name" 
+                DisplayMemberPath="User_Full_Name"
+                SelectedValuePath="User_Name" />
+            <TextBlock FontWeight="ExtraBold" FontSize="15" Margin="5">- User List -</TextBlock>
+            <Grid>
+                <ListView x:Name="UserList"  ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Visible"  ItemsSource="{Binding PaginationUserList}" Width="Auto" 
+                      BorderThickness="1" BorderBrush="DarkCyan" ScrollViewer.CanContentScroll="True">
+                    <ListView.View>
+                        <GridView ColumnHeaderContainerStyle="{StaticResource GrayHeader}">
+                            <GridViewColumn Header="Full Name" TextBlock.TextAlignment="Center" Width="Auto" DisplayMemberBinding="{Binding User_Full_Name}"/>
+                            <GridViewColumn Header="Login User Id" TextBlock.TextAlignment="Center" Width="Auto" DisplayMemberBinding="{Binding User_Name}"/>
+                            <GridViewColumn Header="Active Y/N" TextBlock.TextAlignment="Center" Width="Auto" DisplayMemberBinding="{Binding User_Active_YN}"/>
+                            <GridViewColumn Header="Job Title" TextBlock.TextAlignment="Center" Width="Auto" DisplayMemberBinding="{Binding User_Active_YN}"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
+        </StackPanel>
+        <Grid  Grid.Column="1" Background="AliceBlue" Margin="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Expander Grid.Row="1" Grid.Column="1" Header="User Details" BorderBrush="DarkCyan" Margin="5" FontWeight="Normal" IsExpanded="True">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid>
+                        <Grid.Resources>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Margin" Value="3" />
+                            </Style>
+                            <Style TargetType="TextBox">
+                                <Setter Property="Margin" Value="3" />
+                                <Setter Property="MinWidth" Value="250"/>
+                                <Setter Property="Padding" Value="2" />
+                                <Setter Property="Height" Value="24" />
+                            </Style>
+                        </Grid.Resources>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        
+                        <!--<Button Content="Add New User"  Margin="5"  HorizontalAlignment="Left" IsEnabled="True" Command="{Binding AddUserCommand}"/>-->
+                        <Button Content="Add New User"  Margin="5"  HorizontalAlignment="Left" Command="{Binding AddUserCommand}"/>
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <StackPanel Orientation="Vertical"  Margin="5,10,0,0" HorizontalAlignment="Left">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="Login-User-Id"/>
+                                    <TextBox Text="{Binding User_Name}" />
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="Phone Number"/>
+                                    <TextBox Text="{Binding User_Phone}" />
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="Date of Birth"/>
+                                    <DatePicker  Margin="3"
+                                    VerticalAlignment="Center"
+                                    SelectedDate="{Binding DATE_OF_BIRTH, StringFormat = {}{0:dd/MM/yyyy}, Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}" />
+                                    <CheckBox Margin="5" Foreground="Red" FontWeight="DemiBold" IsChecked="{Binding UserAccountActive}">
+                                        User Account Active
+                                    </CheckBox>
+                                </StackPanel>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Vertical" Grid.Column="1"  Margin="5,10,0,0" HorizontalAlignment="Left">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="Full Name"/>
+                                    <TextBox Text="{Binding User_Full_Name}"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="Fax No"/>
+                                    <TextBox Text="{Binding User_Fax}"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="Email Address"/>
+                                    <TextBox Text="{Binding User_Email}"/>
+
+                                </StackPanel>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Vertical" Grid.Column="2"  Margin="5,10,0,0" HorizontalAlignment="Left" Visibility="Hidden">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="Initials"/>
+                                    <TextBox Text=""/>
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="Contact Number"/>
+                                    <TextBox Text=""/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                        <Grid Grid.Row="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Text="Designation" FontSize="13" FontWeight="SemiBold"  Margin="10" Foreground="DarkCyan"/>
+
+                            <StackPanel Orientation="Vertical" Grid.Row="1"  Margin="5,10,0,0" HorizontalAlignment="Left">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="Department"/>
+                                    <ComboBox Margin="3" Name="cboUserDepart"
+                                        ItemsSource="{Binding DepartmentList}" 
+                                        IsSynchronizedWithCurrentItem="True" 
+                                        SelectedValue="{Binding SelectedDepartmentId}"
+                                        TextSearch.TextPath="DEPARTMENT_NAME" 
+                                        DisplayMemberPath="DEPARTMENT_NAME"
+                                        SelectedValuePath="DEPARTMENT_ID"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical" Visibility="Hidden">
+                                    <TextBlock Text="Home Address Line 4"/>
+                                    <TextBox Text="{Binding APViewModel.HomeAddress.Addr_Line_3}"/>
+                                </StackPanel>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Vertical" Grid.Column="1" Grid.Row="1"   Margin="5,10,0,0" HorizontalAlignment="Left">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="Job Title"/>
+                                    <ComboBox Margin="3"
+                                        SelectedItem="{Binding SelectedJobTitle,Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
+                                        ItemsSource="{Binding JobTitleList}" 
+                                        IsSynchronizedWithCurrentItem="True" 
+                                        SelectedValue="{Binding SelectedJobTitleId}"
+                                        TextSearch.TextPath="JOB_TITLE_DESC" 
+                                        DisplayMemberPath="JOB_TITLE_DESC"
+                                        SelectedValuePath="JOB_TITLE_ID"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical" Visibility="Hidden">
+                                    <TextBlock Text="Home Postal Code"/>
+                                    <TextBox Text="{Binding APViewModel.HomeAddress.Postal_Cd}"/>
+                                </StackPanel>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Vertical" Grid.Column="2" Grid.Row="1"   Margin="5,10,0,0" HorizontalAlignment="Left" Visibility="Hidden">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="Manager"/>
+                                    <TextBox Text="{Binding APViewModel.HomeAddress.Sub_Town}"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                    <StackPanel Grid.Row="1" Orientation="Vertical" Margin="5" HorizontalAlignment="Left" Grid.Column="0">
+                        <DockPanel Margin="5" HorizontalAlignment="Left" Background="AliceBlue">
+                            <Button Content="Save"                 Margin="5"  HorizontalAlignment="Left" Command="{Binding SaveUserCommand}"/>
+                            <Button Content="De-Activate Account"                 Margin="5"  HorizontalAlignment="Left" Command="{Binding DeactivateUserCommand}"/>
+                        </DockPanel>
+                    </StackPanel>
+                </Grid>
+            </Expander>
+
+            <Expander Grid.Row="2" Height="245" Grid.Column="1" Header="Roles" BorderBrush="DarkCyan" Margin="5" FontWeight="Normal" IsExpanded="True">
+                <Grid ShowGridLines="True">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.ColumnSpan="4" Grid.Column="0">
+                        <ListBox Margin="5" Width="600" Height="180" Grid.ColumnSpan="4" ItemsSource="{Binding RoleList}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <WrapPanel Orientation="Horizontal" FlowDirection="LeftToRight">
+                                        <CheckBox Content="{Binding ROLE_CD}" IsChecked="{Binding IsRoleChecked}" />
+                                    </WrapPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <Button Content="Save" Margin="5"  HorizontalAlignment="Center" Command="{Binding SaveUserRoleCommand}"/>
+                    </StackPanel>
+                </Grid>
+                
+            </Expander>
+
+        </Grid>
+    </Grid>
+</UserControl>

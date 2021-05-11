@@ -1,0 +1,30 @@
+﻿<UserControl x:Class="Legacy.WPFRegionalManager.Views.UserMaintenance.WorkRegion"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WPFRegionalManager.Views"
+             mc:Ignorable="d" 
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ClearChildViewsRegionBehavior.ClearChildViews="True"
+            d:DesignHeight="1000" d:DesignWidth="2000">
+    <!--<UserControl.Resources>
+        <DataTemplate DataType="{x:Type RelatedCases:ListRelatedCasesViewModel}">
+            <RelatedCases:ListRelatedCasesView />
+        </DataTemplate>
+    </UserControl.Resources>-->
+    <!--<UserControl.Background>
+        <ImageBrush ImageSource="C:\Users\Brianmaswanganye\source\repos\WPFRegionalManager\Assests\hero-banner.jpg"></ImageBrush>
+    </UserControl.Background>-->
+    
+    <Grid  ScrollViewer.VerticalScrollBarVisibility="Auto">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="500"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="500" />
+        </Grid.RowDefinitions>
+    </Grid>
+</UserControl>

@@ -1,0 +1,33 @@
+
+  
+create PROC AIMS_PATIENT_GUARANTEE_CALC  
+ @PatientId varchar(50),  
+ @GOP_AMOUNT varchar(50),  
+ @GOP_OVER_LIMIT varchar(50) output  
+AS  
+BEGIN  
+ DECLARE @totalAmt MONEY, @patientfileGOP MONEY  
+  select 
+  @totalAmt =  SUM (CAST (gop_consolidated_amount AS MONEY)) + cast(@GOP_AMOUNT as money)  
+   FROM aims_patient_gop  
+     WHERE patient_id = @PatientId  
+  ORDER BY 1 DESC  
+    
+  SELECT   @patientfileGOP = cast(patient_guarantor_amount AS MONEY)    
+   FROM aims_patient  
+     WHERE patient_id = @PatientId  
+  ORDER BY 1 DESC  
+    
+ IF @totalAmt > @patientfileGOP  
+ BEGIN  
+  SET @GOP_OVER_LIMIT = 'Y'  
+ END  
+ ELSE  
+ BEGIN  
+  SET @GOP_OVER_LIMIT = 'N'  
+ END  
+END
+
+
+insert into AIMS_LIMITATION 
+values('AIMS_EMAIL_POD_ACCOMODATION','3333','C:\aims recorder\GOP Archive')

@@ -1,0 +1,371 @@
+﻿    <UserControl x:Class="Legacy.WPFRegionalManager.Views.Patient.PatientNoteView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Legacy.WPFRegionalManager.Views.Patient"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style x:Key="GridSplitterVerticalGripStyle" TargetType="{x:Type GridSplitter}">
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="Cursor" Value="SizeWE" />
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="Background"  Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type GridSplitter}">
+                        <Border BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Background="{TemplateBinding Background}"
+                                Width="{TemplateBinding Width}">
+                            <Border Height="50" Width="4" VerticalAlignment="Center"
+                                    HorizontalAlignment="Center" BorderThickness="1 0"
+                                    Background="White" BorderBrush="#A0A0A0">
+                            </Border>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="VerticalGridSplitter" TargetType="{x:Type GridSplitter}"
+                BasedOn="{StaticResource GridSplitterVerticalGripStyle}">
+            <Setter Property="Width" Value="10" />
+            <Setter Property="Margin" Value="15 0" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+        </Style>
+        <Style x:Key="GrayHeader" TargetType="{x:Type GridViewColumnHeader}">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Offset="0.0" Color="DarkCyan" />
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="5, 5" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderBrush" Value="DarkCyan" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+        </Style>
+        <Style TargetType="{x:Type TabItem}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabItem}">
+                        <Grid>
+                            <Border Name="Border" BorderBrush="{x:Null}" BorderThickness="0" Margin="2" CornerRadius="4,4,0,0" Padding="1">
+                                <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Header" Margin="5"/>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="DarkCyan"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="False">
+                                <Setter TargetName="Border" Property="Background" Value="#FFF8F8FF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="ListViewItem" x:Key="NotelistViewDoubleClick">
+            <EventSetter Event="MouseDoubleClick" Handler="NoteViewItem_MouseDoubleClick"/>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <StackPanel Margin="2">
+            <TabControl Background="LightCyan" Margin="3"  
+                                        BorderThickness="1" 
+                                        BorderBrush="DarkCyan"
+                                        HorizontalAlignment="Stretch" 
+                                        VerticalAlignment="Stretch" Name="TabNotes">
+                <TabItem Header="Operations" IsSelected="{Binding MPViewModel.IsSelected, Mode=TwoWay}">
+                    <StackPanel>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="14*"></ColumnDefinition>
+                                <ColumnDefinition Width="82*"/>
+                                <ColumnDefinition Width="165*"/>
+                                <ColumnDefinition Width="262*"></ColumnDefinition>
+                                <ColumnDefinition Width="261*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                        </Grid>
+                        <ListView 
+                            ScrollViewer.VerticalScrollBarVisibility="Visible" 
+                            ItemsSource="{Binding patientNoteViewModel.PatientNoteList}" 
+                            Width="Auto" 
+                            BorderThickness="1" 
+                            BorderBrush="DarkCyan" 
+                            ScrollViewer.CanContentScroll="False" Height="380" Margin="5" 
+                            ItemContainerStyle="{StaticResource NotelistViewDoubleClick}">
+                            <ListView.View>
+                                <GridView ColumnHeaderContainerStyle="{StaticResource GrayHeader}">
+                                    <GridViewColumn Header="Date" TextBlock.TextAlignment="Left" Width="Auto" DisplayMemberBinding="{Binding NOTES_DTTM}"/>
+                                    <GridViewColumn Header="Note" TextBlock.TextAlignment="Left"  Width="Auto" DisplayMemberBinding="{Binding NOTES}"/>
+                                    <GridViewColumn Header="User Name" TextBlock.TextAlignment="Left"  Width="Auto" DisplayMemberBinding="{Binding USER_FULL_NAME}"/>
+                                    <GridViewColumn Header="Modified Date" TextBlock.TextAlignment="Center" Width="0"  DisplayMemberBinding="{Binding NOTE_ID}"/>
+                                    <GridViewColumn Header="First Name" TextBlock.TextAlignment="Left" Width="0" DisplayMemberBinding="{Binding PATIENT_ID}"/>
+                                    <GridViewColumn Header="Initials" TextBlock.TextAlignment="Left" Width="0" DisplayMemberBinding="{Binding NOTE_TYPE_ID}"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                        <WrapPanel>
+                            <Button x:Name="btnLogonsaaxXs" 
+                                                Style="{DynamicResource AccentedSquareButtonStyle}"
+                                                IsDefault="True" 
+                                                Content="Add Operation Note" 
+                                                Margin="5"
+                                                TabIndex="3" Command="{Binding AddOperationNoteCommand}" CommandParameter="Patient"/>
+                        </WrapPanel>
+                    </StackPanel>
+                </TabItem>
+                <TabItem Header="Medical" IsSelected="{Binding MPViewModel.IsSelected, Mode=TwoWay}">
+                    <StackPanel>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                        </Grid>
+                        <ListView 
+                            ScrollViewer.VerticalScrollBarVisibility="Visible" 
+                            ItemsSource="{Binding patientNoteViewModel.PatientMedicalNotesList}" 
+                            Width="Auto" 
+                            BorderThickness="1" 
+                            BorderBrush="DarkCyan" 
+                            ScrollViewer.CanContentScroll="False" Height="380" Margin="5" 
+                            ItemContainerStyle="{StaticResource NotelistViewDoubleClick}">
+                            <ListView.View>
+                                <GridView ColumnHeaderContainerStyle="{StaticResource GrayHeader}">
+                                    <GridViewColumn Header="Date" TextBlock.TextAlignment="Left" Width="Auto" DisplayMemberBinding="{Binding NOTES_DTTM}"/>
+                                    <GridViewColumn Header="Note" TextBlock.TextAlignment="Left"  Width="Auto" DisplayMemberBinding="{Binding NOTES}"/>
+                                    <GridViewColumn Header="User Name" TextBlock.TextAlignment="Left"  Width="Auto" DisplayMemberBinding="{Binding USER_FULL_NAME}"/>
+                                    <GridViewColumn Header="Modified Date" TextBlock.TextAlignment="Center" Width="0"  DisplayMemberBinding="{Binding NOTE_ID}"/>
+                                    <GridViewColumn Header="First Name" TextBlock.TextAlignment="Left" Width="0" DisplayMemberBinding="{Binding PATIENT_ID}"/>
+                                    <GridViewColumn Header="Initials" TextBlock.TextAlignment="Left" Width="0" DisplayMemberBinding="{Binding NOTE_TYPE_ID}"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                        <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center"> 
+                                                <Popup 
+                                                        x:Name="FieldsPopup" 
+                                                        Placement="Top" 
+                                                        Width="500" 
+                                                        Height="150" 
+                                                        IsOpen="{Binding IsOpen}" PlacementTarget="{Binding ElementName=TabNotes}" Placement="Center">
+                                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                                            <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                                        <TextBox Text="{Binding NewPatientFile}" TextWrapping="Wrap" MaxLines="5" VerticalScrollBarVisibility="Auto" AcceptsReturn="True"></TextBox>
+                                                                <Button Content="CLOSE"  Command="{Binding ClosePopupCommand}"></Button>
+                                                            </StackPanel>
+                                                            
+                                                            
+                                                        </StackPanel>
+                                                </Popup>
+                                                <Button Name="button_PatientIdentifierList" 
+                                                        Width="216" Height="23" 
+                                                        Content="ssssss"
+                                                        Grid.Column="2" 
+                                                        Foreground="Black" 
+                                                        Background="#FFCDCDCD" 
+                                                        BorderBrush="#FF707070" 
+                                                        Margin="3.4,4,4,0" 
+                                                        VerticalAlignment="Top" Command="{Binding OpenPopupCommand}"/>
+                        </WrapPanel>
+                    </StackPanel>
+                </TabItem>
+                <TabItem Header="Administration" IsSelected="{Binding MPViewModel.IsSelected, Mode=TwoWay}">
+                    <StackPanel>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                        </Grid>
+
+                        <ListView 
+                            ScrollViewer.VerticalScrollBarVisibility="Visible" 
+                            ItemsSource="{Binding patientNoteViewModel.PatientAdminNotesList}" 
+                            Width="Auto" 
+                            BorderThickness="1" 
+                            BorderBrush="DarkCyan" 
+                            ScrollViewer.CanContentScroll="False" Height="380" Margin="5" 
+                            ItemContainerStyle="{StaticResource NotelistViewDoubleClick}">
+                            <ListView.View>
+                                <GridView ColumnHeaderContainerStyle="{StaticResource GrayHeader}">
+                                    <GridViewColumn Header="Date" TextBlock.TextAlignment="Left" Width="Auto" DisplayMemberBinding="{Binding NOTES_DTTM}"/>
+                                    <GridViewColumn Header="Note" TextBlock.TextAlignment="Left"  Width="Auto" DisplayMemberBinding="{Binding NOTES}"/>
+                                    <GridViewColumn Header="User Name" TextBlock.TextAlignment="Left"  Width="Auto" DisplayMemberBinding="{Binding USER_FULL_NAME}"/>
+                                    <GridViewColumn Header="Modified Date" TextBlock.TextAlignment="Center" Width="0"  DisplayMemberBinding="{Binding NOTE_ID}"/>
+                                    <GridViewColumn Header="First Name" TextBlock.TextAlignment="Left" Width="0" DisplayMemberBinding="{Binding PATIENT_ID}"/>
+                                    <GridViewColumn Header="Initials" TextBlock.TextAlignment="Left" Width="0" DisplayMemberBinding="{Binding NOTE_TYPE_ID}"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                        <WrapPanel>
+                            <Button x:Name="btnLogonsaaxXcs" 
+                                                Style="{DynamicResource AccentedSquareButtonStyle}"
+                                                IsDefault="True" 
+                                                Content="Add Admin Note" 
+                                                Margin="5"
+                                                TabIndex="3" Command="{Binding SearchCommand}" CommandParameter="Patient"/>
+                        </WrapPanel>
+                    </StackPanel>
+                </TabItem>
+                <TabItem Header="Finance" IsSelected="{Binding MPViewModel.IsSelected, Mode=TwoWay}">
+                    <StackPanel>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                        </Grid>
+
+                        <ListView 
+                            ScrollViewer.VerticalScrollBarVisibility="Visible" 
+                            ItemsSource="{Binding patientNoteViewModel.PatientFinanceNotesList}" 
+                            Width="Auto" 
+                            BorderThickness="1" 
+                            BorderBrush="DarkCyan" 
+                            ScrollViewer.CanContentScroll="False" Height="380" Margin="5" 
+                            ItemContainerStyle="{StaticResource NotelistViewDoubleClick}">
+                            <ListView.View>
+                                <GridView ColumnHeaderContainerStyle="{StaticResource GrayHeader}">
+                                    <GridViewColumn Header="Date" TextBlock.TextAlignment="Left" Width="Auto" DisplayMemberBinding="{Binding NOTES_DTTM}"/>
+                                    <GridViewColumn Header="Note" TextBlock.TextAlignment="Left"  Width="Auto" DisplayMemberBinding="{Binding NOTES}"/>
+                                    <GridViewColumn Header="User Name" TextBlock.TextAlignment="Left"  Width="Auto" DisplayMemberBinding="{Binding USER_FULL_NAME}"/>
+                                    <GridViewColumn Header="Modified Date" TextBlock.TextAlignment="Center" Width="0"  DisplayMemberBinding="{Binding NOTE_ID}"/>
+                                    <GridViewColumn Header="First Name" TextBlock.TextAlignment="Left" Width="0" DisplayMemberBinding="{Binding PATIENT_ID}"/>
+                                    <GridViewColumn Header="Initials" TextBlock.TextAlignment="Left" Width="0" DisplayMemberBinding="{Binding NOTE_TYPE_ID}"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                        <WrapPanel>
+                            <Button x:Name="btnLogonsaxaxXcs" 
+                                                Style="{DynamicResource AccentedSquareButtonStyle}"
+                                                IsDefault="True" 
+                                                Content="Add Finance Note" 
+                                                Margin="5"
+                                                TabIndex="3" Command="{Binding SearchCommand}" CommandParameter="Patient"/>
+                        </WrapPanel>
+                    </StackPanel>
+                </TabItem>
+                <TabItem Header="Interim" IsSelected="{Binding MPViewModel.IsSelected, Mode=TwoWay}">
+                    <StackPanel>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                        </Grid>
+
+                        <ListView 
+                            ScrollViewer.VerticalScrollBarVisibility="Visible" 
+                            ItemsSource="{Binding patientNoteViewModel.PatientInterimNotesList}" 
+                            Width="Auto" 
+                            BorderThickness="1" 
+                            BorderBrush="DarkCyan" 
+                            ScrollViewer.CanContentScroll="False" Height="380" Margin="5" 
+                            ItemContainerStyle="{StaticResource NotelistViewDoubleClick}">
+                            <ListView.View>
+                                <GridView ColumnHeaderContainerStyle="{StaticResource GrayHeader}">
+                                    <GridViewColumn Header="Date" TextBlock.TextAlignment="Left" Width="Auto" DisplayMemberBinding="{Binding NOTES_DTTM}"/>
+                                    <GridViewColumn Header="Note" TextBlock.TextAlignment="Left"  Width="Auto" DisplayMemberBinding="{Binding NOTES}"/>
+                                    <GridViewColumn Header="User Name" TextBlock.TextAlignment="Left"  Width="Auto" DisplayMemberBinding="{Binding USER_FULL_NAME}"/>
+                                    <GridViewColumn Header="Modified Date" TextBlock.TextAlignment="Center" Width="0"  DisplayMemberBinding="{Binding NOTE_ID}"/>
+                                    <GridViewColumn Header="First Name" TextBlock.TextAlignment="Left" Width="0" DisplayMemberBinding="{Binding PATIENT_ID}"/>
+                                    <GridViewColumn Header="Initials" TextBlock.TextAlignment="Left" Width="0" DisplayMemberBinding="{Binding NOTE_TYPE_ID}"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                        <WrapPanel>
+                            <Button x:Name="btnLogonsasaxXcs" 
+                                                Style="{DynamicResource AccentedSquareButtonStyle}"
+                                                IsDefault="True" 
+                                                Content="Add Interim Note" 
+                                                Margin="5"
+                                                TabIndex="3" Command="{Binding SearchCommand}" CommandParameter="Patient"/>
+                        </WrapPanel>
+                    </StackPanel>
+                </TabItem>
+                <TabItem Header="General" IsSelected="{Binding MPViewModel.IsSelected, Mode=TwoWay}">
+                    <StackPanel>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                        </Grid>
+
+                        <ListView 
+                            ScrollViewer.VerticalScrollBarVisibility="Visible" 
+                            ItemsSource="{Binding patientNoteViewModel.PatientGeneralNotesList}" 
+                            Width="Auto" 
+                            BorderThickness="1" 
+                            BorderBrush="DarkCyan" 
+                            ScrollViewer.CanContentScroll="False" Height="380" Margin="5" 
+                            ItemContainerStyle="{StaticResource NotelistViewDoubleClick}">
+                            <ListView.View>
+                                <GridView ColumnHeaderContainerStyle="{StaticResource GrayHeader}">
+                                    <GridViewColumn Header="Date" TextBlock.TextAlignment="Left" Width="Auto" DisplayMemberBinding="{Binding NOTES_DTTM}"/>
+                                    <GridViewColumn Header="Note" TextBlock.TextAlignment="Left"  Width="Auto" DisplayMemberBinding="{Binding NOTES}"/>
+                                    <GridViewColumn Header="User Name" TextBlock.TextAlignment="Left"  Width="Auto" DisplayMemberBinding="{Binding USER_FULL_NAME}"/>
+                                    <GridViewColumn Header="Modified Date" TextBlock.TextAlignment="Center" Width="0"  DisplayMemberBinding="{Binding NOTE_ID}"/>
+                                    <GridViewColumn Header="First Name" TextBlock.TextAlignment="Left" Width="0" DisplayMemberBinding="{Binding PATIENT_ID}"/>
+                                    <GridViewColumn Header="Initials" TextBlock.TextAlignment="Left" Width="0" DisplayMemberBinding="{Binding NOTE_TYPE_ID}"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                        <WrapPanel>
+                            <Button x:Name="btnLogonsasaxxXcs" 
+                                                Style="{DynamicResource AccentedSquareButtonStyle}"
+                                                IsDefault="True" 
+                                                Content="Add General Note" 
+                                                Margin="5"
+                                                TabIndex="3" Command="{Binding SearchCommand}" CommandParameter="Patient"/>
+                        </WrapPanel>
+                    </StackPanel>
+                </TabItem>
+            </TabControl>
+        </StackPanel>
+    </Grid>
+</UserControl>

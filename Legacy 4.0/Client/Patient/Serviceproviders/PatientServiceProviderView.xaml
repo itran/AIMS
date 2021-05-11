@@ -1,0 +1,178 @@
+﻿<UserControl x:Class="Legacy.WPFRegionalManager.Views.Patient.PatientServiceProviderView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Legacy.WPFRegionalManager.Views.Patient"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style x:Key="GridSplitterVerticalGripStyle" TargetType="{x:Type GridSplitter}">
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="Cursor" Value="SizeWE" />
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="Background"  Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type GridSplitter}">
+                        <Border BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Background="{TemplateBinding Background}"
+                                Width="{TemplateBinding Width}">
+                            <Border Height="50" Width="4" VerticalAlignment="Center"
+                                    HorizontalAlignment="Center" BorderThickness="1 0"
+                                    Background="White" BorderBrush="#A0A0A0">
+                            </Border>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="VerticalGridSplitter" TargetType="{x:Type GridSplitter}"
+                BasedOn="{StaticResource GridSplitterVerticalGripStyle}">
+            <Setter Property="Width" Value="10" />
+            <Setter Property="Margin" Value="15 0" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+        </Style>
+        <Style x:Key="GrayHeader" TargetType="{x:Type GridViewColumnHeader}">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Offset="0.0" Color="DarkCyan" />
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="5, 5" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderBrush" Value="DarkCyan" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+        </Style>
+        <Style TargetType="{x:Type TabItem}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabItem}">
+                        <Grid>
+                            <Border Name="Border" BorderBrush="{x:Null}" BorderThickness="0" Margin="2" CornerRadius="4,4,0,0" Padding="1">
+                                <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Header" Margin="5"/>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="DarkCyan"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="False">
+                                <Setter TargetName="Border" Property="Background" Value="#FFF8F8FF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>    
+    <Grid>
+        <StackPanel Margin="2">
+            <TabControl Background="LightCyan" Margin="3"  BorderThickness="1" BorderBrush="DarkCyan">
+                <TabItem Header="Operations Service Provider" IsSelected="{Binding MPViewModel.IsSelected, Mode=TwoWay}">
+                    <StackPanel>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                        </Grid>
+                        <ListView 
+                            ScrollViewer.VerticalScrollBarVisibility="Visible" 
+                            ItemsSource="{Binding patientServiceProviderViewModel.PatientServiceProviderList}" 
+                            Width="Auto" 
+                            BorderThickness="1" 
+                            BorderBrush="DarkCyan" 
+                            ScrollViewer.CanContentScroll="False" Height="380" Margin="5" >
+                            <ListView.View>
+                                <GridView ColumnHeaderContainerStyle="{StaticResource GrayHeader}">
+                                    <GridViewColumn Header="Service Provider" TextBlock.TextAlignment="Center" Width="200" DisplayMemberBinding="{Binding SERVICE_PROVIDER_NAME}"/>
+                                    <GridViewColumn Header="Name" TextBlock.TextAlignment="Left"  Width="200" DisplayMemberBinding="{Binding SERVICE_PROVIDER_NAME}"/>
+                                    <GridViewColumn Header="Telephone" TextBlock.TextAlignment="Left"  Width="200" DisplayMemberBinding="{Binding SERVICE_PROVIDER_NAME}"/>
+                                    <GridViewColumn Header="Email" TextBlock.TextAlignment="Left" Width="200" DisplayMemberBinding="{Binding SERVICE_PROVIDER_NAME}"/>
+                                    <GridViewColumn Header="Loaded By" TextBlock.TextAlignment="Left" Width="200" DisplayMemberBinding="{Binding SERVICE_PROVIDER_NAME}"/>
+                                    <GridViewColumn Header="Loaded Date" TextBlock.TextAlignment="Left" Width="200" DisplayMemberBinding="{Binding SERVICE_PROVIDER_NAME}"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                        <WrapPanel>
+                            <Button x:Name="btnLoxgonsaasxXs" 
+                                                Style="{DynamicResource AccentedSquareButtonStyle}"
+                                                IsDefault="True" 
+                                                Content="Add Service Provider" 
+                                                Margin="5"
+                                                TabIndex="3" Command="{Binding SearchCommand}" CommandParameter="Patient"/>
+                            <Button x:Name="btnLoxgonsaasxxXs" 
+                                                Style="{DynamicResource AccentedSquareButtonStyle}"
+                                                IsDefault="True" 
+                                                Content="Remove Service Provider" 
+                                                Margin="5"
+                                                TabIndex="3" Command="{Binding SearchCommand}" CommandParameter="Patient"/>
+                        </WrapPanel>
+                    </StackPanel>
+                </TabItem>
+                <TabItem Header="Administration Service Providers" IsSelected="{Binding MPViewModel.IsSelected, Mode=TwoWay}">
+                    <StackPanel>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                        </Grid>
+                        <ListView 
+                            ScrollViewer.VerticalScrollBarVisibility="Visible" 
+                            ItemsSource="{Binding PatientNoteList}" 
+                            Width="Auto" 
+                            BorderThickness="1" 
+                            BorderBrush="DarkCyan" 
+                            ScrollViewer.CanContentScroll="False" Height="380" Margin="5">
+                            <ListView.View>
+                                <GridView ColumnHeaderContainerStyle="{StaticResource GrayHeader}">
+                                    <GridViewColumn Header="Service Provider" TextBlock.TextAlignment="Center" Width="200" DisplayMemberBinding="{Binding MODIFIED_DATE}"/>
+                                    <GridViewColumn Header="Name" TextBlock.TextAlignment="Left"  Width="200" DisplayMemberBinding="{Binding MODIFIED_USER}"/>
+                                    <GridViewColumn Header="Telephone" TextBlock.TextAlignment="Left"  Width="200" DisplayMemberBinding="{Binding MODIFIED_ACTION}"/>
+                                    <GridViewColumn Header="Email" TextBlock.TextAlignment="Left" Width="200" DisplayMemberBinding="{Binding PATIENT_FIRST_NAME}"/>
+                                    <GridViewColumn Header="Loaded By" TextBlock.TextAlignment="Left" Width="200" DisplayMemberBinding="{Binding PATIENT_FIRST_NAME}"/>
+                                    <GridViewColumn Header="Loaded Date" TextBlock.TextAlignment="Left" Width="200" DisplayMemberBinding="{Binding PATIENT_INITIALS}"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                        <WrapPanel>
+                            <Button x:Name="btnLoxgonsaassxXs" 
+                                                Style="{DynamicResource AccentedSquareButtonStyle}"
+                                                IsDefault="True" 
+                                                Content="Add Service Provider" 
+                                                Margin="5"
+                                                TabIndex="3" Command="{Binding SearchCommand}" CommandParameter="Patient"/>
+                            <Button x:Name="btnLoxgonsaasxsxXs" 
+                                                Style="{DynamicResource AccentedSquareButtonStyle}"
+                                                IsDefault="True" 
+                                                Content="Remove Service Provider" 
+                                                Margin="5"
+                                                TabIndex="3" Command="{Binding SearchCommand}" CommandParameter="Patient"/>
+                        </WrapPanel>
+                    </StackPanel>
+                </TabItem>
+            </TabControl>
+        </StackPanel>
+    </Grid>
+</UserControl>

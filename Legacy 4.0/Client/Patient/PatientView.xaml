@@ -1,0 +1,283 @@
+﻿<UserControl x:Class="Legacy.WPFRegionalManager.Views.PatientView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:fa="http://schemas.fontawesome.io/icons/"
+             xmlns:prism="http://prismlibrary.com/"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             xmlns:local="clr-namespace:Legacy.WPFRegionalManager.Views.Patient"
+             xmlns:ctl="clr-namespace:Horizon.Client.Modules.Engine.UserControls">
+    <UserControl.Resources>
+        <Style x:Key="GridSplitterVerticalGripStyle" TargetType="{x:Type GridSplitter}">
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="Cursor" Value="SizeWE" />
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+            <Setter Property="Background"  Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type GridSplitter}">
+                        <Border BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Background="{TemplateBinding Background}"
+                                Width="{TemplateBinding Width}">
+                            <Border Height="50" Width="4" VerticalAlignment="Center"
+                                    HorizontalAlignment="Center" BorderThickness="1 0"
+                                    Background="White" BorderBrush="#A0A0A0">
+                            </Border>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="VerticalGridSplitter" TargetType="{x:Type GridSplitter}"
+                BasedOn="{StaticResource GridSplitterVerticalGripStyle}">
+            <Setter Property="Width" Value="10" />
+            <Setter Property="Margin" Value="15 0" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+        </Style>
+        <Style x:Key="GrayHeader" TargetType="{x:Type GridViewColumnHeader}">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Offset="0.0" Color="DarkCyan" />
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Padding" Value="5, 5" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderBrush" Value="DarkCyan" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+        </Style>
+        <Style TargetType="{x:Type TabItem}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TabItem}">
+                        <Grid>
+                            <Border Name="Border" BorderBrush="{x:Null}" BorderThickness="0" Margin="2" CornerRadius="4,4,0,0" Padding="1">
+                                <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center" HorizontalAlignment="Center" ContentSource="Header" Margin="5"/>
+                            </Border>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="DarkCyan"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="False">
+                                <Setter TargetName="Border" Property="Background" Value="#FFF8F8FF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="ListViewItem" x:Key="listViewDoubleClick">
+            <EventSetter Event="MouseDoubleClick" Handler="ListViewItem_MouseDoubleClick"/>
+        </Style>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="450"></ColumnDefinition>
+            <ColumnDefinition Width="450"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <!--<Grid Visibility="{Binding Processing, IsAsync=True, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Panel.ZIndex="999" OpacityMask="#FF484848" Background="LightCyan" Opacity="0.85">
+            <ctl:Processing  VerticalAlignment="Center" />
+        </Grid>-->
+        <GroupBox Margin="5" Padding="1" Foreground="DarkCyan">
+            <GroupBox.Header>
+                <StackPanel Orientation="Horizontal">
+                    <!--<Image Source="/Assests/images.png" Margin="1" />-->
+                    <TextBlock FontWeight="Bold">Patient Look Up</TextBlock>
+                </StackPanel>
+            </GroupBox.Header>
+            <StackPanel Grid.Row="0" Grid.Column="0" Margin="10">
+                <TextBlock Margin="3" FontSize="15" FontWeight="DemiBold">Filters:</TextBlock>
+                <ComboBox Margin="3" 
+                        ItemsSource="{Binding FilterItemList}" 
+                        SelectedItem="{Binding SelectedFilterItem,Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
+                        IsSynchronizedWithCurrentItem="True" 
+                        TextSearch.TextPath="FILTER_ITEM_ID" 
+                        DisplayMemberPath="FILTER_ITEM_NAME"
+                        SelectedValuePath="FILTER_ITEM_ID"/>
+                <ComboBox Margin="3" 
+                        ItemsSource="{Binding FilterList}" 
+                        SelectedItem="{Binding SelectedFilterList,Mode=TwoWay, NotifyOnSourceUpdated=True, UpdateSourceTrigger=PropertyChanged}"
+                        IsSynchronizedWithCurrentItem="True" 
+                        TextSearch.TextPath="FILTER_ID" 
+                        DisplayMemberPath="FILTER_NAME"
+                        SelectedValuePath="FILTER_ID"/>
+                <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Margin="3">
+                    <StackPanel Orientation="Vertical" Margin="3">
+                        <CheckBox Margin="5" IsChecked="{Binding IncludedCancelled}">Exclude Cancelled</CheckBox>
+                        <CheckBox Margin="5" IsChecked="{Binding IncludeClosed}">Exclude Closed</CheckBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" Margin="3">
+                        <CheckBox Margin="5" IsChecked="{Binding IncludedPending}">Exclude Pending</CheckBox>
+                        <CheckBox Margin="5" IsChecked="{Binding IncludedSentToAdmin}">Exclude Sent-To-Admin</CheckBox>
+                    </StackPanel>
+                </StackPanel>-->
+
+                <!--<Button x:Name="btnLogon" 
+                        Style="{DynamicResource AccentedSquareButtonStyle}"
+                        IsDefault="True" 
+                        Content="Search" 
+                        Margin="5"
+                        TabIndex="3" Command="{Binding SearchCommand}" CommandParameter="Patient"/>-->                
+                <TextBlock Margin="3" FontSize="15" FontWeight="DemiBold">Search keys:</TextBlock>
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Margin="3"  Text="Patient Last-Name Filter (wild-card search)"/>
+                        <StackPanel Orientation="Horizontal" Margin="1">
+                            <TextBox Margin="1" Width="200"  Text="{Binding PatientSurname}"/>
+                            <Button Margin="1" Command="{Binding SearchBySurnameCommand}" CommandParameter="Patient">
+                                <Image Source="/Assests/psSearch.gif" Width="20" Height="20"/>
+                            </Button>
+                        </StackPanel>
+                        <TextBlock Margin="3"  Text="Patient File No"/>
+                        <StackPanel Orientation="Horizontal" Margin="1">
+                            <StackPanel Orientation="Horizontal"></StackPanel>
+                            <TextBox Margin="1" Width="200" Text="{Binding PatientFileNo}"/>
+                            <Button Margin="1" Command="{Binding SearchByFileNoCommand}" CommandParameter="Patient">
+                                <Image Source="/Assests/psSearch.gif" Width="20" Height="20"/>
+                            </Button>
+                        </StackPanel>
+                        <TextBlock Margin="3"  Text="Guarantor Reference No"/>
+                        <StackPanel Orientation="Horizontal" Margin="1">
+                            <TextBox Margin="1" Width="200" Text="{Binding GuarantorReferenceNo}"/>
+                            <Button Margin="1" Command="{Binding SearchByReferenceNoCommand}" CommandParameter="Patient">
+                                <Image Source="/Assests/psSearch.gif" Width="20" Height="20"/>
+                            </Button>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Margin="3">
+                    <StackPanel Orientation="Vertical">
+                        <Button Content="Clear / Reset" Command="{Binding SearchByClearResetCommand}"></Button>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Margin="5" Padding="1"  Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Foreground="DarkCyan">
+            <GroupBox.Header>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock FontWeight="Bold">Patient List</TextBlock>
+                </StackPanel>
+            </GroupBox.Header>
+            <StackPanel >
+                <Grid Height="250" Margin="1">
+                    <ListView x:Name="PatientList"  
+                                  ScrollViewer.VerticalScrollBarVisibility="Visible"  
+                                  ItemsSource="{Binding PaginationPatientList}" 
+                                  Width="Auto" 
+                                  ScrollViewer.CanContentScroll="False"  
+                                  BorderThickness="1" 
+                                  BorderBrush="DarkCyan"
+                                  ItemContainerStyle="{StaticResource listViewDoubleClick}">
+                        <ListView.View>
+                            <GridView ColumnHeaderContainerStyle="{StaticResource GrayHeader}">
+                                <GridViewColumn Header="Guarantor" TextBlock.TextAlignment="Center" Width="Auto" DisplayMemberBinding="{Binding GUARANTOR_NAME}"/>
+                                <GridViewColumn Header="Patient File" TextBlock.TextAlignment="Center" Width="Auto" DisplayMemberBinding="{Binding PATIENT_FILE_NO}"/>
+                                <GridViewColumn Header="Last Name" TextBlock.TextAlignment="Center" Width="Auto" DisplayMemberBinding="{Binding PATIENT_LAST_NAME}"/>
+                                <GridViewColumn Header="First Name" TextBlock.TextAlignment="Center" Width="Auto" DisplayMemberBinding="{Binding PATIENT_FIRST_NAME}"/>
+                                <!--<GridViewColumn Header="Admission Date" TextBlock.TextAlignment="Center" Width="Auto" DisplayMemberBinding="{Binding PATIENT_ADMISSION_DATE}"/>
+                                <GridViewColumn Header="Discharge Date" TextBlock.TextAlignment="Center" Width="Auto" DisplayMemberBinding="{Binding PATIENT_DISCHARGE_DATE}"/>
+                                <GridViewColumn Header="Sent to Admin" TextBlock.TextAlignment="Center" Width="Auto" DisplayMemberBinding="{Binding SENT_TO_ADMIN}"/>-->
+                                <GridViewColumn Header="Guarantor Reference" TextBlock.TextAlignment="Center" Width="Auto" DisplayMemberBinding="{Binding GUARANTOR_REF_NO}"/>
+                                <GridViewColumn Header="Hospital" TextBlock.TextAlignment="Center" Width="Auto" DisplayMemberBinding="{Binding HOSPITAL}"/>
+                                <GridViewColumn Header="Creation Date" TextBlock.TextAlignment="Center" Width="150" DisplayMemberBinding="{Binding CREATION_DTTM}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </Grid>
+                <!--<Grid Visibility="{Binding Processing, IsAsync=True, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Panel.ZIndex="999" OpacityMask="#FF484848" Background="LightCyan" Opacity="0.85">
+                    <ctl:Processing  VerticalAlignment="Center" />
+                </Grid>-->
+            </StackPanel>
+        </GroupBox>
+
+        <GridSplitter 
+            ResizeDirection="Rows"
+            Grid.Column="0"
+            Grid.ColumnSpan ="4"
+            Grid.Row="1" 
+            Height="2"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Margin="1">
+            <GridSplitter.Template>
+                <ControlTemplate TargetType="{x:Type GridSplitter}">
+                    <Grid>
+                        <Button Content="⁞" />
+                        <Rectangle Fill="DarkCyan"/>
+                    </Grid>
+                </ControlTemplate>
+            </GridSplitter.Template>
+        </GridSplitter>
+
+        <GroupBox 
+                    Grid.Row="2" 
+                    Margin="5" 
+                    Padding="1"  
+                    Grid.Column="0" 
+                    Grid.ColumnSpan="4" 
+                    Foreground="DarkCyan" 
+                    VerticalAlignment="Stretch"
+                    HorizontalAlignment="Stretch"
+                    VerticalContentAlignment="Top"
+                    Height="Auto">
+            <GroupBox.Header>
+                <TextBlock FontWeight="Bold">Patient Diary</TextBlock>
+            </GroupBox.Header>
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <Grid>
+                    <!--<Grid Visibility="{Binding Processing, IsAsync=True, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Panel.ZIndex="999" OpacityMask="#FF484848" Background="LightCyan" Opacity="0.85">
+                        <ctl:Processing  VerticalAlignment="Center" />
+                    </Grid>-->
+                    <TabControl Background="WhiteSmoke" Margin="5" BorderBrush="#FFF8F8FF">
+                        <TabItem Header="Patient Details">
+                            <local:PatientDetailView/>
+                        </TabItem>
+                        <TabItem Header="Email Correspondence">
+                            <local:PatientEmailCorrespondenceView/>
+                        </TabItem>
+                        <TabItem Header="Notes">
+                            <local:PatientNoteView/>
+                        </TabItem>
+                        <TabItem Header="Service Providers">
+                            <local:PatientServiceProviderView/>
+                        </TabItem>
+                        <TabItem Header="Tasks">
+                            <local:PatientTaskView/>
+                        </TabItem>
+                        <TabItem Header="Appointments">
+                            <local:PatientAppointmentsView/>
+                        </TabItem>
+                        <TabItem Header="Billings">
+                            <local:PatientBillingView/>
+                        </TabItem>
+                        <TabItem Header="[Paper-Trail : Documentation]">
+                        </TabItem>
+                        <TabItem Header="Audit">
+                            <local:PatientAuditView/>
+                        </TabItem>
+                    </TabControl>
+                </Grid>
+            </ScrollViewer>
+        </GroupBox>
+        <!--<Grid Visibility="{Binding Processing, IsAsync=True, Converter={StaticResource BooleanToVisibilityConverter}, FallbackValue=Collapsed}"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Panel.ZIndex="999" OpacityMask="#FF484848" Background="LightCyan" Opacity="0.85">
+            <ctl:Processing  VerticalAlignment="Center" />
+        </Grid>-->
+    </Grid>
+</UserControl>

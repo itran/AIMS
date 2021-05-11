@@ -1,0 +1,841 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{765A20FD-5953-4B42-B1A0-4B34798FDC59}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AIMSClient</RootNamespace>
+    <AssemblyName>AIMSClient</AssemblyName>
+    <ManifestCertificateThumbprint>1824179314FDB8BFA7E7ED47408DDFBA44DDF193</ManifestCertificateThumbprint>
+    <ManifestKeyFile>AIMSClient_TemporaryKey.pfx</ManifestKeyFile>
+    <GenerateManifests>true</GenerateManifests>
+    <SignManifests>true</SignManifests>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>C:\Working Copy\Publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Unc</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <InstallUrl>\\aimsdc\Software\Publish\</InstallUrl>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AxInterop.AdminLibCtl, Version=3.2.0.0, Culture=neutral, PublicKeyToken=null" />
+    <Reference Include="AxInterop.ImgeditLibCtl, Version=2.5.0.0, Culture=neutral, PublicKeyToken=null" />
+    <Reference Include="AxInterop.SHDocVw, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null" />
+    <Reference Include="ConvertHTMLToPDF, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.CodeRush.Common, Version=11.1.6.0, Culture=neutral, PublicKeyToken=35c9f04b7764aa3d, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.CodeRush.Core, Version=11.1.6.0, Culture=neutral, PublicKeyToken=35c9f04b7764aa3d, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.CodeRush.Interop, Version=11.1.6.0, Culture=neutral, PublicKeyToken=35c9f04b7764aa3d, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.CodeRush.StructuralParser, Version=11.1.6.0, Culture=neutral, PublicKeyToken=35c9f04b7764aa3d, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.CodeRush.VSCore, Version=11.1.6.0, Culture=neutral, PublicKeyToken=35c9f04b7764aa3d, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Data.v11.1, Version=11.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.DXCore.Controls, Version=11.1.6.0, Culture=neutral, PublicKeyToken=35c9f04b7764aa3d, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.DXCore.Controls.Utils.v6.3, Version=11.1.6.0, Culture=neutral, PublicKeyToken=35c9f04b7764aa3d, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.DXCore.Controls.XtraBars.v6.3, Version=11.1.6.0, Culture=neutral, PublicKeyToken=35c9f04b7764aa3d, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.DXCore.Controls.XtraEditors.v6.3, Version=11.1.6.0, Culture=neutral, PublicKeyToken=35c9f04b7764aa3d, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.DXCore.Controls.XtraTreeList.v6.3, Version=11.1.6.0, Culture=neutral, PublicKeyToken=35c9f04b7764aa3d, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.DXCore.Localization, Version=11.1.6.0, Culture=neutral, PublicKeyToken=35c9f04b7764aa3d, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.DXCore.Parser, Version=11.1.6.0, Culture=neutral, PublicKeyToken=35c9f04b7764aa3d, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.DXCore.Platform, Version=11.1.6.0, Culture=neutral, PublicKeyToken=35c9f04b7764aa3d, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Printing.v11.1.Core, Version=11.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.RichEdit.v11.1.Core, Version=11.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Utils.v11.1, Version=11.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraBars.v11.1, Version=11.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraEditors.v11.1, Version=11.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraGauges.v11.1.Core, Version=11.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraGauges.v11.1.Win, Version=11.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraRichEdit.v11.1, Version=11.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraScheduler.v11.1, Version=11.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraScheduler.v11.1.Core, Version=11.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="EnvDTE80, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="EPPlus, Version=4.0.4.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\Working Copy\WindowsApplication1\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="Extensibility, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Interop.AdminLibCtl, Version=3.2.0.0, Culture=neutral, PublicKeyToken=null" />
+    <Reference Include="Interop.SHDocVw, Version=1.1.0.0, Culture=neutral, PublicKeyToken=null" />
+    <Reference Include="Ionic.Zip, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Ionic.Zip.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.mshtml, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Word, Version=14.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Microsoft.VisualStudio.OLE.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.VisualStudio.Shell, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop.8.0, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.VisualStudio.TextManager.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.VisualStudio.TextManager.Interop.8.0, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="NetSpell.SpellChecker, Version=2.1.7.41329, Culture=neutral, PublicKeyToken=318b389f0db66e46">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Program Files\NetSpell\bin\NetSpell.SpellChecker.DLL</HintPath>
+    </Reference>
+    <Reference Include="PdfSharp, Version=1.0.898.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\PdfSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="SharedTypes, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Develop .Net TFS\SharedTypes\bin\SharedTypes.dll</HintPath>
+    </Reference>
+    <Reference Include="SMSME.NET, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="stdole, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Remoting" />
+    <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UserControls, Version=1.0.2614.23944, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\AIMS\Binary\UserControls.dll</HintPath>
+    </Reference>
+    <Reference Include="VSLangProj, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AddMedicalNote.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddMedicalNote.Designer.cs">
+      <DependentUpon>AddMedicalNote.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AIMSAddressBook.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AIMSAddressBook.Designer.cs">
+      <DependentUpon>AIMSAddressBook.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Calender.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Calender.Designer.cs">
+      <DependentUpon>Calender.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Class1.cs" />
+    <Compile Include="Class2.cs" />
+    <Compile Include="CommonFuncs.cs" />
+    <Compile Include="CtrlArray.cs" />
+    <Compile Include="dsAppointments.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dsAppointments.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="dsResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>dsResources.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="frmAccomodation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAccomodation.Designer.cs">
+      <DependentUpon>frmAccomodation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmAddPatient.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAddPatient.designer.cs">
+      <DependentUpon>frmAddPatient.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmAdministrationDashboard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAdministrationDashboard.designer.cs">
+      <DependentUpon>frmAdministrationDashboard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmAIMSDashboardAdmin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAIMSDashboardAdmin.Designer.cs">
+      <DependentUpon>frmAIMSDashboardAdmin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmGuaranteeOfPayment.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmGuaranteeOfPayment.Designer.cs">
+      <DependentUpon>frmGuaranteeOfPayment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmOPSDashboard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmOPSDashboard.Designer.cs">
+      <DependentUpon>frmOPSDashboard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmWorkBasketAdmin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmWorkBasketAdmin.Designer.cs">
+      <DependentUpon>frmWorkBasketAdmin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmAIMSDashboard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAIMSDashboard.Designer.cs">
+      <DependentUpon>frmAIMSDashboard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmAirAmbulanceCE.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAirAmbulanceCE.Designer.cs">
+      <DependentUpon>frmAirAmbulanceCE.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmAppointments.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAppointments.Designer.cs">
+      <DependentUpon>frmAppointments.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmAppointmentsAudit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAppointmentsAudit.Designer.cs">
+      <DependentUpon>frmAppointmentsAudit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmGuarantorGOP.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmGuarantorGOP.Designer.cs">
+      <DependentUpon>frmGuarantorGOP.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmOutPatientAppointments.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmOutPatientAppointments.designer.cs">
+      <DependentUpon>frmOutPatientAppointments.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmComments.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmComments.Designer.cs">
+      <DependentUpon>frmComments.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmEmailAttachment.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmEmailAttachment.Designer.cs">
+      <DependentUpon>frmEmailAttachment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmEmailForward.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmEmailForward.Designer.cs">
+      <DependentUpon>frmEmailForward.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmEmailReply.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmEmailReply.Designer.cs">
+      <DependentUpon>frmEmailReply.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmEmbassies.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmEmbassies.designer.cs">
+      <DependentUpon>frmEmbassies.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmGuarantors.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmGuarantors.Designer.cs">
+      <DependentUpon>frmGuarantors.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmImageViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmImageViewer.Designer.cs">
+      <DependentUpon>frmImageViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmInstantMessage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmInstantMessage.Designer.cs">
+      <DependentUpon>frmInstantMessage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmInvoices.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmInvoices.Designer.cs">
+      <DependentUpon>frmInvoices.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmLogin.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmLogin.Designer.cs">
+      <DependentUpon>frmLogin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMain.Designer.cs">
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmMDIBackGround.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMDIBackGround.Designer.cs">
+      <DependentUpon>frmMDIBackGround.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmMedicalTreatment.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMedicalTreatment.Designer.cs">
+      <DependentUpon>frmMedicalTreatment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmNewEmail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmNewEmail.Designer.cs">
+      <DependentUpon>frmNewEmail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmPasswordSetup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPasswordSetup.Designer.cs">
+      <DependentUpon>frmPasswordSetup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmPatientFileSpawn.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPatientFileSpawn.Designer.cs">
+      <DependentUpon>frmPatientFileSpawn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmPatientFileTasksAudit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPatientFileTasksAudit.Designer.cs">
+      <DependentUpon>frmPatientFileTasksAudit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmPatientGuarantee.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPatientGuarantee.Designer.cs">
+      <DependentUpon>frmPatientGuarantee.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmPatients.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPatients.Designer.cs">
+      <DependentUpon>frmPatients.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmPayment.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPayment.Designer.cs">
+      <DependentUpon>frmPayment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmPendEmail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPendEmail.Designer.cs">
+      <DependentUpon>frmPendEmail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmReports.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmReports.Designer.cs">
+      <DependentUpon>frmReports.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmReportViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmReportViewer.Designer.cs">
+      <DependentUpon>frmReportViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmSentImageViewer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSentImageViewer.Designer.cs">
+      <DependentUpon>frmSentImageViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmServiceProviders.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmServiceProviders.Designer.cs">
+      <DependentUpon>frmServiceProviders.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmServiceTypes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmServiceTypes.Designer.cs">
+      <DependentUpon>frmServiceTypes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmSuppliers.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSuppliers.Designer.cs">
+      <DependentUpon>frmSuppliers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmIncidents.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmIncidents.Designer.cs">
+      <DependentUpon>frmIncidents.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmIndexEmail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmIndexEmail.Designer.cs">
+      <DependentUpon>frmIndexEmail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmTasks.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmTasks.designer.cs">
+      <DependentUpon>frmTasks.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmVISALetter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmVISALetter.Designer.cs">
+      <DependentUpon>frmVISALetter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmWorkbasket.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmWorkbasket.Designer.cs">
+      <DependentUpon>frmWorkbasket.cs</DependentUpon>
+    </Compile>
+    <Compile Include="modGlobalConst.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="AddMedicalNote.resx">
+      <DependentUpon>AddMedicalNote.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AIMSAddressBook.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>AIMSAddressBook.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Calender.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>Calender.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAccomodation.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmAccomodation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAddPatient.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmAddPatient.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAdministrationDashboard.resx">
+      <DependentUpon>frmAdministrationDashboard.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAIMSDashboardAdmin.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmAIMSDashboardAdmin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmGuaranteeOfPayment.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmGuaranteeOfPayment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmOPSDashboard.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmOPSDashboard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmWorkBasketAdmin.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmWorkBasketAdmin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAIMSDashboard.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmAIMSDashboard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAirAmbulanceCE.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmAirAmbulanceCE.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAppointments.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmAppointments.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAppointmentsAudit.resx">
+      <DependentUpon>frmAppointmentsAudit.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmComments.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmComments.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmEmailAttachment.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmEmailAttachment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmEmailForward.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmEmailForward.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmEmailReply.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmEmailReply.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmEmbassies.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmEmbassies.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmGuarantorGOP.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmGuarantorGOP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmGuarantors.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmGuarantors.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmImageViewer.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmImageViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmInstantMessage.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmInstantMessage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmInvoices.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmInvoices.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmLogin.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmLogin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMain.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMDIBackGround.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmMDIBackGround.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMedicalTreatment.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmMedicalTreatment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmNewEmail.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmNewEmail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmOutPatientAppointments.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmOutPatientAppointments.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPasswordSetup.resx">
+      <DependentUpon>frmPasswordSetup.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPatientFileSpawn.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmPatientFileSpawn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPatientFileTasksAudit.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmPatientFileTasksAudit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPatientGuarantee.resx">
+      <DependentUpon>frmPatientGuarantee.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPatients.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmPatients.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPayment.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmPayment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPendEmail.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmPendEmail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmReports.resx">
+      <DependentUpon>frmReports.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmReportViewer.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmReportViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSentImageViewer.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmSentImageViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmServiceProviders.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmServiceProviders.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmServiceTypes.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmServiceTypes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSuppliers.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmSuppliers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmIncidents.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmIncidents.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmIndexEmail.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmIndexEmail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmTasks.resx">
+      <DependentUpon>frmTasks.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmVISALetter.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmVISALetter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmWorkbasket.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>frmWorkbasket.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\vb6tovb7.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bar_chart.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\invoice.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pie_chart.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AIMSClient.exe.config" />
+    <None Include="AIMSClient_TemporaryKey.pfx" />
+    <None Include="App.config" />
+    <None Include="dsAppointments.xsc">
+      <DependentUpon>dsAppointments.xsd</DependentUpon>
+    </None>
+    <None Include="dsAppointments.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsAppointments.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="dsAppointments.xss">
+      <DependentUpon>dsAppointments.xsd</DependentUpon>
+    </None>
+    <None Include="dsResources.xsc">
+      <DependentUpon>dsResources.xsd</DependentUpon>
+    </None>
+    <None Include="dsResources.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>dsResources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="dsResources.xss">
+      <DependentUpon>dsResources.xsd</DependentUpon>
+    </None>
+    <None Include="Resources\aims_r1_c1.gif" />
+    <None Include="Resources\AIMSLogo.jpg" />
+    <None Include="Resources\AIMS.bmp" />
+    <None Include="Resources\AIMSIcon.bmp" />
+    <None Include="Resources\add.png" />
+    <Content Include="Resources\add1.ico" />
+    <None Include="Resources\add_nexttoinput.png" />
+    <None Include="Resources\AIMS_logo_White.png" />
+    <None Include="Resources\AIMSLOGONEW.png" />
+    <None Include="Resources\AIMS_logo.png" />
+    <None Include="Resources\AIMS LOGO %281%29.png" />
+    <Content Include="Resources\alert.ico" />
+    <Content Include="Resources\ambulance car.ico" />
+    <Content Include="Resources\application.ico" />
+    <None Include="Resources\books.ico" />
+    <Content Include="Resources\BlueSave.png" />
+    <Content Include="Resources\button_Add.png" />
+    <Content Include="Resources\button_Clone.png" />
+    <Content Include="Resources\button_CommentAdd.png" />
+    <Content Include="Resources\button_Custom.png" />
+    <Content Include="Resources\button_Excel.png" />
+    <Content Include="Resources\button_ReportGenerate.png" />
+    <Content Include="Resources\button_ReportGenerate_Hover.png" />
+    <Content Include="Resources\button_Retag.png" />
+    <Content Include="Resources\calendar.ico" />
+    <None Include="Resources\close.png" />
+    <None Include="Resources\check_50px.png" />
+    <None Include="Resources\calendar.png" />
+    <None Include="Resources\cancel.png" />
+    <Content Include="Resources\coins.ico" />
+    <Content Include="Resources\credit_card.ico" />
+    <Content Include="Resources\delete.ico" />
+    <None Include="Resources\delete.png" />
+    <Content Include="Resources\doctor.ico" />
+    <None Include="Resources\doctor.png" />
+    <Content Include="Resources\DPInst.exe_I0068_0409.ico" />
+    <Content Include="Resources\edit.ico" />
+    <None Include="Resources\error_50px.png" />
+    <Content Include="Resources\export.ico" />
+    <None Include="Resources\pill.ico" />
+    <None Include="Resources\help.gif" />
+    <Content Include="Resources\First aid box.ico" />
+    <None Include="Resources\flag_notFlagged.gif" />
+    <Content Include="Resources\health care shield.ico" />
+    <Content Include="Resources\item_view.png" />
+    <Content Include="Resources\message_success.png" />
+    <None Include="Resources\next.png" />
+    <None Include="Resources\msg_unread.gif" />
+    <Content Include="Resources\no.png" />
+    <None Include="Resources\Outlook_unread.gif" />
+    <None Include="Resources\Outlook_Reply.gif" />
+    <None Include="Resources\Outlook_Forward.gif" />
+    <None Include="Resources\outcome_delete.png" />
+    <Content Include="Resources\patients.jpg" />
+    <Content Include="Resources\PhoneBrowser_Nokia.NGR_I0071_0409.ico" />
+    <None Include="Resources\previous.png" />
+    <Content Include="Resources\process_add.png" />
+    <Content Include="Resources\process_edit.png" />
+    <Content Include="Resources\psCancel.gif" />
+    <Content Include="Resources\psClose.gif" />
+    <Content Include="Resources\psDocuments.gif" />
+    <Content Include="Resources\psInfo.gif" />
+    <Content Include="Resources\psNew.gif" />
+    <Content Include="Resources\psOpen.gif" />
+    <Content Include="Resources\psRefresh.gif" />
+    <None Include="Resources\psRefresh1.gif" />
+    <Content Include="Resources\psSave.gif" />
+    <Content Include="Resources\psSearch.gif" />
+    <Content Include="Resources\psSelect.gif" />
+    <Content Include="Resources\psYear.gif" />
+    <None Include="Resources\psYear1.gif" />
+    <None Include="Resources\refresh.png" />
+    <Content Include="Resources\save.png" />
+    <None Include="Resources\Search-2-icon-3.png" />
+    <None Include="Resources\statusbar_user.png" />
+    <Content Include="Resources\surgeon.ico" />
+    <Content Include="Resources\tag_edit.png" />
+    <Content Include="Resources\wi0054-48.ico" />
+    <Content Include="Resources\worktype_add.png" />
+    <Content Include="Resources\worktype_edit.png" />
+    <Content Include="Resources\yes_small.png" />
+    <None Include="Resources\TL_hist.gif" />
+    <None Include="Resources\TL_help.gif" />
+    <None Include="Resources\TL_templ.gif" />
+    <None Include="Resources\TL_proj.gif" />
+    <None Include="Resources\TL_prog.gif" />
+    <None Include="Resources\top_image001.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AIMSUserControls\AIMS.UserControls.csproj">
+      <Project>{0A6C295F-0DF2-4032-A304-E08FA2EA047E}</Project>
+      <Name>AIMS.UserControls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BLL\AIMS.BLL.csproj">
+      <Project>{030964E6-C8A1-48F8-9485-F57687B4DFEF}</Project>
+      <Name>AIMS.BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DAL\AIMS.DAL.csproj">
+      <Project>{4756EB9F-4537-4262-9FB2-E69471639FD7}</Project>
+      <Name>AIMS.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SharedTypes\AIMS.Common.csproj">
+      <Project>{81DF4D6B-BB85-4C4D-952D-D5CCF82C3600}</Project>
+      <Name>AIMS.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <PublishFile Include="AIMS.Common">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="AIMSClient.pdb">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="SharedTypes">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
