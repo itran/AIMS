@@ -167,7 +167,7 @@
                                                         Placement="Top" 
                                                         Width="500" 
                                                         Height="150" 
-                                                        IsOpen="{Binding IsOpen}" PlacementTarget="{Binding ElementName=TabNotes}" Placement="Center">
+                                                        IsOpen="{Binding IsOpen}" PlacementTarget="{Binding ElementName=TabNotes}">
                                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                                             <StackPanel Orientation="Vertical" VerticalAlignment="Center">
                                         <TextBox Text="{Binding NewPatientFile}" TextWrapping="Wrap" MaxLines="5" VerticalScrollBarVisibility="Auto" AcceptsReturn="True"></TextBox>
