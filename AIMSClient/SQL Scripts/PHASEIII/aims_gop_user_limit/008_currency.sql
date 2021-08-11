@@ -1,0 +1,25 @@
+USE [AIMS_UPDATES]
+GO
+
+/****** Object:  Table [dbo].[AIMS_CURRENCY]    Script Date: 03/10/2019 19:09:19 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[AIMS_CURRENCY](
+	[COUNTRY_NAME] [varchar](100) NOT NULL,
+	[CURRENCY] [varchar](100) NULL,
+	[CODE] [varchar](10) NULL,
+	[NUMBER] [varchar](50) NULL
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+

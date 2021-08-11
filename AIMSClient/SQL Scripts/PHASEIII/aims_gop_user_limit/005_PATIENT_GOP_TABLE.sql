@@ -1,0 +1,131 @@
+
+
+/****** Object:  Table [dbo].[AIMS_PATIENT_GOP]    Script Date: 02/25/2019 22:11:56 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[AIMS_PATIENT_GOP](
+	[GOP_ID] [numeric](18, 0) IDENTITY(1,1) NOT NULL,
+	[PATIENT_ID] [numeric](18, 0) NULL,
+	[CONTACT_NAME] [varchar](150) NULL,
+	[EMAIL_ADDRESS] [varchar](100) NULL,
+	[GOP_CONSOLIDATED_AMOUNT] [varchar](50) NULL,
+	[GOP_START_DATE] [varchar](50) NULL,
+	[GOP_END_DATE] [varchar](50) NULL,
+	[ROOM_TYPE_ID] [numeric](18, 0) NULL,
+	[GOP_NOTES] [varchar](500) NULL,
+	[GUARANTEE_POD] [varchar](500) NULL,
+	[CREATED_BY] [varchar](50) NULL,
+	[GOP_APPROVED_YN] [varchar](10) NULL,
+	[CREATION_DTTM] [date] NULL,
+	[ACTIVE_YN] [varchar](50) NULL,
+ CONSTRAINT [PK_AIMS_PATIENT_GOP] PRIMARY KEY CLUSTERED 
+(
+	[GOP_ID] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+ALTER TABLE [dbo].[AIMS_PATIENT_GOP]  WITH CHECK ADD  CONSTRAINT [FK_AIMS_PATIENT_GOP_AIMS_PATIENT] FOREIGN KEY([PATIENT_ID])
+REFERENCES [dbo].[AIMS_PATIENT] ([PATIENT_ID])
+GO
+
+ALTER TABLE [dbo].[AIMS_PATIENT_GOP] CHECK CONSTRAINT [FK_AIMS_PATIENT_GOP_AIMS_PATIENT]
+GO
+
+ALTER TABLE [dbo].[AIMS_PATIENT_GOP]  WITH CHECK ADD  CONSTRAINT [FK_AIMS_PATIENT_GOP_AIMS_ROOM_TYPES] FOREIGN KEY([ROOM_TYPE_ID])
+REFERENCES [dbo].[AIMS_ROOM_TYPES] ([ROOM_TYPE_ID])
+GO
+
+ALTER TABLE [dbo].[AIMS_PATIENT_GOP] CHECK CONSTRAINT [FK_AIMS_PATIENT_GOP_AIMS_ROOM_TYPES]
+GO
+
+ALTER TABLE [dbo].[AIMS_PATIENT_GOP]  WITH CHECK ADD  CONSTRAINT [FK_AIMS_PATIENT_GOP_AIMS_USERS] FOREIGN KEY([CREATED_BY])
+REFERENCES [dbo].[AIMS_USERS] ([User_Name])
+GO
+
+ALTER TABLE [dbo].[AIMS_PATIENT_GOP] CHECK CONSTRAINT [FK_AIMS_PATIENT_GOP_AIMS_USERS]
+GO
+
+ALTER TABLE [dbo].[AIMS_PATIENT_GOP] ADD  CONSTRAINT [DF_AIMS_PATIENT_GOP_CREATION_DTTM]  DEFAULT (getdate()) FOR [CREATION_DTTM]
+GO
+
+ALTER TABLE [dbo].[AIMS_PATIENT_GOP] ADD  CONSTRAINT [DF_AIMS_PATIENT_GOP_ACTIVE_YN]  DEFAULT ('Y') FOR [ACTIVE_YN]
+GO
+
+GO
+-- Batch submitted through debugger: SQLQuery4.sql|0|0|C:\Users\HP\AppData\Local\Temp\~vs693C.sql  
+CREATE PROC AIMS_PATIENT_GOP_ADD                     
+ @GUARANTEE_ID varchar(20) ='' output,                        
+@PATIENT_ID varchar(50) = '',    
+@CONTACT_NAME varchar(150) = '',    
+@EMAIL_ADDRESS varchar(150) = '',    
+@GOP_CONSOLIDATED_AMT varchar(100) = '',    
+@GOP_START_DATE varchar(200) = '',    
+@GOP_END_DATE varchar(200) = '',    
+@ROOM_TYPE varchar(333) = '',    
+@GOP_NOTES varchar(333) = '',    
+@GUARANTEE_POD varchar(1000) = '',    
+@UserSignedOn varchar(50) = '',    
+@GOP_APPROVED_YN varchar(5) = ''    
+AS                        
+BEGIN                        
+                         
+INSERT INTO AIMS_PATIENT_GOP(                        
+PATIENT_ID,    
+CONTACT_NAME,    
+EMAIL_ADDRESS,    
+GOP_CONSOLIDATED_AMOUNT,    
+GOP_START_DATE,    
+GOP_END_DATE,    
+ROOM_TYPE_ID,    
+GOP_NOTES,    
+GUARANTEE_POD,    
+CREATED_BY,    
+GOP_APPROVED_YN    
+) VALUES(          
+@PATIENT_ID ,    
+@CONTACT_NAME,     
+@EMAIL_ADDRESS,     
+@GOP_CONSOLIDATED_AMT ,    
+@GOP_START_DATE ,    
+@GOP_END_DATE ,  @ROOM_TYPE ,    
+@GOP_NOTES ,    
+@GUARANTEE_POD,     
+@UserSignedOn,     
+@GOP_APPROVED_YN)                        
+SET @GUARANTEE_ID = cast(IDENT_CURRENT('AIMS_PATIENT_GOP') as varchar(20))                        
+END        
+  
+      
+        
+CREATE PROC AIMS_PATIENT_GET_PATIENT_DOCS                    
+ @PatientFileNo varchar(50)                    
+AS                    
+BEGIN                    
+DECLARE @PatientID INT                    
+                     
+SELECT @PatientID = PATIENT_ID FROM AIMS_PATIENT  WHERE PATIENT_FILE_NO = @PatientFileNo                    
+                     
+SELECT 'VISA Letter'  DOC_NAME, VISA_LETTER_POD DOC_POD_FOLDER, CREATION_DTTM, VISA_LETTER_ID 'DOCUMENT_ID', vl.LOADED_BY 'CREATED_BY' FROM AIMS_VISA_LETTERS vl where ACTIVE_YN = 'Y' and PATIENT_ID = @PatientID                  
+ UNION                  
+ SELECT 'Patient Guarantee' DOC_NAME, GUARANTEE_POD  DOC_POD_FOLDER, CREATION_DTTM, GOP_ID 'DOCUMENT_ID', pg.CREATED_BY 'CREATED_BY' FROM AIMS_PATIENT_GOP pg  
+ WHERE PATIENT_ID = @PatientID  and ACTIVE_YN = 'Y'              
+ UNION                  
+ SELECT 'Air-Ambulance Cost Estimate' DOC_NAME, AA_POD  DOC_POD_FOLDER, CREATION_DTTM, AAID 'DOCUMENT_ID', aa.LOADED_BY 'CREATED_Y' FROM AIMS_AA_DETAILS aa                    
+ WHERE PATIENT_ID = @PatientID  and ACTIVE_YN = 'Y'                  
+ UNION                  
+ SELECT 'Accomodation Voucher' DOC_NAME, ACCOMODATION_LETTER  DOC_POD_FOLDER, CREATION_DTTM, ACCOMODATION_BOOKING_ID 'DOCUMENT_ID', av.CREATED_BY 'CREATED_BY' FROM aims_accomodation av                    
+ WHERE PATIENT_ID = @PatientID                 
+ ORDER BY 3, 1                    
+END  

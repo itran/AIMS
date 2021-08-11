@@ -1,0 +1,36 @@
+
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[AIMS_ROOM_TYPES](
+	[ROOM_TYPE_ID] [numeric](18, 0) IDENTITY(1,1) NOT NULL,
+	[ROOM_TYPE_CD] [varchar](50) NULL,
+	[ROOM_TYPE_DESC] [varchar](250) NULL,
+ CONSTRAINT [PK_AIMS_ROOM_TYPES] PRIMARY KEY CLUSTERED 
+(
+	[ROOM_TYPE_ID] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+-------------
+
+insert into AIMS_ROOM_TYPES 
+values('Single', 'Single')
+
+insert into AIMS_ROOM_TYPES 
+values('Double', 'Double')
+
+insert into AIMS_ROOM_TYPES 
+values('Family', 'Family')
+
+
+select * from AIMS_ROOM_TYPES
