@@ -76,6 +76,7 @@ namespace AIMSClient
 
         private void frmAddPatient_Load(object sender, EventArgs e)
         {
+            Cursor.Current = Cursors.WaitCursor;
             try
             {
                 LoadCombos();
@@ -96,14 +97,15 @@ namespace AIMSClient
                 {
                     btnPatientSearch.Enabled = false;
                 }
-
                 btnAddPatient.Enabled = UserAllowed("5");
-                
             }
             catch (System.Exception ex)
             {
                 CommonFuncs.DisplayMessage(CommonTypes.MessagType.Error, "Patient Details Form load error, Please contact System Administrator");
                 CommonFuncs.ErrorLogger("Patient Details Form load error, Please contact System Administrator\n" + ex.ToString());
+            }
+            finally {
+                Cursor.Current = Cursors.Default;
             }
         }
 

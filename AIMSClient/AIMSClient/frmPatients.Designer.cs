@@ -31,9 +31,9 @@ namespace AIMSClient
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPatients));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPatients = new System.Windows.Forms.TabPage();
             this.pnlPatientMain = new System.Windows.Forms.Panel();
@@ -275,6 +275,25 @@ namespace AIMSClient
             this.clearMyInstantMessagesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gpbxGaurantorSearch = new System.Windows.Forms.GroupBox();
             this.aimsComboLookup2 = new AIMSUserControls.aimsComboLookup();
+            this.grpBoxPatientLookUp = new System.Windows.Forms.GroupBox();
+            this.lblLastFileCreated = new System.Windows.Forms.Label();
+            this.btnNewFile = new System.Windows.Forms.Button();
+            this.btnExtractREsults = new System.Windows.Forms.Button();
+            this.btnSearchByRefNo = new System.Windows.Forms.Button();
+            this.label35 = new System.Windows.Forms.Label();
+            this.txtSearchGurantorRefNo = new System.Windows.Forms.TextBox();
+            this.cmbFilterList = new System.Windows.Forms.ComboBox();
+            this.cmbFilterItemList = new System.Windows.Forms.ComboBox();
+            this.label34 = new System.Windows.Forms.Label();
+            this.btnSearchByLastName = new System.Windows.Forms.Button();
+            this.label32 = new System.Windows.Forms.Label();
+            this.tnSearchByFileNo = new System.Windows.Forms.Button();
+            this.label21 = new System.Windows.Forms.Label();
+            this.txtSearchLastName = new System.Windows.Forms.TextBox();
+            this.txtSearchFileNo = new System.Windows.Forms.TextBox();
+            this.grpBoxPatientList = new System.Windows.Forms.GroupBox();
+            this.lstvwPatientList = new System.Windows.Forms.ListView();
+            this.btnRefreshFileCount = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPatients.SuspendLayout();
             this.pnlPatientMain.SuspendLayout();
@@ -320,6 +339,8 @@ namespace AIMSClient
             ((System.ComponentModel.ISupportInitialize)(this.errPatients)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.gpbxGaurantorSearch.SuspendLayout();
+            this.grpBoxPatientLookUp.SuspendLayout();
+            this.grpBoxPatientList.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -550,8 +571,8 @@ namespace AIMSClient
             this.txtDateOfBirth.ReadOnly = true;
             this.txtDateOfBirth.Size = new System.Drawing.Size(75, 20);
             this.txtDateOfBirth.TabIndex = 108;
-            this.txtDateOfBirth.DoubleClick += new System.EventHandler(this.txtDateOfBirth_DoubleClick);
             this.txtDateOfBirth.TextChanged += new System.EventHandler(this.txtDateOfBirth_TextChanged);
+            this.txtDateOfBirth.DoubleClick += new System.EventHandler(this.txtDateOfBirth_DoubleClick);
             // 
             // txtLabListDate
             // 
@@ -560,8 +581,8 @@ namespace AIMSClient
             this.txtLabListDate.Name = "txtLabListDate";
             this.txtLabListDate.Size = new System.Drawing.Size(215, 20);
             this.txtLabListDate.TabIndex = 110;
-            this.txtLabListDate.DoubleClick += new System.EventHandler(this.txtLabListDate_DoubleClick_1);
             this.txtLabListDate.TextChanged += new System.EventHandler(this.txtLabListDate_TextChanged_1);
+            this.txtLabListDate.DoubleClick += new System.EventHandler(this.txtLabListDate_DoubleClick_1);
             // 
             // cboFlightGuarantors
             // 
@@ -741,8 +762,8 @@ namespace AIMSClient
             this.txtCourierReceitDate.Name = "txtCourierReceitDate";
             this.txtCourierReceitDate.Size = new System.Drawing.Size(82, 20);
             this.txtCourierReceitDate.TabIndex = 92;
-            this.txtCourierReceitDate.DoubleClick += new System.EventHandler(this.txtCourierReceitDate_DoubleClick);
             this.txtCourierReceitDate.TextChanged += new System.EventHandler(this.txtCourierReceitDate_TextChanged);
+            this.txtCourierReceitDate.DoubleClick += new System.EventHandler(this.txtCourierReceitDate_DoubleClick);
             // 
             // label23
             // 
@@ -798,8 +819,8 @@ namespace AIMSClient
             this.txtFileCourierDate.ReadOnly = true;
             this.txtFileCourierDate.Size = new System.Drawing.Size(238, 20);
             this.txtFileCourierDate.TabIndex = 84;
-            this.txtFileCourierDate.DoubleClick += new System.EventHandler(this.txtFileCourierDate_DoubleClick);
             this.txtFileCourierDate.TextChanged += new System.EventHandler(this.txtFileCourierDate_TextChanged);
+            this.txtFileCourierDate.DoubleClick += new System.EventHandler(this.txtFileCourierDate_DoubleClick);
             // 
             // panel1
             // 
@@ -1066,8 +1087,8 @@ namespace AIMSClient
             this.txtDateDischarged.Name = "txtDateDischarged";
             this.txtDateDischarged.Size = new System.Drawing.Size(107, 20);
             this.txtDateDischarged.TabIndex = 28;
-            this.txtDateDischarged.DoubleClick += new System.EventHandler(this.txtDateDischarged_DoubleClick);
             this.txtDateDischarged.TextChanged += new System.EventHandler(this.txtDateDischarged_TextChanged);
+            this.txtDateDischarged.DoubleClick += new System.EventHandler(this.txtDateDischarged_DoubleClick);
             // 
             // txtDateAdmitted
             // 
@@ -1076,8 +1097,8 @@ namespace AIMSClient
             this.txtDateAdmitted.Name = "txtDateAdmitted";
             this.txtDateAdmitted.Size = new System.Drawing.Size(92, 20);
             this.txtDateAdmitted.TabIndex = 27;
-            this.txtDateAdmitted.DoubleClick += new System.EventHandler(this.txtDateAdmitted_DoubleClick);
             this.txtDateAdmitted.TextChanged += new System.EventHandler(this.txtDateAdmitted_TextChanged);
+            this.txtDateAdmitted.DoubleClick += new System.EventHandler(this.txtDateAdmitted_DoubleClick);
             // 
             // txtDiagnosis
             // 
@@ -1781,6 +1802,7 @@ namespace AIMSClient
             // lstvwMedicalTreatment
             // 
             this.lstvwMedicalTreatment.GridLines = true;
+            this.lstvwMedicalTreatment.HideSelection = false;
             this.lstvwMedicalTreatment.Location = new System.Drawing.Point(678, 100);
             this.lstvwMedicalTreatment.Name = "lstvwMedicalTreatment";
             this.lstvwMedicalTreatment.Size = new System.Drawing.Size(121, 97);
@@ -1958,33 +1980,33 @@ namespace AIMSClient
             // 
             // gvServiceProviders
             // 
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gvServiceProviders.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gvServiceProviders.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.gvServiceProviders.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.gvServiceProviders.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.gvServiceProviders.DefaultCellStyle = dataGridViewCellStyle5;
             this.gvServiceProviders.Location = new System.Drawing.Point(349, 56);
             this.gvServiceProviders.Name = "gvServiceProviders";
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.gvServiceProviders.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.gvServiceProviders.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.gvServiceProviders.Size = new System.Drawing.Size(379, 207);
             this.gvServiceProviders.TabIndex = 3;
             this.gvServiceProviders.Visible = false;
@@ -2717,6 +2739,7 @@ namespace AIMSClient
             // 
             this.lstvwAuditing.FullRowSelect = true;
             this.lstvwAuditing.GridLines = true;
+            this.lstvwAuditing.HideSelection = false;
             this.lstvwAuditing.Location = new System.Drawing.Point(6, 6);
             this.lstvwAuditing.Name = "lstvwAuditing";
             this.lstvwAuditing.Size = new System.Drawing.Size(1076, 357);
@@ -2796,12 +2819,13 @@ namespace AIMSClient
             this.gpbxPatientSearch.Controls.Add(this.aimsComboLookup1);
             this.gpbxPatientSearch.Controls.Add(this.gpbxOperatorMails);
             this.gpbxPatientSearch.Controls.Add(this.pnlButtonSearch);
-            this.gpbxPatientSearch.Location = new System.Drawing.Point(6, 3);
+            this.gpbxPatientSearch.Location = new System.Drawing.Point(832, 17);
             this.gpbxPatientSearch.Name = "gpbxPatientSearch";
             this.gpbxPatientSearch.Size = new System.Drawing.Size(478, 176);
             this.gpbxPatientSearch.TabIndex = 2;
             this.gpbxPatientSearch.TabStop = false;
             this.gpbxPatientSearch.Text = "Patient Search";
+            this.gpbxPatientSearch.Visible = false;
             this.gpbxPatientSearch.Enter += new System.EventHandler(this.gpbxPatientSearch_Enter);
             // 
             // aimsComboLookup1
@@ -2813,7 +2837,7 @@ namespace AIMSClient
             this.aimsComboLookup1.Field1Value = "Patient Name";
             this.aimsComboLookup1.Field2Value = "Patient File No";
             this.aimsComboLookup1.ItemsLoaded = 0;
-            this.aimsComboLookup1.Location = new System.Drawing.Point(0, 9);
+            this.aimsComboLookup1.Location = new System.Drawing.Point(30, 8);
             this.aimsComboLookup1.Name = "aimsComboLookup1";
             this.aimsComboLookup1.OrderByField = null;
             this.aimsComboLookup1.ShowButtons = true;
@@ -2821,9 +2845,9 @@ namespace AIMSClient
             this.aimsComboLookup1.Size = new System.Drawing.Size(530, 136);
             this.aimsComboLookup1.TabIndex = 0;
             this.aimsComboLookup1.TableName = null;
-            this.aimsComboLookup1.Load += new System.EventHandler(this.aimsComboLookup1_Load);
-            this.aimsComboLookup1.BtnChange += new AIMSUserControls.aimsComboLookup.RadioBtnChange(this.aimsComboLookup1_BtnChange);
             this.aimsComboLookup1.DblClicked += new AIMSUserControls.aimsComboLookup.DblClickHandler(this.aimsComboLookup1_DblClicked);
+            this.aimsComboLookup1.BtnChange += new AIMSUserControls.aimsComboLookup.RadioBtnChange(this.aimsComboLookup1_BtnChange);
+            this.aimsComboLookup1.Load += new System.EventHandler(this.aimsComboLookup1_Load);
             // 
             // gpbxOperatorMails
             // 
@@ -2873,6 +2897,7 @@ namespace AIMSClient
             // lstOperatorMailBox
             // 
             this.lstOperatorMailBox.CheckBoxes = true;
+            this.lstOperatorMailBox.HideSelection = false;
             this.lstOperatorMailBox.LargeImageList = this.MailImageList;
             this.lstOperatorMailBox.Location = new System.Drawing.Point(3, 19);
             this.lstOperatorMailBox.MultiSelect = false;
@@ -3046,8 +3071,8 @@ namespace AIMSClient
             this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
             this.notifyIcon1.Visible = true;
             this.notifyIcon1.Click += new System.EventHandler(this.notifyIcon1_Click);
-            this.notifyIcon1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseUp);
             this.notifyIcon1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseDoubleClick);
+            this.notifyIcon1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseUp);
             // 
             // contextMenuStrip1
             // 
@@ -3067,12 +3092,13 @@ namespace AIMSClient
             // gpbxGaurantorSearch
             // 
             this.gpbxGaurantorSearch.Controls.Add(this.aimsComboLookup2);
-            this.gpbxGaurantorSearch.Location = new System.Drawing.Point(572, 2);
+            this.gpbxGaurantorSearch.Location = new System.Drawing.Point(816, 72);
             this.gpbxGaurantorSearch.Name = "gpbxGaurantorSearch";
             this.gpbxGaurantorSearch.Size = new System.Drawing.Size(589, 168);
             this.gpbxGaurantorSearch.TabIndex = 84;
             this.gpbxGaurantorSearch.TabStop = false;
             this.gpbxGaurantorSearch.Text = "Guarantor Reference Search";
+            this.gpbxGaurantorSearch.Visible = false;
             // 
             // aimsComboLookup2
             // 
@@ -3091,16 +3117,232 @@ namespace AIMSClient
             this.aimsComboLookup2.Size = new System.Drawing.Size(327, 149);
             this.aimsComboLookup2.TabIndex = 1;
             this.aimsComboLookup2.TableName = null;
-            this.aimsComboLookup2.Load += new System.EventHandler(this.aimsComboLookup2_Load);
             this.aimsComboLookup2.DblClicked += new AIMSUserControls.aimsComboLookup.DblClickHandler(this.aimsComboLookup2_DblClicked);
+            this.aimsComboLookup2.Load += new System.EventHandler(this.aimsComboLookup2_Load);
+            // 
+            // grpBoxPatientLookUp
+            // 
+            this.grpBoxPatientLookUp.Controls.Add(this.btnRefreshFileCount);
+            this.grpBoxPatientLookUp.Controls.Add(this.lblLastFileCreated);
+            this.grpBoxPatientLookUp.Controls.Add(this.btnNewFile);
+            this.grpBoxPatientLookUp.Controls.Add(this.btnExtractREsults);
+            this.grpBoxPatientLookUp.Controls.Add(this.btnSearchByRefNo);
+            this.grpBoxPatientLookUp.Controls.Add(this.label35);
+            this.grpBoxPatientLookUp.Controls.Add(this.txtSearchGurantorRefNo);
+            this.grpBoxPatientLookUp.Controls.Add(this.cmbFilterList);
+            this.grpBoxPatientLookUp.Controls.Add(this.cmbFilterItemList);
+            this.grpBoxPatientLookUp.Controls.Add(this.label34);
+            this.grpBoxPatientLookUp.Controls.Add(this.btnSearchByLastName);
+            this.grpBoxPatientLookUp.Controls.Add(this.label32);
+            this.grpBoxPatientLookUp.Controls.Add(this.tnSearchByFileNo);
+            this.grpBoxPatientLookUp.Controls.Add(this.label21);
+            this.grpBoxPatientLookUp.Controls.Add(this.txtSearchLastName);
+            this.grpBoxPatientLookUp.Controls.Add(this.txtSearchFileNo);
+            this.grpBoxPatientLookUp.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.grpBoxPatientLookUp.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.grpBoxPatientLookUp.Location = new System.Drawing.Point(6, 12);
+            this.grpBoxPatientLookUp.Name = "grpBoxPatientLookUp";
+            this.grpBoxPatientLookUp.Size = new System.Drawing.Size(530, 167);
+            this.grpBoxPatientLookUp.TabIndex = 85;
+            this.grpBoxPatientLookUp.TabStop = false;
+            this.grpBoxPatientLookUp.Text = "Patient Look Up";
+            // 
+            // lblLastFileCreated
+            // 
+            this.lblLastFileCreated.AutoSize = true;
+            this.lblLastFileCreated.ForeColor = System.Drawing.Color.Red;
+            this.lblLastFileCreated.Location = new System.Drawing.Point(448, 136);
+            this.lblLastFileCreated.Name = "lblLastFileCreated";
+            this.lblLastFileCreated.Size = new System.Drawing.Size(55, 13);
+            this.lblLastFileCreated.TabIndex = 88;
+            this.lblLastFileCreated.Text = "01/0878";
+            // 
+            // btnNewFile
+            // 
+            this.btnNewFile.Location = new System.Drawing.Point(59, 150);
+            this.btnNewFile.Name = "btnNewFile";
+            this.btnNewFile.Size = new System.Drawing.Size(203, 23);
+            this.btnNewFile.TabIndex = 87;
+            this.btnNewFile.Text = "Add New File";
+            this.btnNewFile.UseVisualStyleBackColor = true;
+            this.btnNewFile.Click += new System.EventHandler(this.btnNewFile_Click);
+            // 
+            // btnExtractREsults
+            // 
+            this.btnExtractREsults.Location = new System.Drawing.Point(268, 150);
+            this.btnExtractREsults.Name = "btnExtractREsults";
+            this.btnExtractREsults.Size = new System.Drawing.Size(120, 22);
+            this.btnExtractREsults.TabIndex = 18;
+            this.btnExtractREsults.Text = "Extract Results";
+            this.btnExtractREsults.UseVisualStyleBackColor = true;
+            this.btnExtractREsults.Visible = false;
+            // 
+            // btnSearchByRefNo
+            // 
+            this.btnSearchByRefNo.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnSearchByRefNo.Image = global::AIMSClient.Properties.Resources.psSearch1;
+            this.btnSearchByRefNo.Location = new System.Drawing.Point(451, 86);
+            this.btnSearchByRefNo.Name = "btnSearchByRefNo";
+            this.btnSearchByRefNo.Size = new System.Drawing.Size(32, 20);
+            this.btnSearchByRefNo.TabIndex = 17;
+            this.btnSearchByRefNo.UseVisualStyleBackColor = true;
+            this.btnSearchByRefNo.Click += new System.EventHandler(this.btnSearchByRefNo_Click);
+            // 
+            // label35
+            // 
+            this.label35.AutoSize = true;
+            this.label35.Location = new System.Drawing.Point(294, 69);
+            this.label35.Name = "label35";
+            this.label35.Size = new System.Drawing.Size(146, 13);
+            this.label35.TabIndex = 16;
+            this.label35.Text = "Guarantor Reference No";
+            // 
+            // txtSearchGurantorRefNo
+            // 
+            this.txtSearchGurantorRefNo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSearchGurantorRefNo.Location = new System.Drawing.Point(268, 86);
+            this.txtSearchGurantorRefNo.Name = "txtSearchGurantorRefNo";
+            this.txtSearchGurantorRefNo.Size = new System.Drawing.Size(177, 20);
+            this.txtSearchGurantorRefNo.TabIndex = 15;
+            // 
+            // cmbFilterList
+            // 
+            this.cmbFilterList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbFilterList.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbFilterList.FormattingEnabled = true;
+            this.cmbFilterList.Location = new System.Drawing.Point(59, 45);
+            this.cmbFilterList.Name = "cmbFilterList";
+            this.cmbFilterList.Size = new System.Drawing.Size(465, 21);
+            this.cmbFilterList.TabIndex = 14;
+            this.cmbFilterList.SelectedIndexChanged += new System.EventHandler(this.cmbFilterList_SelectedIndexChanged);
+            // 
+            // cmbFilterItemList
+            // 
+            this.cmbFilterItemList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbFilterItemList.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbFilterItemList.FormattingEnabled = true;
+            this.cmbFilterItemList.Items.AddRange(new object[] {
+            "",
+            "Guarantor",
+            "Hospital"});
+            this.cmbFilterItemList.Location = new System.Drawing.Point(59, 18);
+            this.cmbFilterItemList.Name = "cmbFilterItemList";
+            this.cmbFilterItemList.Size = new System.Drawing.Size(203, 21);
+            this.cmbFilterItemList.TabIndex = 12;
+            this.cmbFilterItemList.SelectedIndexChanged += new System.EventHandler(this.cmbFilterItemList_SelectedIndexChanged);
+            // 
+            // label34
+            // 
+            this.label34.AutoSize = true;
+            this.label34.Location = new System.Drawing.Point(19, 21);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(41, 13);
+            this.label34.TabIndex = 11;
+            this.label34.Text = "Filters";
+            // 
+            // btnSearchByLastName
+            // 
+            this.btnSearchByLastName.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnSearchByLastName.Image = global::AIMSClient.Properties.Resources.psSearch1;
+            this.btnSearchByLastName.Location = new System.Drawing.Point(230, 123);
+            this.btnSearchByLastName.Name = "btnSearchByLastName";
+            this.btnSearchByLastName.Size = new System.Drawing.Size(32, 20);
+            this.btnSearchByLastName.TabIndex = 10;
+            this.btnSearchByLastName.UseVisualStyleBackColor = true;
+            this.btnSearchByLastName.Click += new System.EventHandler(this.btnSearchByLastName_Click);
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Location = new System.Drawing.Point(84, 108);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(128, 13);
+            this.label32.TabIndex = 9;
+            this.label32.Text = "Patient Last Surname";
+            // 
+            // tnSearchByFileNo
+            // 
+            this.tnSearchByFileNo.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.tnSearchByFileNo.Image = global::AIMSClient.Properties.Resources.psSearch1;
+            this.tnSearchByFileNo.Location = new System.Drawing.Point(230, 85);
+            this.tnSearchByFileNo.Name = "tnSearchByFileNo";
+            this.tnSearchByFileNo.Size = new System.Drawing.Size(32, 20);
+            this.tnSearchByFileNo.TabIndex = 8;
+            this.tnSearchByFileNo.UseVisualStyleBackColor = true;
+            this.tnSearchByFileNo.Click += new System.EventHandler(this.tnSearchByFileNo_Click);
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(84, 70);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(91, 13);
+            this.label21.TabIndex = 2;
+            this.label21.Text = "Patient File No";
+            // 
+            // txtSearchLastName
+            // 
+            this.txtSearchLastName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSearchLastName.Location = new System.Drawing.Point(59, 124);
+            this.txtSearchLastName.Name = "txtSearchLastName";
+            this.txtSearchLastName.Size = new System.Drawing.Size(165, 20);
+            this.txtSearchLastName.TabIndex = 1;
+            // 
+            // txtSearchFileNo
+            // 
+            this.txtSearchFileNo.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSearchFileNo.Location = new System.Drawing.Point(59, 85);
+            this.txtSearchFileNo.Name = "txtSearchFileNo";
+            this.txtSearchFileNo.Size = new System.Drawing.Size(165, 20);
+            this.txtSearchFileNo.TabIndex = 0;
+            // 
+            // grpBoxPatientList
+            // 
+            this.grpBoxPatientList.Controls.Add(this.lstvwPatientList);
+            this.grpBoxPatientList.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.grpBoxPatientList.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.grpBoxPatientList.Location = new System.Drawing.Point(542, 12);
+            this.grpBoxPatientList.Name = "grpBoxPatientList";
+            this.grpBoxPatientList.Size = new System.Drawing.Size(663, 167);
+            this.grpBoxPatientList.TabIndex = 86;
+            this.grpBoxPatientList.TabStop = false;
+            this.grpBoxPatientList.Text = "Patient List";
+            // 
+            // lstvwPatientList
+            // 
+            this.lstvwPatientList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lstvwPatientList.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lstvwPatientList.FullRowSelect = true;
+            this.lstvwPatientList.GridLines = true;
+            this.lstvwPatientList.HideSelection = false;
+            this.lstvwPatientList.Location = new System.Drawing.Point(3, 16);
+            this.lstvwPatientList.MultiSelect = false;
+            this.lstvwPatientList.Name = "lstvwPatientList";
+            this.lstvwPatientList.Size = new System.Drawing.Size(657, 148);
+            this.lstvwPatientList.TabIndex = 0;
+            this.lstvwPatientList.UseCompatibleStateImageBehavior = false;
+            this.lstvwPatientList.SelectedIndexChanged += new System.EventHandler(this.lstvwPatientList_SelectedIndexChanged);
+            this.lstvwPatientList.DoubleClick += new System.EventHandler(this.lstvwPatientList_DoubleClick);
+            // 
+            // btnRefreshFileCount
+            // 
+            this.btnRefreshFileCount.Image = global::AIMSClient.Properties.Resources.psRefresh;
+            this.btnRefreshFileCount.Location = new System.Drawing.Point(317, 117);
+            this.btnRefreshFileCount.Name = "btnRefreshFileCount";
+            this.btnRefreshFileCount.Size = new System.Drawing.Size(34, 32);
+            this.btnRefreshFileCount.TabIndex = 89;
+            this.btnRefreshFileCount.UseVisualStyleBackColor = true;
+            this.btnRefreshFileCount.Click += new System.EventHandler(this.btnRefreshFileCount_Click);
             // 
             // frmPatients
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1210, 700);
-            this.Controls.Add(this.btnHospitalLookUp);
+            this.Controls.Add(this.grpBoxPatientList);
+            this.Controls.Add(this.grpBoxPatientLookUp);
             this.Controls.Add(this.gpbxGaurantorSearch);
+            this.Controls.Add(this.btnHospitalLookUp);
             this.Controls.Add(this.pnlButtons);
             this.Controls.Add(this.gpbxPatient);
             this.Controls.Add(this.gpbxPatientSearch);
@@ -3163,6 +3405,9 @@ namespace AIMSClient
             ((System.ComponentModel.ISupportInitialize)(this.errPatients)).EndInit();
             this.contextMenuStrip1.ResumeLayout(false);
             this.gpbxGaurantorSearch.ResumeLayout(false);
+            this.grpBoxPatientLookUp.ResumeLayout(false);
+            this.grpBoxPatientLookUp.PerformLayout();
+            this.grpBoxPatientList.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -3411,6 +3656,24 @@ namespace AIMSClient
         private System.Windows.Forms.LinkLabel lnklblCourierDate;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.CheckBox chkHighCostFile;
-        
+        private System.Windows.Forms.GroupBox grpBoxPatientList;
+        private System.Windows.Forms.ListView lstvwPatientList;
+        private System.Windows.Forms.GroupBox grpBoxPatientLookUp;
+        private System.Windows.Forms.Button btnSearchByRefNo;
+        private System.Windows.Forms.Label label35;
+        private System.Windows.Forms.TextBox txtSearchGurantorRefNo;
+        private System.Windows.Forms.ComboBox cmbFilterList;
+        private System.Windows.Forms.ComboBox cmbFilterItemList;
+        private System.Windows.Forms.Label label34;
+        private System.Windows.Forms.Button btnSearchByLastName;
+        private System.Windows.Forms.Label label32;
+        private System.Windows.Forms.Button tnSearchByFileNo;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.TextBox txtSearchLastName;
+        private System.Windows.Forms.TextBox txtSearchFileNo;
+        private System.Windows.Forms.Button btnExtractREsults;
+        private System.Windows.Forms.Button btnNewFile;
+        private System.Windows.Forms.Label lblLastFileCreated;
+        private System.Windows.Forms.Button btnRefreshFileCount;
     }
 }

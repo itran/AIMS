@@ -664,6 +664,16 @@ namespace AIMS.DAL
                 CreateParameter("@UserSignedOn", SqlDbType.VarChar, UserSignedOn));
         }
 
+        public string GetLastFilePatient()
+        {
+            SqlCommand cmd;
+            string personID = "";
+             ExecuteNonQuery(out cmd, "AIMS_LAST_PATIENT_NO",
+                CreateParameter("@PatientFileNo", SqlDbType.VarChar,"" ,50 , ParameterDirection.InputOutput));
+            personID = cmd.Parameters["@PatientFileNo"].Value.ToString();
+            return personID;
+
+        }
         public DataSet GetPatientHeaderDetails(string patientID, string EnquiryYN, string UserSignedOn)
         {
             return ExecuteDataSet("AIMS_PATIENT_HEADER_GET",
@@ -912,10 +922,24 @@ namespace AIMS.DAL
         {
             return ExecuteDataSet("AIMS_PATIENT_FILE_AUDIT_GET",
                 CreateParameter("@PATIENT_FILE_NO", SqlDbType.VarChar, patientFileNo));
+        }        
+        
+        public DataSet GetPatientDetails(string filterId, string filterName)
+        {
+            return ExecuteDataSet("AIMS_PATIENT_FILTER",
+                CreateParameter("@FILTER_NAME", SqlDbType.VarChar, filterName),
+                CreateParameter("@FILTER_ID", SqlDbType.VarChar, filterId.ToString()));
         }
+
         public DataTable LoadPatientFiles()
         {
             return ExecuteDataTable("[AIMS_PATIENT_GET_ALL]");
+        }
+
+        public DataSet GetGuarantorRef(string GuarantorRefNo)
+        {
+            return ExecuteDataSet("AIMS_GET_PATIENT_GUARATOR_REFERENCE",
+                CreateParameter("@GUARANTOR_REF_NO", SqlDbType.VarChar, GuarantorRefNo));
         }
     }
 }

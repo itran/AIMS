@@ -118,6 +118,8 @@ namespace AIMSClient
             }
         }
         private string _restrictions = string.Empty;
+        private bool bAddingANewFile;
+
         public string Restrictions
         {
             get { return _restrictions; }
@@ -193,12 +195,13 @@ namespace AIMSClient
             commonFuncs = new AIMS.Common.CommonFunctions();
             try
             {
+                PatientListSetup();
                 ServiceProvidersSetup();
                 cboFileAssignedTo.Enabled = false;
                 cboOPSFileOwner.Enabled = false;
                 chkCancelled.Enabled = false;
-                LoadPatients();
-                LoadGuarantorSearch();
+                //LoadPatients();
+                //LoadGuarantorSearch();
                 txtPatientFileNo.ReadOnly = true;
                 LoadTitles();
                 LoadAssistTypes();
@@ -258,9 +261,10 @@ namespace AIMSClient
                 }
 
                 PatientEmailsSetup();
-                LoadMyMailbox();
+                LastCreatedFileUpdate();
+                //LoadMyMailbox();
                 //GetBccEmailAddress();
-                LoadTemplates("");
+                //LoadTemplates("");
 
             }
             catch (Exception ex)
@@ -283,6 +287,8 @@ namespace AIMSClient
 
             this.gpbxPatient.Left = this.Left + 2;
             this.gpbxPatient.Width = this.ClientSize.Width - 4;
+
+
 
             this.gpbxPatientSearch.Width = this.ClientSize.Width - 4;
             
@@ -471,6 +477,18 @@ namespace AIMSClient
             tabAppointment.Height = btnAddNewAppointment.Top - 2;
             tabAppointment.Width = this.tabAppointments.ClientSize.Width;
             btnAppointmentsAudit.Top = btnAddNewAppointment.Top;
+
+            this.grpBoxPatientLookUp.Left = this.gpbxPatient.Left + 2;
+            this.grpBoxPatientList.Left = this.grpBoxPatientLookUp.ClientSize.Width + 10;
+            this.grpBoxPatientLookUp.Height = Convert.ToInt32(this.ClientSize.Height * 0.30);
+            this.grpBoxPatientList.Height = Convert.ToInt32(this.ClientSize.Height * 0.30);
+            this.grpBoxPatientList.Width = (this.gpbxPatient.ClientSize.Width / 2) + 100;
+
+            lblLastFileCreated.Top = btnNewFile.Top + 5;
+            lblLastFileCreated.Left = btnNewFile.Left + btnNewFile.Width;
+
+            btnRefreshFileCount.Top = btnNewFile.Top + btnRefreshFileCount.Height;
+            btnRefreshFileCount.Left = btnNewFile.Left;
         }
 
         private void btnAddNew_Click(object sender, EventArgs e)
@@ -584,18 +602,18 @@ namespace AIMSClient
             try
             {
                 _saveCount = 0;
-                Int64 LastPatient = 0;
-                if ((PatientSearch == "PATIENT" && aimsComboLookup1.lstItems.SelectedIndex != null && aimsComboLookup1.lstItems.SelectedIndex > 0) || (PatientSearch == "GUARANTOR" && aimsComboLookup2.lstItems.SelectedIndex != null && aimsComboLookup2.lstItems.SelectedIndex > 0))
-                {
-                    if (PatientSearch == "PATIENT")
-                    {
-                        LastPatient = aimsComboLookup1.lstItems.SelectedIndex;
-                    }
-                    else if (PatientSearch == "GUARANTOR")
-                    {
-                        LastPatient = aimsComboLookup2.lstItems.SelectedIndex;
-                    }
-                }
+                //Int64 LastPatient = 0;
+                //if ((PatientSearch == "PATIENT" && aimsComboLookup1.lstItems.SelectedIndex != null && aimsComboLookup1.lstItems.SelectedIndex > 0) || (PatientSearch == "GUARANTOR" && aimsComboLookup2.lstItems.SelectedIndex != null && aimsComboLookup2.lstItems.SelectedIndex > 0))
+                //{
+                //    if (PatientSearch == "PATIENT")
+                //    {
+                //        LastPatient = aimsComboLookup1.lstItems.SelectedIndex;
+                //    }
+                //    else if (PatientSearch == "GUARANTOR")
+                //    {
+                //        LastPatient = aimsComboLookup2.lstItems.SelectedIndex;
+                //    }
+                //}
 
                 if (_saveCount == 0)
                 {
@@ -616,29 +634,29 @@ namespace AIMSClient
                                 btnSave.Enabled = false;
                                 LoadSupplierInfo = true;
                                 MessageBox.Show("Patient details saved succesfully", "AIMS", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                aimsComboLookup1.lstItems.DataSource = null;
-                                aimsComboLookup1.Clear();
-                                aimsComboLookup1.CheckDescription();
+                                //aimsComboLookup1.lstItems.DataSource = null;
+                                //aimsComboLookup1.Clear();
+                                //aimsComboLookup1.CheckDescription();
 
-                                aimsComboLookup2.lstItems.DataSource = null;
-                                aimsComboLookup2.Clear();
-                                aimsComboLookup2.CheckDescription();
+                                //aimsComboLookup2.lstItems.DataSource = null;
+                                //aimsComboLookup2.Clear();
+                                //aimsComboLookup2.CheckDescription();
 
-                                LoadPatients();
-                                LoadGuarantorSearch();
-                                LoadSupplierInfo = false;
+                                //LoadPatients();
+                                //LoadGuarantorSearch();
+                                //LoadSupplierInfo = false;
 
-                                if (LastPatient > 0)
-                                {
-                                    if (PatientSearch == "PATIENT")
-                                    {
-                                        aimsComboLookup1.lstItems.SelectedIndex = (int)LastPatient;
-                                    }
-                                    else if (PatientSearch == "GUARANTOR")
-                                    {
-                                        aimsComboLookup2.lstItems.SelectedIndex = (int)LastPatient;
-                                    }
-                                }
+                                //if (LastPatient > 0)
+                                //{
+                                //    if (PatientSearch == "PATIENT")
+                                //    {
+                                //        aimsComboLookup1.lstItems.SelectedIndex = (int)LastPatient;
+                                //    }
+                                //    else if (PatientSearch == "GUARANTOR")
+                                //    {
+                                //        aimsComboLookup2.lstItems.SelectedIndex = (int)LastPatient;
+                                //    }
+                                //}
                             }
                             else
                             {
@@ -819,36 +837,42 @@ namespace AIMSClient
             try
             {
                 //tabControl1.SelectTab(0);
-                if ((PatientSearch == "PATIENT" && aimsComboLookup1.DataField1 == "PATIENT_FILE_NO") || (PatientSearch == "GUARANTOR" && aimsComboLookup2.DataField1 == "PATIENT_FILE_NO"))
-                {
-                    if (PatientSearch == "PATIENT")
-                    {
-                        _selectedPatient = aimsComboLookup1.lstItems.Text;
-                    }
-                    else if (PatientSearch == "GUARANTOR")
-                    {
-                        _selectedPatient = aimsComboLookup2.lstItems.Text;
-                    }
-                }
-                else
-                {
-                    if (PatientSearch == "PATIENT")
-                    {
-                        if (aimsComboLookup1.lstItems.SelectedValue != null && !aimsComboLookup1.lstItems.SelectedValue.Equals(""))
-                        {
-                            _selectedPatient = aimsComboLookup1.lstItems.SelectedValue.ToString();
-                        }
-                    }
-                    else if (PatientSearch == "GUARANTOR")
-                    {
-                        if (aimsComboLookup2.lstItems.SelectedValue != null && !aimsComboLookup2.lstItems.SelectedValue.Equals(""))
-                        {
-                            _selectedPatient = aimsComboLookup2.lstItems.SelectedValue.ToString();
-                        }
-                    }
-                }
-
+                //if ((PatientSearch == "PATIENT" && aimsComboLookup1.DataField1 == "PATIENT_FILE_NO") || (PatientSearch == "GUARANTOR" && aimsComboLookup2.DataField1 == "PATIENT_FILE_NO"))
+                //{
+                //    if (PatientSearch == "PATIENT")
+                //    {
+                //        _selectedPatient = aimsComboLookup1.lstItems.Text;
+                //    }
+                //    else if (PatientSearch == "GUARANTOR")
+                //    {
+                //        _selectedPatient = aimsComboLookup2.lstItems.Text;
+                //    }
+                //}
+                //else
+                //{
+                //    if (PatientSearch == "PATIENT")
+                //    {
+                //        if (aimsComboLookup1.lstItems.SelectedValue != null && !aimsComboLookup1.lstItems.SelectedValue.Equals(""))
+                //        {
+                //            _selectedPatient = aimsComboLookup1.lstItems.SelectedValue.ToString();
+                //        }
+                //    }
+                //    else if (PatientSearch == "GUARANTOR")
+                //    {
+                //        if (aimsComboLookup2.lstItems.SelectedValue != null && !aimsComboLookup2.lstItems.SelectedValue.Equals(""))
+                //        {
+                //            _selectedPatient = aimsComboLookup2.lstItems.SelectedValue.ToString();
+                //        }
+                //    }
+                //}
+                
                 _patient = clsPatient.GetPatientDetails(_selectedPatient, "Y",UserID);
+
+                if (_patient == null)
+                {
+                    commonFuncs.DisplayMessage(AIMS.Common.CommonTypes.MessagType.Error, "Patient File Invalid");
+                    return;
+                }
 
                 if (_patient != null)
                 {
@@ -1295,7 +1319,7 @@ namespace AIMSClient
 
                 if (_patient != null)
                 {
-                    
+                    txtPatientFileNo.Text = bAddingANewFile ? "": PatientFileNo;
                     txtSurname.Text = _patient.PatientLastName;
                     txtFirstName.Text = _patient.PatientFirstName;
                     txtFaxNum.Text = _patient.PatientFaxNo;
@@ -1329,6 +1353,10 @@ namespace AIMSClient
                     txtGuarantee247Email.Text = _patient.Guarantor247Email;
                     txtGuarantee247No.Text = _patient.Guarantor247No;
                     LoadAudit();
+                }
+                else
+                {
+                    commonFuncs.DisplayMessage(AIMS.Common.CommonTypes.MessagType.Error, "Patient File No Invalid");
                 }
             }
             catch (System.Exception ex)
@@ -1488,7 +1516,7 @@ namespace AIMSClient
 
             try
             {
-                tblGuarantors = lookupBLL.GetLookUpValues("GUARANTOR_ID", "GUARANTOR_NAME", "AIMS_GUARANTOR", 0, "GUARANTOR_NAME");
+                tblGuarantors = lookupBLL.GetLookUpValues("GUARANTOR_ID", "GUARANTOR_NAME", "AIMS_GUARANTOR", 0, "GUARANTOR_NAME", " where GUARANTOR_ACTIVE_YN = 'Y' ");
                 cboGuarantors.DataSource = tblGuarantors;
                 cboGuarantors.DisplayMember = "GUARANTOR_NAME";
                 cboGuarantors.ValueMember = "GUARANTOR_ID";
@@ -1574,6 +1602,11 @@ namespace AIMSClient
         /// </summary>
         private void LoadInvoices()
         {
+            if (string.IsNullOrWhiteSpace(txtPatientFileNo.Text))
+            {
+                return;
+            }
+
             dsInvoices = new DataSet(); ;
             ListViewItem lvwItem;
             AIMS.BLL.Invoice invoiceBLL = new Invoice();
@@ -2491,8 +2524,8 @@ namespace AIMSClient
                     if (patientFileNo.Length > 0)
                     {
                         LoadPatientDetails();
-                        LoadPatients();
-                        LoadGuarantorSearch();
+                        //LoadPatients();
+                        //LoadGuarantorSearch();
                         returnValue = true;
                     }
                     else
@@ -8037,6 +8070,305 @@ namespace AIMSClient
         private void rdInPatient_CheckedChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void cmbFilterItemList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            lstvwPatientList.Items.Clear();
+            switch (cmbFilterItemList.Text)
+            {
+                case "Guarantor":
+                    LoadFilterGuarantors();
+                    break;
+                case "Hospital":
+                    LoadFilterSuppliers();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void cmbFilterList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Cursor.Current = Cursors.WaitCursor;
+            try
+            {
+                if (cmbFilterList.SelectedIndex > 0)
+                {
+                    switch (cmbFilterItemList.Text)
+                    {
+                        case "Guarantor":
+                            LoadGuarantorPatients(Convert.ToInt32((cmbFilterList.SelectedValue)));
+                            break;
+                        case "Hospital":
+                            LoadHospitalPatients(Convert.ToInt32((cmbFilterList.SelectedValue)));
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+            finally
+            {
+                Cursor.Current = Cursors.Default;
+            }
+        }
+
+        private void LoadHospitalPatients(int v)
+        {
+            LoadPatientList();
+        }
+
+        private void LoadGuarantorPatients(int v)
+        {
+            LoadPatientList();
+        }
+
+        private void LoadFilterGuarantors()
+        {
+            tblGuarantors = new DataTable();
+            AIMS.BLL.LookUpTableCollections lookupBLL = new LookUpTableCollections();
+            try
+            {
+                tblGuarantors = lookupBLL.GetLookUpValues("GUARANTOR_ID", "GUARANTOR_NAME", "AIMS_GUARANTOR", 0, "GUARANTOR_NAME", " where GUARANTOR_ACTIVE_YN = 'Y' ");
+                cmbFilterList.DataSource = tblGuarantors;
+                cmbFilterList.DisplayMember = "GUARANTOR_NAME";
+                cmbFilterList.ValueMember = "GUARANTOR_ID";
+                cmbFilterList.SelectedValue = -1;
+            }
+            catch (Exception ex)
+            {
+                commonFuncs.DisplayMessage(AIMS.Common.CommonTypes.MessagType.Error, ex.Message);
+            }
+            finally
+            {
+                //tblGuarantors.Dispose();
+            }
+        }
+
+        private void LoadFilterSuppliers()
+        {
+            tblSuppliers = new DataTable();
+            AIMS.BLL.LookUpTableCollections lookupBLL = new LookUpTableCollections();
+            try
+            {
+                tblSuppliers = lookupBLL.GetLookUpValues("SUPPLIER_ID", "SUPPLIER_NAME", "AIMS_SUPPLIER", 0,"SUPPLIER_NAME", " where SUPPLIER_TYPE_ID =1 and SUPPLIER_ACTIVE_YN = 'Y' ");
+                cmbFilterList.DataSource = tblSuppliers;
+                cmbFilterList.DisplayMember = "SUPPLIER_NAME";
+                cmbFilterList.ValueMember = "SUPPLIER_ID";
+                cmbFilterList.SelectedValue = -1;
+            }
+            catch (Exception ex)
+            {
+                commonFuncs.DisplayMessage(AIMS.Common.CommonTypes.MessagType.Error, ex.Message);
+            }
+        }
+
+        private void PatientListSetup()
+        {            
+            lstvwPatientList.Columns.Clear();
+            lstvwPatientList.Items.Clear();
+            lstvwPatientList.Columns.Add("Guarantor", 180, HorizontalAlignment.Left);
+            lstvwPatientList.Columns.Add("Patient File", 100, HorizontalAlignment.Left);
+            lstvwPatientList.Columns.Add("Patient Name", 180, HorizontalAlignment.Left);
+            lstvwPatientList.Columns.Add("Guarantor Reference", 120, HorizontalAlignment.Left);
+            lstvwPatientList.Columns.Add("Hospital", 180, HorizontalAlignment.Left);
+            lstvwPatientList.Columns.Add("File Creation Date", 100, HorizontalAlignment.Left);
+            lstvwPatientList.View = View.Details;
+        }
+
+        private void LastCreatedFileUpdate()
+        {            
+            AIMS.BLL.Patient patientBLL = new Patient();
+            string lastFileNo = patientBLL.GetLastFilePatient();
+            lblLastFileCreated.Text = "Last File No: [" + lastFileNo + "]";
+            patientBLL = null;
+        }
+
+        private void LoadPatientList()
+        {
+            if (cmbFilterList.SelectedIndex > 0 )
+            {
+                DataSet dsAudit = new DataSet();
+                ListViewItem lvwItem;
+                AIMS.BLL.Patient patientBLL = new Patient();
+
+                dsAudit = patientBLL.GetPatientDetails(cmbFilterList.SelectedValue.ToString(), cmbFilterItemList.Text);
+                PatientListSetup();
+                lstvwPatientList.Scrollable = true;
+
+                if (dsAudit.Tables.Count > 0)
+                {
+                    for (int i = 0; i < dsAudit.Tables[0].Rows.Count; i++)
+                    {
+                        lvwItem = new ListViewItem(dsAudit.Tables[0].Rows[i]["GUARANTOR_NAME"].ToString());
+                        lvwItem.SubItems.Add(dsAudit.Tables[0].Rows[i]["PATIENT_FILE_NO"].ToString());
+                        lvwItem.SubItems.Add(dsAudit.Tables[0].Rows[i]["PATIENT_NAME"].ToString());
+                        lvwItem.SubItems.Add(dsAudit.Tables[0].Rows[i]["GUARANTOR_REF_NO"].ToString());
+                        lvwItem.SubItems.Add(dsAudit.Tables[0].Rows[i]["SUPPLIER_NAME"].ToString());
+                        lvwItem.SubItems.Add(dsAudit.Tables[0].Rows[i]["CREATION_DTTM"].ToString());
+                        lstvwPatientList.Items.Add(lvwItem);
+                    }
+                }
+            }
+        }
+
+        private void lstvwPatientList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lstvwPatientList_DoubleClick(object sender, EventArgs e)
+        {
+            ListView lstGet = (ListView)sender;
+            try
+            {
+                for (int i = 0; i < lstGet.Items.Count; i++)
+                {
+                    if (lstGet.Items[i].Selected)
+                    {
+                        string patientFileNo = lstGet.Items[i].SubItems[1].Text.ToString();
+                        _selectedPatient = patientFileNo;
+                        LoadPatientDetails();
+                        //LoadPatientDetails(patientFileNo, "Y");
+                        gpbxPatient.Enabled = true;
+                    }
+                }
+            }
+            catch (System.Exception ex)
+            {
+                lstGet = null;
+            }
+        }
+
+        private void tnSearchByFileNo_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(txtSearchFileNo.Text))
+            {
+                lstvwPatientList.Items.Clear();
+                LoadSupplierInfo = true;
+                _selectedPatient = txtSearchFileNo.Text;
+                LoadPatientDetails();
+                //LoadPatientDetails(txtSearchFileNo.Text, "Y");
+                gpbxPatient.Enabled = true;
+                LoadSupplierInfo = false;
+                LoadInvoices();
+            }
+            else
+            {
+                commonFuncs.DisplayMessage(AIMS.Common.CommonTypes.MessagType.Error, "Patient File No Invalid");
+            }            
+        }
+
+        private void btnSearchByRefNo_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(txtSearchGurantorRefNo.Text))
+            {
+                DataSet dsAudit = new DataSet();
+                ListViewItem lvwItem;
+                AIMS.BLL.Patient patientBLL = new Patient();
+
+                dsAudit = patientBLL.GetPatientDetails(txtSearchGurantorRefNo.Text, "Reference");
+                PatientListSetup();
+                lstvwPatientList.Scrollable = true;
+
+                if (dsAudit.Tables.Count > 0)
+                {
+                    for (int i = 0; i < dsAudit.Tables[0].Rows.Count; i++)
+                    {
+                        lvwItem = new ListViewItem(dsAudit.Tables[0].Rows[i]["GUARANTOR_NAME"].ToString());
+                        lvwItem.SubItems.Add(dsAudit.Tables[0].Rows[i]["PATIENT_FILE_NO"].ToString());
+                        lvwItem.SubItems.Add(dsAudit.Tables[0].Rows[i]["PATIENT_NAME"].ToString());
+                        lvwItem.SubItems.Add(dsAudit.Tables[0].Rows[i]["GUARANTOR_REF_NO"].ToString());
+                        lvwItem.SubItems.Add(dsAudit.Tables[0].Rows[i]["SUPPLIER_NAME"].ToString());
+                        lvwItem.SubItems.Add(dsAudit.Tables[0].Rows[i]["CREATION_DTTM"].ToString());
+
+                        lstvwPatientList.Items.Add(lvwItem);
+                    }
+                }
+            }
+            else
+            {
+                commonFuncs.DisplayMessage(AIMS.Common.CommonTypes.MessagType.Error, "Patient Guarantor Invalid");
+            }
+        }
+
+        private void btnSearchByLastName_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(txtSearchLastName.Text))
+            {
+                DataSet dsAudit = new DataSet();
+                ListViewItem lvwItem;
+                AIMS.BLL.Patient patientBLL = new Patient();
+
+                dsAudit = patientBLL.GetPatientDetails(txtSearchLastName.Text, "Surname");
+                PatientListSetup();
+                lstvwPatientList.Scrollable = true;
+
+                if (dsAudit.Tables.Count > 0)
+                {
+                    for (int i = 0; i < dsAudit.Tables[0].Rows.Count; i++)
+                    {
+                        lvwItem = new ListViewItem(dsAudit.Tables[0].Rows[i]["GUARANTOR_NAME"].ToString());
+                        lvwItem.SubItems.Add(dsAudit.Tables[0].Rows[i]["PATIENT_FILE_NO"].ToString());
+                        lvwItem.SubItems.Add(dsAudit.Tables[0].Rows[i]["PATIENT_NAME"].ToString());
+                        lvwItem.SubItems.Add(dsAudit.Tables[0].Rows[i]["GUARANTOR_REF_NO"].ToString());
+                        lvwItem.SubItems.Add(dsAudit.Tables[0].Rows[i]["SUPPLIER_NAME"].ToString());
+                        lvwItem.SubItems.Add(dsAudit.Tables[0].Rows[i]["CREATION_DTTM"].ToString());
+
+                        lstvwPatientList.Items.Add(lvwItem);
+                    }
+                }
+            }
+            else
+            {
+                commonFuncs.DisplayMessage(AIMS.Common.CommonTypes.MessagType.Error, "Patient Last Name Invalid");
+            }
+        }
+
+        private void btnNewFile_Click(object sender, EventArgs e)
+        {
+
+
+
+            Cursor.Current = Cursors.WaitCursor;
+            ClearControls();
+            lblPatientFileNumber.Text = "";
+            DisableControls(false);
+            gpbxPatient.Enabled = true;
+            txtFirstName.Focus();
+            btnSave.Enabled = UserAllowed("5");
+            bAddingANewFile = false;
+            try
+            {
+                frmPatientFileSpawn frmPatientSpawn;
+                frmPatientSpawn = new frmPatientFileSpawn();
+                frmPatientSpawn.ShowInTaskbar = false;
+                frmPatientSpawn.StartPosition = FormStartPosition.CenterScreen;
+                frmPatientSpawn.Text = "Patient File Details ";
+                frmPatientSpawn.PatientFileNo = "";
+                frmPatientSpawn.ShowDialog();
+
+                if (!frmPatientSpawn.PatientFileNo.Equals(""))
+                {
+                    bAddingANewFile = true;
+                    LoadPatientDetails(frmPatientSpawn.PatientFileNo, "N");
+                    gpbxPatient.Enabled = true;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                commonFuncs.DisplayMessage(AIMS.Common.CommonTypes.MessagType.Error, "Service Provider could not load, Error: " + ex.Message);
+            }
+            finally
+            {
+                Cursor.Current = Cursors.Default;
+            }
+        }
+
+        private void btnRefreshFileCount_Click(object sender, EventArgs e)
+        {
+            LastCreatedFileUpdate();
         }
     }
 }

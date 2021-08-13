@@ -737,6 +737,43 @@ namespace AIMS.BLL
             PatientDAL = null;
             return ds;
         }
+
+        public DataSet GetPatientDetails(string filterId, string filterName)
+        {
+            Patient oPatient = new Patient();
+            DataSet ds = new DataSet();
+            PatientDAL PatientDAL = new PatientDAL();
+
+            ds = PatientDAL.GetPatientDetails(filterId, filterName);
+
+            oPatient = null;
+            PatientDAL = null;
+            return ds;
+        }
+
+        public string GetLastFilePatient()
+        {
+            PatientDAL PatientDAL = new PatientDAL();
+            try
+            {
+                return PatientDAL.GetLastFilePatient();
+            }
+            finally
+            {
+                PatientDAL = null;
+            }           
+        }
+
+        public DataSet GetGuarantorRef(string GuarantorRefNo)
+        {
+            Patient oPatient = new Patient();
+            DataSet ds = new DataSet();
+            PatientDAL PatientDAL = new PatientDAL();
+            ds = PatientDAL.GetGuarantorRef(GuarantorRefNo);
+            oPatient = null;
+            PatientDAL = null;
+            return ds;
+        }
         #endregion
 
         #region Get Functions
