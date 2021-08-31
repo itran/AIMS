@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="AssistDAL.cs" />
     <Compile Include="EmailDAL.cs" />
+    <Compile Include="LookUpDAL.cs" />
     <Compile Include="MailboxDAL.cs" />
     <Compile Include="PatientFilterDAL.cs" />
     <Compile Include="DepartmentDAL.cs" />
