@@ -112,23 +112,23 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="btnOK.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
-        iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAMxJREFUSEu1kLER
-        wjAQBN0XZVAEDRDSB3TgiNiEDDXQAA2QEgoO5pj366yRNO9gA6/+VyMPKaVVkTISKSORMhIpI5EyEikj
-        kbKX/WmTCF021AOj4/XwJewCG36+7v/4ZTp/jn8zi0veW3x4KQ6yRQxyGPhzzjBcioPZh1+2F6mwnVFx
-        MPvAEIZvj10Vx2lbjINMYAGLKmipiYNM8BWlS2rjQMrSr2qJAymBekVrHEgJ/K/qiQMpCS8hrXEgpQVR
-        4s9qkDISKSORMo40vAGac6RxDwsp5QAAAABJRU5ErkJggg==
+        iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6
+        JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAzElEQVRIS7WQsRHCMBAE3RdlUAQNENIH
+        dOCI2IQMNdAADZASCg7mmPfrrJE072ADr/5XIw8ppVWRMhIpI5EyEikjkTISKSORspf9aZMIXTbUA6Pj
+        9fAl7AIbfr7u//hlOn+OfzOLS95bfHgpDrJFDHIY+HPOMFyKg9mHX7YXqbCdUXEw+8AQhm+PXRXHaVuM
+        g0xgAYsqaKmJg0zwFaVLauNAytKvaokDKYF6RWscSAn8r+qJAykJLyGtcSClBVHiz2qQMhIpI5EyjjS8
+        AZpzpHEPCynlAAAAAElFTkSuQmCC
 </value>
   </data>
-  <metadata name="errProv.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <metadata name="errProv.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
 </root>

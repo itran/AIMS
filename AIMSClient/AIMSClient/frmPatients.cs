@@ -482,7 +482,7 @@ namespace AIMSClient
             this.grpBoxPatientList.Left = this.grpBoxPatientLookUp.ClientSize.Width + 10;
             this.grpBoxPatientLookUp.Height = Convert.ToInt32(this.ClientSize.Height * 0.30);
             this.grpBoxPatientList.Height = Convert.ToInt32(this.ClientSize.Height * 0.30);
-            this.grpBoxPatientList.Width = (this.gpbxPatient.ClientSize.Width / 2) + 100;
+            this.grpBoxPatientList.Width = (this.gpbxPatient.ClientSize.Width / 2) + 200;
 
             lblLastFileCreated.Top = btnNewFile.Top + 5;
             lblLastFileCreated.Left = btnNewFile.Left + btnNewFile.Width;

@@ -85,6 +85,7 @@ namespace AIMSClient
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Calibri", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.DarkCyan;
             this.label1.Location = new System.Drawing.Point(132, 19);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(183, 26);
@@ -163,6 +164,7 @@ namespace AIMSClient
             // 
             this.lblPassword.AutoSize = true;
             this.lblPassword.BackColor = System.Drawing.Color.Transparent;
+            this.lblPassword.ForeColor = System.Drawing.Color.DarkCyan;
             this.lblPassword.Location = new System.Drawing.Point(64, 96);
             this.lblPassword.Name = "lblPassword";
             this.lblPassword.Size = new System.Drawing.Size(53, 13);
@@ -175,6 +177,7 @@ namespace AIMSClient
             this.lblName.AutoSize = true;
             this.lblName.BackColor = System.Drawing.Color.Transparent;
             this.lblName.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.lblName.ForeColor = System.Drawing.Color.DarkCyan;
             this.lblName.Location = new System.Drawing.Point(62, 62);
             this.lblName.Name = "lblName";
             this.lblName.Size = new System.Drawing.Size(55, 13);
