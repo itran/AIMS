@@ -13,7 +13,8 @@ using PdfSharp.Drawing;
 using PdfSharp.Fonts;
 using PdfSharp.Pdf;
 using PdfSharp.Forms;
-using System.Reflection; 
+using System.Reflection;
+using System.Threading;
 
 namespace AIMSClient
 {
@@ -264,7 +265,7 @@ namespace AIMSClient
                 LastCreatedFileUpdate();
                 //LoadMyMailbox();
                 //GetBccEmailAddress();
-                //LoadTemplates("");
+                LoadTemplates("");
 
             }
             catch (Exception ex)
@@ -5219,6 +5220,7 @@ namespace AIMSClient
 
         private void LoadPatientSentEmails() 
         {
+           
             dsPatientSentEmails = new DataSet(); ;
             ListViewItem lvwItem;
             AIMS.BLL.Patient patientBLL = new Patient();

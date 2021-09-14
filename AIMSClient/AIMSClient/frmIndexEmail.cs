@@ -557,7 +557,9 @@ namespace AIMSClient
                 PodEmailGUID = dtPODData.Rows[0]["EMAIL_GUID"].ToString().ToUpper();
                 EmailMailBoxID = dtPODData.Rows[0]["MAILBOX_ID"].ToString();
 
-                PODFolder = PodDiskLetter + @":\POD" + PodCounter.ToString() + @"\";
+                //PODFolder = PodDiskLetter + @":\POD" + PodCounter.ToString() + @"\";
+                PODFolder = Path.Combine(PodDiskLetter , @"POD" + PodCounter.ToString() + @"\");
+
                 InstrumentationStep = DateTime.Now.TimeOfDay.ToString() + @" - STEP 2 - c";
                 //commonFuncs.ErrorLogger("Indexing Email Steps Instrumentation: " + InstrumentationStep.ToString());
 
@@ -576,7 +578,8 @@ namespace AIMSClient
                 {
                     PodCounter++;
                     //UpdateMailBoxPODCounter(EmailMailBoxID, PodCounter.ToString());
-                    PODFolder = PodDiskLetter + @":\POD" + PodCounter.ToString() + @"\";
+                    //PODFolder = PodDiskLetter + @":\POD" + PodCounter.ToString() + @"\";
+                    PODFolder = Path.Combine(PodDiskLetter , @"POD" + PodCounter.ToString() + @"\");
 
                     //create the POD Directory 
                     if (!Directory.Exists(PODFolder)) { Directory.CreateDirectory(PODFolder); }
@@ -588,7 +591,8 @@ namespace AIMSClient
                 {
                     System.IO.Directory.CreateDirectory(PODFolder + sDir1 + @"\" + sDir2 + @"\" + PodEmailGUID);
                 }
-                EmailStorageFolder = PODFolder + sDir1 + @"\" + sDir2 + @"\" + PodEmailGUID;
+
+                EmailStorageFolder = Path.Combine(PODFolder , sDir1 + @"\" + sDir2 + @"\" + PodEmailGUID);
                 ReturnValue = true;
                 InstrumentationStep = DateTime.Now.TimeOfDay.ToString() + @" - STEP 2 - d";
                 //commonFuncs.ErrorLogger("Indexing Email Steps Instrumentation: " + InstrumentationStep.ToString());

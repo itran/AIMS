@@ -167,6 +167,7 @@ namespace AIMSClient
 
         private void frmNewEmail_Load(object sender, EventArgs e)
         {
+
             AIMS.Common.CommonFunctions commonFuncs = new AIMS.Common.CommonFunctions();
             DataTable dtLimitationInfo = new DataTable();
             string defaultMailboxId = "";

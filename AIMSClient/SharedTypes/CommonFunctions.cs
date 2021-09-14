@@ -1400,6 +1400,9 @@ namespace AIMS.Common
                     case "Finance Department":
                         email = "douglas@aims.org.za";
                         break;
+                    case "Test":
+                        email = "test@aims.org.za";
+                        break;
                     default:
                         email = "operations@aims.org.za";
                         break;
@@ -2002,7 +2005,8 @@ namespace AIMS.Common
                 PodEmailGUID = dtPODData.Rows[0]["EMAIL_GUID"].ToString().ToUpper();
                 EmailMailBoxID = dtPODData.Rows[0]["MAILBOX_ID"].ToString();
 
-                PODFolder = PodDiskLetter + @":\POD" + PodCounter.ToString() + @"\";
+                //PODFolder = PodDiskLetter + @":\POD" + PodCounter.ToString() + @"\";
+                PODFolder = Path.Combine (PodDiskLetter , @"POD" + PodCounter.ToString() + @"\");
 
                 //create the POD Directory 
                 if (!Directory.Exists(PODFolder)) { Directory.CreateDirectory(PODFolder); }
@@ -2019,7 +2023,8 @@ namespace AIMS.Common
                 {
                     PodCounter++;
                     UpdateMailBoxPODCounter(EmailMailBoxID, PodCounter.ToString());
-                    PODFolder = PodDiskLetter + @":\POD" + PodCounter.ToString() + @"\";
+                    //PODFolder = PodDiskLetter + @":\POD" + PodCounter.ToString() + @"\";
+                    PODFolder = Path.Combine(PodDiskLetter , @"POD" + PodCounter.ToString() + @"\");
 
                     //create the POD Directory 
                     if (!Directory.Exists(PODFolder)) { Directory.CreateDirectory(PODFolder); }
@@ -2065,13 +2070,16 @@ namespace AIMS.Common
                 PodEmailGUID = dtPODData.Rows[0]["EMAIL_GUID"].ToString().ToUpper();
                 EmailMailBoxID = dtPODData.Rows[0]["MAILBOX_ID"].ToString();
 
-                PODFolder = PodDiskLetter + @":\POD" + PodCounter.ToString() + @"\";
+                //PODFolder = PodDiskLetter + @":\POD" + PodCounter.ToString() + @"\";
+                PODFolder = Path.Combine(PodDiskLetter, @"POD" + PodCounter.ToString() + @"\");
 
                 //create the POD Directory 
                 if (!Directory.Exists(PODFolder)) { Directory.CreateDirectory(PODFolder); }
                 double PodByteSize = GetPODDirectorySize(PODFolder, ref PODSizeCheckError);
 
-                PODFolder = PodDiskLetter + @":\POD" + PodCounter.ToString() + @"\AIMS_SENT_EMAILS\";
+                //PODFolder = PodDiskLetter + @":\POD" + PodCounter.ToString() + @"\AIMS_SENT_EMAILS\";
+                PODFolder = Path.Combine(PodDiskLetter , @"POD" + PodCounter.ToString() + @"\AIMS_SENT_EMAILS\");
+
                 //create the POD Directory 
                 if (!Directory.Exists(PODFolder)) { Directory.CreateDirectory(PODFolder); }
                 
@@ -2085,12 +2093,14 @@ namespace AIMS.Common
                 {
                     PodCounter++;
                     UpdateMailBoxPODCounter(EmailMailBoxID, PodCounter.ToString());
-                    PODFolder = PodDiskLetter + @":\POD" + PodCounter.ToString() + @"\";
+                    //PODFolder = PodDiskLetter + @":\POD" + PodCounter.ToString() + @"\";
+                    PODFolder = Path.Combine(PodDiskLetter, @"POD" + PodCounter.ToString() + @"\");
 
                     //create the POD Directory 
                     if (!Directory.Exists(PODFolder)) { Directory.CreateDirectory(PODFolder); }
 
-                    PODFolder = PodDiskLetter + @":\POD" + PodCounter.ToString() + @"\AIMS_SENT_EMAILS\";
+                    //PODFolder = PodDiskLetter + @":\POD" + PodCounter.ToString() + @"\AIMS_SENT_EMAILS\";
+                    PODFolder = Path.Combine(PodDiskLetter,  @"POD" + PodCounter.ToString() + @"\AIMS_SENT_EMAILS\");
 
                     //create the POD Directory 
                     if (!Directory.Exists(PODFolder)) { Directory.CreateDirectory(PODFolder); }
@@ -3108,54 +3118,6 @@ namespace AIMS.Common
             System.Net.ServicePointManager.ServerCertificateValidationCallback += new RemoteCertificateValidationCallback(ValidateRemoteCertificate);
         }
 
-        public static void CreateMessageWithMultipleViews(string server, string recipients)
-        {
-            // Create a message and set up the recipients.
-            MailMessage message = new MailMessage(
-                "jane@contoso.com",
-                recipients,
-                "This email message has multiple views.",
-                "This is some plain text.");
-
-            // Construct the alternate body as HTML.
-            string body = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">";
-            body += "<HTML><HEAD><META http-equiv=Content-Type content=\"text/html; charset=iso-8859-1\">";
-            body += "</HEAD><BODY><DIV><FONT face=Arial color=#ff0000 size=2>this is some HTML text";
-            body += "</FONT></DIV></BODY></HTML>";
-
-            ContentType mimeType = new System.Net.Mime.ContentType("text/html");
-            // Add the alternate body to the message.
-
-            AlternateView alternate = AlternateView.CreateAlternateViewFromString(body, mimeType);
-            message.AlternateViews.Add(alternate);
-
-            // Send the message.
-            SmtpClient client = new SmtpClient(server);
-            
-
-            try
-            {
-                client.Send(message);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Exception caught in CreateMessageWithMultipleViews(): {0}",
-                    ex.ToString());
-            }
-            // Display the values in the ContentType for the attachment.
-            ContentType c = alternate.ContentType;
-            Console.WriteLine("Content type");
-            Console.WriteLine(c.ToString());
-            Console.WriteLine("Boundary {0}", c.Boundary);
-            Console.WriteLine("CharSet {0}", c.CharSet);
-            Console.WriteLine("MediaType {0}", c.MediaType);
-            Console.WriteLine("Name {0}", c.Name);
-            Console.WriteLine("Parameters: {0}", c.Parameters.Count);
-
-            Console.WriteLine();
-            alternate.Dispose();
-        }
-
         private bool EWSSendEmailNow(string EmailBody,
                                     string EmailFrom,
                                     string EmailFromName,
@@ -3173,11 +3135,17 @@ namespace AIMS.Common
             {
                 myservice = GetBindingOffice365("Admin@AIMS.org.za", "s@eCahU5", "Admin", "https://outlook.office365.com/EWS/Exchange.asmx");
             }
-            else
+
+            if (EmailFrom.Equals("operation@aims.org.za", StringComparison.OrdinalIgnoreCase))
             {
                 myservice = GetBindingOffice365("operation@aims.org.za", "Tra2As+u", "operation", "https://outlook.office365.com/EWS/Exchange.asmx");
             }
-            
+
+            if (EmailFrom.Equals("test@aims.org.za", StringComparison.OrdinalIgnoreCase))
+            {
+                myservice = GetBindingOffice365("test@aims.org.za", "Legacy@Aims1", "test", "https://outlook.office365.com/EWS/Exchange.asmx");
+            }
+
             AssignCertificatesOffice365();
             try
             {

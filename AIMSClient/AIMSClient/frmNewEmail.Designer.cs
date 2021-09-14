@@ -37,10 +37,6 @@ namespace AIMSClient
             this.label1 = new System.Windows.Forms.Label();
             this.lnkAttachFile = new System.Windows.Forms.LinkLabel();
             this.label2 = new System.Windows.Forms.Label();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.demoRichText = new System.Windows.Forms.RichTextBox();
-            this.emailBody = new DevExpress.XtraRichEdit.RichEditControl();
-            this.txtNewEmailBody = new System.Windows.Forms.RichTextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.lstEmailAttachment = new System.Windows.Forms.ListView();
             this.btnNewEmailSend = new System.Windows.Forms.Button();
@@ -57,22 +53,27 @@ namespace AIMSClient
             this.btnAddressBookLookUp = new System.Windows.Forms.Button();
             this.chkSpellCheck = new System.Windows.Forms.CheckBox();
             this.chkEmailSignatue = new System.Windows.Forms.CheckBox();
-            this.groupBox2.SuspendLayout();
+            this.txtNewEmailBody = new System.Windows.Forms.RichTextBox();
+            this.emailBody = new DevExpress.XtraRichEdit.RichEditControl();
+            this.demoRichText = new System.Windows.Forms.RichTextBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errProv)).BeginInit();
             this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // spelling
             // 
             this.spelling.Dictionary = this.wordDictionary;
-            this.spelling.EndOfText += new NetSpell.SpellChecker.Spelling.EndOfTextEventHandler(this.spelling_EndOfText);
             this.spelling.DeletedWord += new NetSpell.SpellChecker.Spelling.DeletedWordEventHandler(this.spelling_DeletedWord);
-            this.spelling.ReplacedWord += new NetSpell.SpellChecker.Spelling.ReplacedWordEventHandler(this.spelling_ReplacedWord);
+            this.spelling.EndOfText += new NetSpell.SpellChecker.Spelling.EndOfTextEventHandler(this.spelling_EndOfText);
             this.spelling.MisspelledWord += new NetSpell.SpellChecker.Spelling.MisspelledWordEventHandler(this.SpellChecker_MisspelledWord);
+            this.spelling.ReplacedWord += new NetSpell.SpellChecker.Spelling.ReplacedWordEventHandler(this.spelling_ReplacedWord);
             // 
             // wordDictionary
             // 
+            this.wordDictionary.DictionaryFile = "en-ZA.dic";
             this.wordDictionary.DictionaryFolder = ((string)(configurationAppSettings.GetValue("wordDictionary.DictionaryFolder", typeof(string))));
             // 
             // txtNewEmailTo
@@ -112,51 +113,6 @@ namespace AIMSClient
             this.label2.TabIndex = 3;
             this.label2.Text = "To";
             // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.demoRichText);
-            this.groupBox2.Controls.Add(this.emailBody);
-            this.groupBox2.Controls.Add(this.txtNewEmailBody);
-            this.groupBox2.Location = new System.Drawing.Point(9, 165);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(1049, 433);
-            this.groupBox2.TabIndex = 16;
-            this.groupBox2.TabStop = false;
-            // 
-            // demoRichText
-            // 
-            this.demoRichText.Location = new System.Drawing.Point(246, -33);
-            this.demoRichText.Name = "demoRichText";
-            this.demoRichText.Size = new System.Drawing.Size(100, 96);
-            this.demoRichText.TabIndex = 20;
-            this.demoRichText.Text = "";
-            this.demoRichText.Visible = false;
-            // 
-            // emailBody
-            // 
-            this.emailBody.ActiveViewType = DevExpress.XtraRichEdit.RichEditViewType.Draft;
-            this.emailBody.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Office2003;
-            this.emailBody.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.emailBody.Location = new System.Drawing.Point(3, 16);
-            this.emailBody.LookAndFeel.Style = DevExpress.LookAndFeel.LookAndFeelStyle.Flat;
-            this.emailBody.Name = "emailBody";
-            this.emailBody.Options.AutoCorrect.UseSpellCheckerSuggestions = true;
-            this.emailBody.Options.DocumentCapabilities.Numbering.Bulleted = DevExpress.XtraRichEdit.DocumentCapability.Enabled;
-            this.emailBody.Options.DocumentSaveOptions.DefaultFormat = DevExpress.XtraRichEdit.DocumentFormat.Html;
-            this.emailBody.Size = new System.Drawing.Size(1043, 414);
-            this.emailBody.TabIndex = 2;
-            // 
-            // txtNewEmailBody
-            // 
-            this.txtNewEmailBody.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtNewEmailBody.EnableAutoDragDrop = true;
-            this.txtNewEmailBody.Location = new System.Drawing.Point(3, 218);
-            this.txtNewEmailBody.Name = "txtNewEmailBody";
-            this.txtNewEmailBody.Size = new System.Drawing.Size(735, 146);
-            this.txtNewEmailBody.TabIndex = 1;
-            this.txtNewEmailBody.Text = "";
-            this.txtNewEmailBody.Visible = false;
-            // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.lstEmailAttachment);
@@ -169,6 +125,7 @@ namespace AIMSClient
             // lstEmailAttachment
             // 
             this.lstEmailAttachment.CheckBoxes = true;
+            this.lstEmailAttachment.HideSelection = false;
             this.lstEmailAttachment.Location = new System.Drawing.Point(7, 19);
             this.lstEmailAttachment.Name = "lstEmailAttachment";
             this.lstEmailAttachment.Size = new System.Drawing.Size(1038, 82);
@@ -322,6 +279,52 @@ namespace AIMSClient
             this.chkEmailSignatue.UseVisualStyleBackColor = true;
             this.chkEmailSignatue.CheckedChanged += new System.EventHandler(this.chkEmailSignatue_CheckedChanged);
             // 
+            // txtNewEmailBody
+            // 
+            this.txtNewEmailBody.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtNewEmailBody.EnableAutoDragDrop = true;
+            this.txtNewEmailBody.Location = new System.Drawing.Point(3, 218);
+            this.txtNewEmailBody.Name = "txtNewEmailBody";
+            this.txtNewEmailBody.Size = new System.Drawing.Size(735, 146);
+            this.txtNewEmailBody.TabIndex = 1;
+            this.txtNewEmailBody.Text = "";
+            this.txtNewEmailBody.Visible = false;
+            // 
+            // emailBody
+            // 
+            this.emailBody.ActiveViewType = DevExpress.XtraRichEdit.RichEditViewType.Draft;
+            this.emailBody.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.Office2003;
+            this.emailBody.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.emailBody.LayoutUnit = DevExpress.XtraRichEdit.DocumentLayoutUnit.Pixel;
+            this.emailBody.Location = new System.Drawing.Point(3, 16);
+            this.emailBody.LookAndFeel.Style = DevExpress.LookAndFeel.LookAndFeelStyle.Flat;
+            this.emailBody.Name = "emailBody";
+            this.emailBody.Options.AutoCorrect.UseSpellCheckerSuggestions = true;
+            this.emailBody.Options.DocumentCapabilities.Numbering.Bulleted = DevExpress.XtraRichEdit.DocumentCapability.Enabled;
+            this.emailBody.Options.DocumentSaveOptions.DefaultFormat = DevExpress.XtraRichEdit.DocumentFormat.Html;
+            this.emailBody.Size = new System.Drawing.Size(1043, 414);
+            this.emailBody.TabIndex = 2;
+            // 
+            // demoRichText
+            // 
+            this.demoRichText.Location = new System.Drawing.Point(351, 49);
+            this.demoRichText.Name = "demoRichText";
+            this.demoRichText.Size = new System.Drawing.Size(100, 96);
+            this.demoRichText.TabIndex = 20;
+            this.demoRichText.Text = "";
+            this.demoRichText.Visible = false;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.demoRichText);
+            this.groupBox2.Controls.Add(this.emailBody);
+            this.groupBox2.Controls.Add(this.txtNewEmailBody);
+            this.groupBox2.Location = new System.Drawing.Point(9, 165);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(1049, 433);
+            this.groupBox2.TabIndex = 16;
+            this.groupBox2.TabStop = false;
+            // 
             // frmNewEmail
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -340,11 +343,11 @@ namespace AIMSClient
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "New Mail";
             this.Load += new System.EventHandler(this.frmNewEmail_Load);
-            this.groupBox2.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.errProv)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -356,9 +359,6 @@ namespace AIMSClient
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.LinkLabel lnkAttachFile;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private DevExpress.XtraRichEdit.RichEditControl emailBody;
-        private System.Windows.Forms.RichTextBox txtNewEmailBody;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.ListView lstEmailAttachment;
         private System.Windows.Forms.Button btnNewEmailSend;
@@ -371,12 +371,13 @@ namespace AIMSClient
         private System.Windows.Forms.CheckBox chkSpellCheck;
         private System.Windows.Forms.CheckBox chkCCOPS;
         private System.Windows.Forms.Button btnAddressBookLookUp;
-        private System.Windows.Forms.RichTextBox demoRichText;
         private System.Windows.Forms.TextBox txtEmailToCC;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.CheckBox chkEmailSignatue;
-
-
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.RichTextBox demoRichText;
+        private DevExpress.XtraRichEdit.RichEditControl emailBody;
+        private System.Windows.Forms.RichTextBox txtNewEmailBody;
     }
 }

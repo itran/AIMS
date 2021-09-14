@@ -431,17 +431,6 @@ namespace AIMS.EWS
                     MailBoxEWSEmailDownloadFolder = dr["MAILBOX_EMAILS_STORE_FOLDER"].ToString();
                     MailBoxArchivingFolder = dr["MAILBOX_ARCHIVE_FOLDER_NAME"].ToString();
 
-                    if (!MailBoxEWSEmailDownloadFolder.EndsWith(@"\"))
-                    {
-                        MailBoxEWSEmailDownloadFolder += MailBoxEWSEmailDownloadFolder + @"\";
-                    }
-
-                    if (!Directory.Exists(MailBoxEWSEmailDownloadFolder))
-                    {
-                        ErrorLog("Creating Directory: " + MailBoxEWSEmailDownloadFolder);
-                        Directory.CreateDirectory(MailBoxEWSEmailDownloadFolder);
-                    }
-
                     object obj1 = new object();
                     string office365EnabledYN = "";
                     DataTable dtOffice365Check = GetLimitationCodeValue("OFFICE_365_ENABLED");
@@ -599,18 +588,19 @@ namespace AIMS.EWS
 
                                 bSaveEmailInfo = AIMS_EWS_Save_EmailInfo(ref EmailID, EmailUniqueID, EmailSubject, EmailReceivedDTTM.ToString(), EmailFromName, EmailFromAddress, EmailTo, MailBoxID, EmailUniqueGUID, EmailToCC);
 
+                                string emailFolder = Path.Combine(MailBoxEWSEmailDownloadFolder,  sDir1 + @"\" + sDir2 + @"\" + EmailUniqueGUID);
                                 if (bSaveEmailInfo)
                                 {
                                     WriteEventLog("Email Info Successfully Saved.");
 
-                                    if (!System.IO.Directory.Exists(MailBoxEWSEmailDownloadFolder + sDir1 + @"\" + sDir2 + @"\" + EmailUniqueGUID))
+                                    if (!System.IO.Directory.Exists(emailFolder))
                                     {
-                                        System.IO.Directory.CreateDirectory(MailBoxEWSEmailDownloadFolder + sDir1 + @"\" + sDir2 + @"\" + EmailUniqueGUID);
+                                        System.IO.Directory.CreateDirectory(emailFolder);
                                     }
 
-                                    sEmailDownLoadFolder = MailBoxEWSEmailDownloadFolder + sDir1 + @"\" + sDir2 + @"\" + EmailUniqueGUID + @"\";
+                                    sEmailDownLoadFolder = emailFolder;
 
-                                    EmailBodyFileName = sEmailDownLoadFolder + EmailUniqueGUID + ".HTML";
+                                    EmailBodyFileName = Path.Combine(sEmailDownLoadFolder , EmailUniqueGUID + ".HTML");
                                     if (EmailBody == null)
                                     {
                                         EmailBody = "";
@@ -1138,9 +1128,9 @@ namespace AIMS.EWS
                         fileAttachment.Load(theStream);
                         theStream.Close();
                         theStream.Dispose();
-                        ffInfo = new FileInfo(EAttachmentTempFolder + AttachmentFileName);
-                        ffInfo.MoveTo(EAttachmentTempFolder  + AttachmentFileName);
-                        EmailAttachmentFile = EAttachmentTempFolder + AttachmentFileName;
+                        ffInfo = new FileInfo(Path.Combine(EAttachmentTempFolder , AttachmentFileName));
+                        ffInfo.MoveTo(Path.Combine(EAttachmentTempFolder  , AttachmentFileName));
+                        EmailAttachmentFile = Path.Combine(EAttachmentTempFolder , AttachmentFileName);
                     }
                     else // Attachment is an item attachment.
                     {
@@ -1163,6 +1153,9 @@ namespace AIMS.EWS
                                 emlBodyTypeExt = ".TXT";
                             }
 
+                            if (@EAttachmentTempFolder.EndsWith(@"\"))
+                                EAttachmentTempFolder+= @"\";
+                            
                             EMLBodyFile = CreateEMLMailBody(EAttachmentTempFolder + EmailUniqueID + "_" + AttachCnt + "_" + "EMAIL_EML" + emlBodyTypeExt, emlEmailBody); 
                         }
 
