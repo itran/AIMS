@@ -13,7 +13,8 @@ using PdfSharp.Drawing;
 using PdfSharp.Fonts;
 using PdfSharp.Pdf;
 using PdfSharp.Forms;
-using System.Reflection; 
+using System.Reflection;
+using System.Threading;
 
 namespace AIMSClient
 {
@@ -264,7 +265,7 @@ namespace AIMSClient
                 LastCreatedFileUpdate();
                 //LoadMyMailbox();
                 //GetBccEmailAddress();
-                //LoadTemplates("");
+                LoadTemplates("");
 
             }
             catch (Exception ex)
@@ -482,7 +483,7 @@ namespace AIMSClient
             this.grpBoxPatientList.Left = this.grpBoxPatientLookUp.ClientSize.Width + 10;
             this.grpBoxPatientLookUp.Height = Convert.ToInt32(this.ClientSize.Height * 0.30);
             this.grpBoxPatientList.Height = Convert.ToInt32(this.ClientSize.Height * 0.30);
-            this.grpBoxPatientList.Width = (this.gpbxPatient.ClientSize.Width / 2) + 100;
+            this.grpBoxPatientList.Width = (this.gpbxPatient.ClientSize.Width / 2) + 200;
 
             lblLastFileCreated.Top = btnNewFile.Top + 5;
             lblLastFileCreated.Left = btnNewFile.Left + btnNewFile.Width;
@@ -5219,6 +5220,7 @@ namespace AIMSClient
 
         private void LoadPatientSentEmails() 
         {
+           
             dsPatientSentEmails = new DataSet(); ;
             ListViewItem lvwItem;
             AIMS.BLL.Patient patientBLL = new Patient();

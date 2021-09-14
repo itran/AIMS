@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\AIMSClient",
+    "\\Legacy 4.0"
   ],
-  "SelectedNode": "\\Legacy 4.0",
+  "SelectedNode": "\\AIMSClient\\AIMSClient_LIVE.sln",
   "PreviewInSolutionExplorer": false
 }

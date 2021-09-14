@@ -21,6 +21,13 @@ using PdfSharp.Forms;
 using iTextSharp.text;
 using iTextSharp.text.html.simpleparser;
 using iTextSharp.text.pdf;
+using Microsoft.Exchange.WebServices.Data;
+using System.Configuration;
+using System.Net.Mail;
+using Microsoft.Exchange.WebServices.Autodiscover;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
+using System.Net.Mime;
 
 namespace AIMS.Common
 {
@@ -1187,11 +1194,12 @@ namespace AIMS.Common
 
                 if (bContinue)
                 {
-                    bResults = oEmailer.SendEmail(sEmailBody.Replace("5.4pt", "0pt"), EmailFrom, EmailFromName, EmailSubject, EmailTo, EmailAttachments, KillFiles, EmailCC, EmailBcc);
+                    //bResults = oEmailer.SendEmail(sEmailBody.Replace("5.4pt", "0pt"), EmailFrom, EmailFromName, EmailSubject, EmailTo, EmailAttachments, KillFiles, EmailCC, EmailBcc);
+                    bResults =    EWSSendEmailNow(sEmailBody.Replace("5.4pt", "0pt"), EmailFrom, EmailFromName, EmailSubject, EmailTo, EmailAttachments, KillFiles, EmailCC, EmailBcc);
                     //if (true)
                     //{
                     //    bResults = oEmailer.SendEmail(sEmailBody.Replace("5.4pt", "0pt"), EmailFrom, EmailFromName, EmailSubject, EmailTo, EmailAttachments, KillFiles, EmailCC, EmailBcc);
-                        
+
                     //}
                 }
                 else
@@ -1392,6 +1400,9 @@ namespace AIMS.Common
                     case "Finance Department":
                         email = "douglas@aims.org.za";
                         break;
+                    case "Test":
+                        email = "test@aims.org.za";
+                        break;
                     default:
                         email = "operations@aims.org.za";
                         break;
@@ -1427,17 +1438,19 @@ namespace AIMS.Common
             if (!includePasswordNote)
                 passwordNote = "";
 
-            return passwordNote + "<p><table width='30%' style='font-family:Calibri;font-size:16px'>" +
+            passwordNote += "<p><table width='50%' style='font-family:Calibri;font-size:16px'>" +
                             "<tr><td>Kind Regards,</td></tr><tr><td>" + fullname + "</td></tr>" +
                             "<tr><td>" + jobtitle + "</td></tr>" +
                             "<tr><td><b>" + department + " - Department</b></td></tr>" +
                             "<tr><td><b>E-mail:</b></td><td>" + emailaddress + "</td></tr>" +
                             "<tr><td><b>Website:</b></td><td>www.aims.org.za</td></tr>" +
                             "<tr><td><b>Tel:</b></td><td>+27 (0) 11 783 0135</td></tr>" +
-                            "<tr><td><b>Fax:</b></td><td>+27 (0) 11 463 3583</td>11</tr>" +
+                            "<tr><td><b>Fax:</b></td><td>+27 (0) 11 463 3583</td></tr>" +
                             "<tr><td><b>Fax to Mail:</b></td><td>+27 (0) 86 457 0764</td></tr>" +
                             "</table></p>" +
                             "<p><table align='left'><tr><td>##SIGNATURE_LOGO##</td></tr></table></p>" +  emaildisclaimer;
+
+            return passwordNote;
         }
         public bool EmailInvoice(string PatientFileNo, string InvoiceID, string userName)
         {
@@ -1992,7 +2005,8 @@ namespace AIMS.Common
                 PodEmailGUID = dtPODData.Rows[0]["EMAIL_GUID"].ToString().ToUpper();
                 EmailMailBoxID = dtPODData.Rows[0]["MAILBOX_ID"].ToString();
 
-                PODFolder = PodDiskLetter + @":\POD" + PodCounter.ToString() + @"\";
+                //PODFolder = PodDiskLetter + @":\POD" + PodCounter.ToString() + @"\";
+                PODFolder = Path.Combine (PodDiskLetter , @"POD" + PodCounter.ToString() + @"\");
 
                 //create the POD Directory 
                 if (!Directory.Exists(PODFolder)) { Directory.CreateDirectory(PODFolder); }
@@ -2009,7 +2023,8 @@ namespace AIMS.Common
                 {
                     PodCounter++;
                     UpdateMailBoxPODCounter(EmailMailBoxID, PodCounter.ToString());
-                    PODFolder = PodDiskLetter + @":\POD" + PodCounter.ToString() + @"\";
+                    //PODFolder = PodDiskLetter + @":\POD" + PodCounter.ToString() + @"\";
+                    PODFolder = Path.Combine(PodDiskLetter , @"POD" + PodCounter.ToString() + @"\");
 
                     //create the POD Directory 
                     if (!Directory.Exists(PODFolder)) { Directory.CreateDirectory(PODFolder); }
@@ -2055,13 +2070,16 @@ namespace AIMS.Common
                 PodEmailGUID = dtPODData.Rows[0]["EMAIL_GUID"].ToString().ToUpper();
                 EmailMailBoxID = dtPODData.Rows[0]["MAILBOX_ID"].ToString();
 
-                PODFolder = PodDiskLetter + @":\POD" + PodCounter.ToString() + @"\";
+                //PODFolder = PodDiskLetter + @":\POD" + PodCounter.ToString() + @"\";
+                PODFolder = Path.Combine(PodDiskLetter, @"POD" + PodCounter.ToString() + @"\");
 
                 //create the POD Directory 
                 if (!Directory.Exists(PODFolder)) { Directory.CreateDirectory(PODFolder); }
                 double PodByteSize = GetPODDirectorySize(PODFolder, ref PODSizeCheckError);
 
-                PODFolder = PodDiskLetter + @":\POD" + PodCounter.ToString() + @"\AIMS_SENT_EMAILS\";
+                //PODFolder = PodDiskLetter + @":\POD" + PodCounter.ToString() + @"\AIMS_SENT_EMAILS\";
+                PODFolder = Path.Combine(PodDiskLetter , @"POD" + PodCounter.ToString() + @"\AIMS_SENT_EMAILS\");
+
                 //create the POD Directory 
                 if (!Directory.Exists(PODFolder)) { Directory.CreateDirectory(PODFolder); }
                 
@@ -2075,12 +2093,14 @@ namespace AIMS.Common
                 {
                     PodCounter++;
                     UpdateMailBoxPODCounter(EmailMailBoxID, PodCounter.ToString());
-                    PODFolder = PodDiskLetter + @":\POD" + PodCounter.ToString() + @"\";
+                    //PODFolder = PodDiskLetter + @":\POD" + PodCounter.ToString() + @"\";
+                    PODFolder = Path.Combine(PodDiskLetter, @"POD" + PodCounter.ToString() + @"\");
 
                     //create the POD Directory 
                     if (!Directory.Exists(PODFolder)) { Directory.CreateDirectory(PODFolder); }
 
-                    PODFolder = PodDiskLetter + @":\POD" + PodCounter.ToString() + @"\AIMS_SENT_EMAILS\";
+                    //PODFolder = PodDiskLetter + @":\POD" + PodCounter.ToString() + @"\AIMS_SENT_EMAILS\";
+                    PODFolder = Path.Combine(PodDiskLetter,  @"POD" + PodCounter.ToString() + @"\AIMS_SENT_EMAILS\");
 
                     //create the POD Directory 
                     if (!Directory.Exists(PODFolder)) { Directory.CreateDirectory(PODFolder); }
@@ -3062,6 +3082,128 @@ namespace AIMS.Common
             {
 
             }
+        }
+        ExchangeService GetBindingOffice365(string MailBoxUserName, string MailBoxUserPassword, string MailBoxDomain, string MailEWSURL)
+        {
+            ExchangeService service = new ExchangeService(ExchangeVersion.Exchange2013_SP1);
+            try
+            {
+                WebCredentials webCred = new WebCredentials(MailBoxUserName, MailBoxUserPassword, MailBoxDomain);
+                service.Credentials = webCred;
+                service.Url = new Uri(MailEWSURL);
+            }
+            catch (Microsoft.Exchange.WebServices.Data.ServiceLocalException ex)
+            {
+
+            }
+            return service;
+        }
+
+        private  bool ValidateRemoteCertificate(object sender, X509Certificate cert, X509Chain chain, SslPolicyErrors policyErrors)
+        {
+            bool result = false;
+            //if (cert.Subject.ToUpper().Contains("DC1"))     {         
+            result = true;
+            //}      
+            return result;
+        }
+
+
+        private void AssignCertificatesOffice365()
+        {
+            System.Net.ServicePointManager.ServerCertificateValidationCallback = ((sender, certificate, chain, sslPolicyErrors) => true);
+
+            object obj1 = new object();
+
+            System.Net.ServicePointManager.ServerCertificateValidationCallback += new RemoteCertificateValidationCallback(ValidateRemoteCertificate);
+        }
+
+        private bool EWSSendEmailNow(string EmailBody,
+                                    string EmailFrom,
+                                    string EmailFromName,
+                                    string EmailSubject,
+                                    string EmailTo,
+                                    string EmailAttachments,
+                                    bool KillFiles,
+                                    string EmailCC,
+                                    string EmailBcc)
+        {
+            CommonFunctions cmmnFuncs = new CommonFunctions();
+            ExchangeService myservice = null;
+            cmmnFuncs.ErrorLogger("Start Sending Using EWS Office");
+            if (EmailFrom.Equals("admin@aims.org.za",StringComparison.OrdinalIgnoreCase))
+            {
+                myservice = GetBindingOffice365("Admin@AIMS.org.za", "s@eCahU5", "Admin", "https://outlook.office365.com/EWS/Exchange.asmx");
+            }
+
+            if (EmailFrom.Equals("operation@aims.org.za", StringComparison.OrdinalIgnoreCase))
+            {
+                myservice = GetBindingOffice365("operation@aims.org.za", "Tra2As+u", "operation", "https://outlook.office365.com/EWS/Exchange.asmx");
+            }
+
+            if (EmailFrom.Equals("test@aims.org.za", StringComparison.OrdinalIgnoreCase))
+            {
+                myservice = GetBindingOffice365("test@aims.org.za", "Legacy@Aims1", "test", "https://outlook.office365.com/EWS/Exchange.asmx");
+            }
+
+            AssignCertificatesOffice365();
+            try
+            {
+                EmailMessage emailMessage = new EmailMessage(myservice);
+                string contentID = Guid.NewGuid().ToString();
+                string htmlBody = EmailBody.Replace("##SIGNATURE_LOGO##", @"<img border=0 width=318 height=123 src='cid:" + contentID + "'/>");
+
+                FileAttachment attachment = emailMessage.Attachments.AddFileAttachment(@"C:\AIMS Recorder\image001.jpg");
+                attachment.ContentId = contentID;
+                attachment.IsInline = true;
+                attachment.ContentType = "Jpeg";
+                
+                emailMessage.Subject = EmailSubject;
+                emailMessage.Body = htmlBody;
+                emailMessage.Body.BodyType = BodyType.HTML;
+
+
+                string[] globalTeamEmails = EmailTo.Split(new Char[] { ';' });
+                foreach (string globalEmail in globalTeamEmails)
+                {
+                    if (!globalEmail.Trim().Equals(""))
+                    {
+                        emailMessage.ToRecipients.Add(globalEmail.Trim());
+                    }
+                }
+
+                globalTeamEmails = EmailCC.Split(new Char[] { ';' });
+                foreach (string globalEmail in globalTeamEmails)
+                {
+                    if (!globalEmail.Trim().Equals(""))
+                    {
+                        emailMessage.ToRecipients.Add(globalEmail.Trim());
+                    }
+                }
+
+                globalTeamEmails = EmailAttachments.Split(new Char[] { ';' });
+                foreach (string globalEmail in globalTeamEmails)
+                {
+                    if (!globalEmail.Trim().Equals(""))
+                    {
+                        emailMessage.Attachments.AddFileAttachment(globalEmail);
+                    }
+                }
+                cmmnFuncs.ErrorLogger("Start Email Transmission");
+                emailMessage.Send();
+                cmmnFuncs.ErrorLogger("Email Transmission Successful sent to: ");
+            }
+            catch (SmtpException exception)
+            {
+                cmmnFuncs.ErrorLogger("Email Transmission SmtpException Exception/ERROR: " + exception.ToString());
+                return false;
+            }
+            catch (AutodiscoverRemoteException exception)
+            {
+                cmmnFuncs.ErrorLogger("Email Transmission AutodiscoverRemoteException Exception/ERROR: " + exception.ToString());
+                return false;
+            }
+            return true;
         }
     }
 

@@ -40,5 +40,10 @@ namespace Legacy.WPFRegionalManager.Views
             this.DataContext = vm;
             _vm = vm;
         }
+
+        private void PatientList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

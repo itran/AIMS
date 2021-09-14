@@ -249,6 +249,7 @@ namespace AIMSClient
 
         private void questionGroupBox_Click(object sender, EventArgs e)
         {
+            commonFuncs = new AIMS.Common.CommonFunctions();
             string  coOrdinator = ((GroupBox)sender).Name;
             
             string CoOrdinatorName = coOrdinator;
@@ -270,11 +271,14 @@ namespace AIMSClient
                 }
                 catch (Exception ex)
                 {
-                    commonFuncs.DisplayMessage(AIMS.Common.CommonTypes.MessagType.Error, ex.Message);
+                    commonFuncs.ErrorLogger("Display Co-Ordinator Form Error : " + ex.ToString());
+                    commonFuncs.DisplayMessage(AIMS.Common.CommonTypes.MessagType.Error, ex.ToString());
                 }
             }
             catch (System.Exception ex)
             {
+                commonFuncs.ErrorLogger("Display Co-Ordinator error : " + ex.ToString());
+                commonFuncs.DisplayMessage(AIMS.Common.CommonTypes.MessagType.Error, ex.Message);
             }
         }
 
@@ -674,6 +678,11 @@ namespace AIMSClient
         }
 
         private void lblCountDown_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
         {
 
         }
