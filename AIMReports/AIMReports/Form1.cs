@@ -33,10 +33,10 @@ namespace AIMS.EWS
 
             //GenerateInPatient("Bernadette@aims.org.za;Stanley@aims.org.za;Hendrikj@aims.org.za;dominicb@aims.org.za;interim@aims.org.za;operations@aims.org.za;eric@aims.org.za;annick@aims.org.za");
             //GenerateOutPatient("Bernadette@aims.org.za;Stanley@aims.org.za;Hendrikj@aims.org.za;dominicb@aims.org.za;interim@aims.org.za;operations@aims.org.za;eric@aims.org.za;annick@aims.org.za");
-
+            GenerateAdminDischargeList();
 
             //GenerateAfterHoursFiles();
-            GenerateWorkBaskets();
+            //GenerateWorkBaskets();
             //GenerateWorkBasketsAdmin();
             //GenerateFilesNotAssignedToAdmin();
             //ProcessPendedCase();
@@ -96,18 +96,19 @@ namespace AIMS.EWS
             CaseLastCommentSLA = System.Configuration.ConfigurationSettings.AppSettings["CaseLastCommentSLA"];
 
             // ****************************************************MANUAL PROCESSING**
-            //MessageBox.Show(" Sending Report");
+            MessageBox.Show(" Sending Report");
+            //ProcessManual();
             //DailyWorkbaskedActivity();
             //GenerateAdminDischargeList();
             //EWSSendEmailNow("TEST EMAIL", "Operations@AIMS.org.za", "Operations@AIMS.org.za", "TEST", "martitian@gmail.com", "", false, "", "martitian@gmail.com");
             //GenerateGuarantorFiles();
             //OpsGuarantorCancelledSentToAdminFiles();
-            //GenerateMonthlyOpsKPI();
+            GenerateMonthlyOpsKPI();
             //GenerateMonthlyAdminKPI();
-            //CloseDBConnections();
-            //MessageBox.Show("DONE Sending Report");
-            //Application.ExitThread();
-            //return;
+            CloseDBConnections();
+            MessageBox.Show("DONE Sending Report");
+            Application.ExitThread();
+            return;
             //****************************************************
 
             try
@@ -5268,7 +5269,7 @@ namespace AIMS.EWS
             string KPIMonth = DateTime.Now.ToString("MMMM");
             KPIMonth = "September";
             int lastDay = DateTime.Now.Day;
-            lastDay = 30;
+            //lastDay = 30;
 
             string DrillReportEmailSubject = "Operations - Guarantors - [SENT-TO-ADMIN and CANCELLED] Files - " + KPIMonth;
             
@@ -7571,8 +7572,8 @@ namespace AIMS.EWS
         {
             LogMessages("Started Processing OPS Monthly KPI", "OPS Monthly KPI", true);
             string KPIMonth = DateTime.Now.ToString("MMMM");
-            KPIMonth = "September";
-
+            ////KPIMonth = "November";
+             
             rptYear = DateTime.Now.Year.ToString();
             string DrillReportEmailSubject = "AIMS OPERATIONS KPI - " + "[ "+ rptYear  + " - " + KPIMonth + " -]";
             try
@@ -7655,6 +7656,7 @@ namespace AIMS.EWS
                 "</html>";
 
                 string ReportRecipient = "danielm@aims.org.za;stanley@aims.org.za;jade@aims.org.za";
+                //string ReportRecipient = "martitian@gmail.com";
                 //blResult = aimsEmailer.TestEmail(sEmailBody, "No.Reply@AIMS.org.za", DrillReportEmailSubject, ReportRecipient, DailyListFile, "", "martitian@gmail.com");
                 blResult = EWSSendEmailNow(sEmailBody, "Operations@AIMS.org.za", "Operations@AIMS.org.za", DrillReportEmailSubject, ReportRecipient, DailyListFile, false, "", "martitian@gmail.com");
 
@@ -7687,7 +7689,8 @@ namespace AIMS.EWS
             LogMessages("Started Processing ADMIN Monthly KPI", "ADMIN Monthly KPI", true);
             //string KPIMonth = KPIMonth;
             rptYear = DateTime.Now.Year.ToString();
-            string KPIMonth = "September";
+            string KPIMonth = DateTime.Now.ToString("MMMM");
+            //string KPIMonth = "November";
             //KPIMonth = "March";
             //rptYear = "2019";
 
@@ -7814,7 +7817,7 @@ namespace AIMS.EWS
             string reportmonth = rptMonth;
             
             int lastDay = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);;
-
+            //lastDay = 30;
             string SQLString = "";
             try
             {
@@ -7853,7 +7856,7 @@ namespace AIMS.EWS
             string SQLString = "";
             string reportmonth = rptMonth;
             int lastDay = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);;
-
+            //lastDay = 30;
             try
             {
                 SQLString = @"select COUNT(EMAIL_INDEXED_BY) count, EMAIL_INDEXED_BY COORDINATOR  from AIMS_EWS_EMAILS where PROCESSED_DTTM between ";
@@ -7889,7 +7892,7 @@ namespace AIMS.EWS
             string SQLString = "";
             string reportmonth = rptMonth;
             int lastDay = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);;
-
+            //lastDay = 30;
             try
             {
                 SQLString = @"select COUNT(WORK_ITEM_PROCESSED_BY) count, WORK_ITEM_PROCESSED_BY COORDINATOR from AIMS_EWS_OPERATOR_MAILS 
@@ -7924,7 +7927,7 @@ namespace AIMS.EWS
             string SQLString = "";
             string reportmonth = rptMonth;
             int lastDay = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);;
-
+            //lastDay = 30;
             try
             {
                 SQLString = @"select COUNT(loaded_by) count, LOADED_BY COORDINATOR from AIMS_PATIENT_FILE_TASKS 
@@ -7961,7 +7964,7 @@ namespace AIMS.EWS
             string SQLString = "";
             string reportmonth = rptMonth;
             int lastDay = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);;
-
+            //lastDay = 30;
             try
             {
                 SQLString = @"select  COUNT(USER_ID) count, USER_ID COORDINATOR from AIMS_PATIENT_FILE_TASKS 
@@ -7999,7 +8002,7 @@ namespace AIMS.EWS
             string SQLString = "";
             string reportmonth = rptMonth;
             int lastDay = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);;
-
+            //lastDay = 30;
             try
             {
                 SQLString = @"select COUNT(FILE_OPERATOR_TO_USERID) count, FILE_OPERATOR_TO_USERID COORDINATOR  from AIMS_PATIENT where CREATION_DTTM 
@@ -8035,7 +8038,7 @@ namespace AIMS.EWS
             string SQLString = "";
             string reportmonth = rptMonth;
             int lastDay = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);;
-
+            //lastDay = 30;
             try
             {
                 SQLString = @"select COUNT(FILE_OPERATOR_TO_USERID) count, FILE_OPERATOR_TO_USERID  COORDINATOR
@@ -8072,7 +8075,7 @@ namespace AIMS.EWS
             string SQLString = "";
             string reportmonth = rptMonth;
             int lastDay = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);;
-
+            //lastDay = 30;
             try
             {
 
@@ -8110,7 +8113,7 @@ namespace AIMS.EWS
             string SQLString = "";
             string reportmonth = rptMonth;
             int lastDay = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);;
-            lastDay = 28;
+            //lastDay = 30;
             try
             {
 
@@ -8160,7 +8163,7 @@ namespace AIMS.EWS
             string SQLString = "";
             string reportmonth = rptMonth;
             int lastDay = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);;
-            lastDay = 28;
+            //lastDay = 30;
             try
             {
 
@@ -8210,7 +8213,7 @@ namespace AIMS.EWS
             string SQLString = "";
             string reportmonth = rptMonth;
             int lastDay = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);;
-            lastDay = 28;
+            //lastDay = 30;
             try
             {
 
@@ -8262,7 +8265,7 @@ namespace AIMS.EWS
             string SQLString = "";
             string reportmonth = rptMonth;
             int lastDay = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);;
-            lastDay = 28;
+            //lastDay = 30;
             try
             {
 
@@ -8315,7 +8318,7 @@ namespace AIMS.EWS
             string reportmonth = rptMonth;
 
             int lastDay = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);
-            lastDay = 28;
+            //lastDay = 30;
             try
             {
                 SQLString = @"select COUNT(EMAIL_INDEXED_BY) count, EMAIL_INDEXED_BY COORDINATOR  from AIMS_EWS_EMAILS where PROCESSED_DTTM between ";
@@ -8351,7 +8354,7 @@ namespace AIMS.EWS
             string reportmonth = rptMonth;
 
             int lastDay = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);;
-            lastDay = 28;
+            //lastDay = 30;
             try
             {
                 SQLString = @"select COUNT(WORK_ITEM_PROCESSED_BY) count, WORK_ITEM_PROCESSED_BY COORDINATOR from AIMS_EWS_admin_MAILS 
@@ -8387,7 +8390,7 @@ namespace AIMS.EWS
             string reportmonth = rptMonth;
 
             int lastDay = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);;
-            lastDay = 28;
+            //lastDay = 30;
             try
             {
                 SQLString = @"select COUNT(loaded_by) count, LOADED_BY COORDINATOR from AIMS_PATIENT_FILE_TASKS 
@@ -8424,7 +8427,7 @@ namespace AIMS.EWS
             string reportmonth = rptMonth;
 
             int lastDay = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);;
-            lastDay = 28;
+            //lastDay = 30;
             try
             {
                 SQLString = @"select  COUNT(USER_ID) count, USER_ID COORDINATOR from AIMS_PATIENT_FILE_TASKS 
@@ -8462,7 +8465,7 @@ namespace AIMS.EWS
             string reportmonth = rptMonth;
 
             int lastDay = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);;
-            lastDay = 28;
+            //lastDay = 30;
             try
             {
                 SQLString = @"select COUNT(FILE_ASSIGNED_TO_USERID) count, FILE_ASSIGNED_TO_USERID COORDINATOR from AIMS_PATIENT where CREATION_DTTM 
