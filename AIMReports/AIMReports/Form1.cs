@@ -96,19 +96,21 @@ namespace AIMS.EWS
             CaseLastCommentSLA = System.Configuration.ConfigurationSettings.AppSettings["CaseLastCommentSLA"];
 
             // ****************************************************MANUAL PROCESSING**
-            MessageBox.Show(" Sending Report");
-            //ProcessManual();
-            //DailyWorkbaskedActivity();
-            //GenerateAdminDischargeList();
-            //EWSSendEmailNow("TEST EMAIL", "Operations@AIMS.org.za", "Operations@AIMS.org.za", "TEST", "martitian@gmail.com", "", false, "", "martitian@gmail.com");
-            //GenerateGuarantorFiles();
-            //OpsGuarantorCancelledSentToAdminFiles();
-            GenerateMonthlyOpsKPI();
-            //GenerateMonthlyAdminKPI();
-            CloseDBConnections();
-            MessageBox.Show("DONE Sending Report");
-            Application.ExitThread();
-            return;
+            //MessageBox.Show(" Sending Report");
+            ////ProcessManual();
+            ////DailyWorkbaskedActivity();
+            ////GenerateAdminDischargeList();
+            ////EWSSendEmailNow("TEST EMAIL", "Operations@AIMS.org.za", "Operations@AIMS.org.za", "TEST", "martitian@gmail.com", "", false, "", "martitian@gmail.com");
+            ////GenerateGuarantorFiles();
+            ////OpsGuarantorCancelledSentToAdminFiles();
+            ////GenerateMonthlyOpsKPI();
+            ////GenerateMonthlyAdminKPI();
+            //GenerateInPatient("Bernadette@aims.org.za;Stanley@aims.org.za;Hendrikj@aims.org.za;dominicb@aims.org.za;interim@aims.org.za;operations@aims.org.za;eric@aims.org.za;annick@aims.org.za");
+            //GenerateOutPatient("Bernadette@aims.org.za;Stanley@aims.org.za;Hendrikj@aims.org.za;dominicb@aims.org.za;interim@aims.org.za;operations@aims.org.za;eric@aims.org.za;annick@aims.org.za");
+            //CloseDBConnections();
+            //MessageBox.Show("DONE Sending Report");
+            //Application.ExitThread();
+            //return;
             //****************************************************
 
             try
@@ -5230,7 +5232,7 @@ namespace AIMS.EWS
                 "<br>" +
                 "</body>" +
                 "</html>";
-                string ReportRecipient = "danielm@aims.org.za;stanley@aims.org.za;jade@aims.org.za";
+                string ReportRecipient = "danielm@aims.org.za;stanley@aims.org.za";
                 //blResult = aimsEmailer.SendEmailNotify(sEmailBody, DrillReportEmailSubject, "danielm@aims.org.za;Matthewb@aims.org.za");
                  //blResult = aimsEmailer.TestEmail(sEmailBody, "No.Reply@AIMS.org.za", DrillReportEmailSubject, ReportRecipient, "", "", "");
                 blResult = EWSSendEmailNow(sEmailBody, "Operations@AIMS.org.za", "Operations@AIMS.org.za", DrillReportEmailSubject, ReportRecipient, "", false, "", "martitian@gmail.com");
