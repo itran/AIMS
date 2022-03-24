@@ -367,6 +367,7 @@ namespace AIMS.EWS
 
         private void AssignCertificates() 
         {
+            System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Ssl3 | System.Net.SecurityProtocolType.Tls12 | System.Net.SecurityProtocolType.Tls11 | System.Net.SecurityProtocolType.Tls;
             System.Net.ServicePointManager.ServerCertificateValidationCallback = ((sender, certificate, chain, sslPolicyErrors) => true);
             System.Net.ServicePointManager.ServerCertificateValidationCallback = ((sender, cert, chain, errors) => cert.Subject.Contains("DC1"));
 
@@ -378,6 +379,7 @@ namespace AIMS.EWS
 
         private void AssignCertificatesOffice365()
         {
+            System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Ssl3 | System.Net.SecurityProtocolType.Tls12 | System.Net.SecurityProtocolType.Tls11 | System.Net.SecurityProtocolType.Tls;
             System.Net.ServicePointManager.ServerCertificateValidationCallback = ((sender, certificate, chain, sslPolicyErrors) => true);
             
             object obj1 = new object();
@@ -447,6 +449,7 @@ namespace AIMS.EWS
                         WriteEventLog("[ - Office-365 Processing 2 - ]");
                         AssignCertificatesOffice365();
                         WriteEventLog("[ - Office-365 Processing 3 - ]");
+                        System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Ssl3 | System.Net.SecurityProtocolType.Tls12 | System.Net.SecurityProtocolType.Tls11 | System.Net.SecurityProtocolType.Tls;
                         System.Net.ServicePointManager.ServerCertificateValidationCallback = ((sender, certificate, chain, sslPolicyErrors) => true);
                         WriteEventLog("[ - Office-365 Processing 4 - ]");
                     }
@@ -456,7 +459,7 @@ namespace AIMS.EWS
                         service = GetBinding(MailBoxExchangeUser, MailBoxExchangePassword, MailBoxDomain, MailBoxEWSUrl);
 
                         AssignCertificates();
-
+                        System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Ssl3 | System.Net.SecurityProtocolType.Tls12 | System.Net.SecurityProtocolType.Tls11 | System.Net.SecurityProtocolType.Tls;
                         System.Net.ServicePointManager.ServerCertificateValidationCallback = ((sender, certificate, chain, sslPolicyErrors) => true);
                         System.Net.ServicePointManager.ServerCertificateValidationCallback = ((sender, cert, chain, errors) => cert.Subject.Contains("DC1"));
                         WriteEventLog("[ - EXCHANGE SERVER Processing 2 - ]");
