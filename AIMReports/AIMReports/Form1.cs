@@ -43,7 +43,7 @@ namespace AIMS.EWS
             //GenerateFilesForPatientsDischargedInLast24Hours();
             //GenerateNotSentToAdminAfter48HrsDischarge();
             //DischargeFileSummary();
-            //GenerateOverDueTasks("stanley@aims.org.za;;jade@aims.org.za;DanielM@aims.org.za");
+            //GenerateOverDueTasks("stanley@aims.org.za;;;DanielM@aims.org.za");
             //GenerateFilesForPatientsDischargedInLast24Hours();
             //DailyWorkbaskedActivity();
             //GenerateFilesWithoutCommentsinLast24HoursPerGuarantor();
@@ -185,7 +185,7 @@ namespace AIMS.EWS
                     DateTime.Now.DayOfWeek == DayOfWeek.Friday) & (DateTime.Now.Hour == 8 && DateTime.Now.ToString("tt") == "AM"))
                 {
                     DischargeFileSummary();
-                    GenerateOverDueTasks("stanley@aims.org.za;;jade@aims.org.za;DanielM@aims.org.za");
+                    GenerateOverDueTasks("stanley@aims.org.za;;;DanielM@aims.org.za");
                 }
                 if ((DateTime.Now.DayOfWeek == DayOfWeek.Monday) & (DateTime.Now.Hour == 8 && DateTime.Now.ToString("tt") == "AM"))
                 {
@@ -7657,7 +7657,7 @@ namespace AIMS.EWS
                 "</body>" +
                 "</html>";
 
-                string ReportRecipient = "danielm@aims.org.za;stanley@aims.org.za;jade@aims.org.za";
+                string ReportRecipient = "danielm@aims.org.za;stanley@aims.org.za;";
                 //string ReportRecipient = "martitian@gmail.com";
                 //blResult = aimsEmailer.TestEmail(sEmailBody, "No.Reply@AIMS.org.za", DrillReportEmailSubject, ReportRecipient, DailyListFile, "", "martitian@gmail.com");
                 blResult = EWSSendEmailNow(sEmailBody, "Operations@AIMS.org.za", "Operations@AIMS.org.za", DrillReportEmailSubject, ReportRecipient, DailyListFile, false, "", "martitian@gmail.com");
@@ -8877,9 +8877,9 @@ namespace AIMS.EWS
             return result;
         }
 
-
         private void AssignCertificatesOffice365()
         {
+            System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Ssl3 | System.Net.SecurityProtocolType.Tls12 | System.Net.SecurityProtocolType.Tls11 | System.Net.SecurityProtocolType.Tls;
             System.Net.ServicePointManager.ServerCertificateValidationCallback = ((sender, certificate, chain, sslPolicyErrors) => true);
 
             object obj1 = new object();
