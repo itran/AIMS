@@ -164,6 +164,7 @@ namespace AIMS.EWS
                     //Generate6677Providers();
                     GenerateFilesForPatientsDischargedInLast24Hours();
                     GenerateNotSentToAdminAfter48HrsDischarge();
+                    GenerateHighCost("eric@aims.org.za");
                 }
 
                 // Administration Productivity
@@ -8973,6 +8974,184 @@ namespace AIMS.EWS
                 return false;
             }
             return true;
+        }
+
+        public void GenerateHighCost(string ReportRecipient)
+        {
+            AIMSEmailer.AIMS.Utility.eMailer aimsEmailer = new AIMSEmailer.AIMS.Utility.eMailer();
+
+            string SQLString = "";
+            string sEmailBody = "";
+            bool blResult = false;
+            OleDbCommand cmdDrillReport = new OleDbCommand();
+            OleDbDataAdapter oleDrillDBAdaptor;
+            DataTable dtDrillReportData = new DataTable();
+
+            string PatientFileNo = "";
+            string AdmissionDate = "";
+            string PatientName = "";
+            string Hospital = "";
+            string Insurance = "";
+            string Diagnosis = "";
+            string LatestGOP = "";
+            string CaseHandler = "";
+
+            string DrillReportEmailSubject = "High Cost Cases";
+
+            try
+            {
+                sEmailBody = "<html> " +
+                                "<head>" +
+                                "<style>TABLE{FONT-SIZE: 8pt;COLOR: #666666;LINE-HEIGHT: 9pt;FONT-FAMILY: Verdana, Arial;HEIGHT: 1pt;TEXT-ALIGN: left}</style>" +
+                                "</head>" +
+                                "<body>" +
+                                "<br>" +
+                                "<br>" +
+                                "<table width=100% cellpadding=2 cellspacing=1 align=center style=border-style:solid>" +
+                                "<tr>" +
+                                "<td bgcolor=lightgrey align=right colspan=8>" +
+                                "<center><font color=5CACEE face=calibri size=4><b>" + DrillReportEmailSubject + "</b></font></center>" +
+                                "</td>" +
+                                "</tr>" +
+                                "<tr>" +
+                                "<td bgcolor=#ffffff width=100% style=TEXT-TRANSFORM: capitalize colspan=5>&nbsp;</td>" +
+                                "</tr>";
+
+                SQLString = @"SELECT a.patient_file_no ""Case"",convert(smalldatetime,PATIENT_ADMISSION_DATE,103) Admission, " +
+                        " UPPER(A.Patient_Last_Name)+ ' ' + UPPER(PATIENT_FIRST_NAME) +  ' (' + UPPER(A.PATIENT_INITIALS) + ') (' +  UPPER(ATT.Title_desc) + ')' AS Patient, " +
+                        " asup.supplier_name Hospital, " +
+                          "    b.guarantor_name Insurance,  " +
+                        " a.patient_diagnosis Diagnosis, " +
+                        @"a.patient_guarantor_amount ""Latest GOP"", " +
+                        @" User_Full_Name ""Case Handler"" " +
+                          "       FROM aims_patient a " +
+                            "     left outer join aims_guarantor b on b.guarantor_id = a.guarantor_id " +
+                              "   LEFT OUTER JOIN AIMS_TITLE  AS att ON  att.title_id  = a.title_id    " +
+                                " left outer join aims_supplier as asup on asup.supplier_id = a.supplier_id          " +
+                                " left outer join AIMS_USERS as aum on  aum.user_name = a.FILE_OPERATOR_TO_USERID " +
+                               " WHERE cancelled = 'N' " +
+                                 " AND a.patient_file_active_yn = 'Y' " +
+                                " and a.HIGH_COST = 'Y' " +
+                            " ORDER BY convert(smalldatetime,PATIENT_ADMISSION_DATE , 103) desc,  " +
+                            " CAST (substring (a.patient_file_no, 1, 2) AS NUMERIC) desc, " +
+                            " CAST (substring (a.patient_file_no, 4, 4) AS NUMERIC) desc";
+
+                cmdDrillReport.Connection = oleDBConnection;
+                cmdDrillReport.CommandText = SQLString;
+                cmdDrillReport.CommandType = CommandType.Text;
+                oleDrillDBAdaptor = new OleDbDataAdapter(cmdDrillReport);
+                oleDrillDBAdaptor.Fill(dtDrillReportData);
+
+                if (dtDrillReportData.Rows.Count > 0)
+                {
+                    sEmailBody += "<tr>" +
+                               "<td bgcolor=lightgrey valign=top align=center width=5%><b>Case</b></td>" +
+                               "<td bgcolor=lightgrey valign=top align=center width=5%><b>Admission</b></td>" +
+                               "<td bgcolor=lightgrey valign=top align=center width=35%><b>Patient</b></td>" +
+                               "<td bgcolor=lightgrey valign=top align=center width=20%><b>Hospital</b></td>" +
+                               "<td bgcolor=lightgrey valign=top align=center width=25%><b>Insurance</b></td>" +
+                               "<td bgcolor=lightgrey valign=top align=center width=5%><b>Diagnosis</b></td>" +
+                               "<td bgcolor=lightgrey valign=top align=center width=5%><b>Latest GOP</b></td>" +
+                               "<td bgcolor=lightgrey valign=top align=center width=5%><b>Handler</b></td>" +
+                                "</tr>";
+
+                    DateTime dtCommit;
+                    bool reportPageBreak = true;
+                    for (int i = 0; i < dtDrillReportData.Rows.Count; i++)
+                    {
+                        PatientFileNo = dtDrillReportData.Rows[i]["Case"].ToString();
+                        AdmissionDate = dtDrillReportData.Rows[i]["Admission"].ToString();
+                        PatientName = dtDrillReportData.Rows[i]["Patient"].ToString();
+                        Hospital = dtDrillReportData.Rows[i]["Hospital"].ToString();
+                        if (Hospital.Trim().Equals(""))
+                        {
+                            Hospital = "-";
+                        }
+                        Insurance = dtDrillReportData.Rows[i]["Insurance"].ToString();
+                        if (Insurance.Trim().Equals(""))
+                        {
+                            Insurance = "-";
+                        }
+                        Diagnosis = dtDrillReportData.Rows[i]["Diagnosis"].ToString();
+                        if (Diagnosis.Trim().Equals(""))
+                        {
+                            Diagnosis = "-";
+                        }
+                        LatestGOP = dtDrillReportData.Rows[i]["Latest GOP"].ToString();
+                        if (LatestGOP.Trim().Equals(""))
+                        {
+                            LatestGOP = "-";
+                        }
+                        CaseHandler = dtDrillReportData.Rows[i]["Case Handler"].ToString();
+                        if (CaseHandler.Trim().Equals(""))
+                        {
+                            CaseHandler = "-";
+                        }
+                        dtCommit = Convert.ToDateTime(AdmissionDate);
+                        System.TimeSpan diffResult = dtCommit.Subtract(DateTime.Now);
+
+                        if (diffResult.Days < 0 && reportPageBreak)
+                        {
+                            sEmailBody += "<tr>" +
+                                "<td bgcolor=YELLOW valign=bottom align=center colspan=8><span style='Font-color:red;font-family:tahoma;font-size:20px'>Active High Cost Files</span></td>" +
+                                        "</tr>";
+                            reportPageBreak = false;
+                        }
+                        sEmailBody += "<tr>" +
+                        "<td valign=top bgcolor=#ffffff style='border-bottom-style:solid;border-bottom-width:1px' align=center>" + PatientFileNo + "</td>" +
+                        "<td valign=top bgcolor=#ffffff style='border-bottom-style:solid;border-bottom-width:1px' align=center>" + dtCommit.ToString("dd-MMM-yyyy") + "</td>" +
+                        "<td valign=top bgcolor=#ffffff style='border-bottom-style:solid;border-bottom-width:1px' align=center>" + PatientName + "</td>" +
+                        "<td valign=top bgcolor=#ffffff style='border-bottom-style:solid;border-bottom-width:1px' align=center>" + Hospital + "</td>" +
+                        "<td valign=top bgcolor=#ffffff style='border-bottom-style:solid;border-bottom-width:1px' align=center>" + Insurance + "</td>" +
+                        "<td valign=top bgcolor=#ffffff style='border-bottom-style:solid;border-bottom-width:1px' align=center>" + Diagnosis + "</td>" +
+                        "<td valign=top bgcolor=#ffffff style='border-bottom-style:solid;border-bottom-width:1px' align=center>" + LatestGOP + "</td>" +
+                        "<td valign=top bgcolor=#ffffff style='border-bottom-style:solid;border-bottom-width:1px' align=center>" + CaseHandler + "</td>" +
+                        "</tr>";
+                    }
+                    sEmailBody += "<tr>" +
+                               "<td bgcolor=lightgrey valign=bottom align=center colspan=8><font color=red><b>TOTAL - " + dtDrillReportData.Rows.Count + "</b></font></td>" +
+                                "</tr>";
+
+                }
+                else
+                {
+                    sEmailBody += "<tr>" +
+                               "<td bgcolor=lightgrey valign=bottom align=center colspan=8><b>No After-Hours Files Found</b></td>" +
+                                "</tr>";
+                }
+                sEmailBody += "</table>" +
+                "<br>" +
+                "<br>" +
+                "</body>" +
+                "</html>";
+
+                //blResult = aimsEmailer.TestEmail(sEmailBody, "No.Reply@AIMS.org.za", DrillReportEmailSubject, ReportRecipient, "", "", "martitian@gmail.com");
+                blResult = EWSSendEmailNow(sEmailBody, "Operations@AIMS.org.za", "Operations@AIMS.org.za", DrillReportEmailSubject, ReportRecipient, "", false, "", "martitian@gmail.com");
+                if (!blResult)
+                {
+                    blResult = aimsEmailer.SendEmailNotify(sEmailBody, DrillReportEmailSubject, ReportRecipient);
+                }
+
+                if (blResult)
+                {
+                    LogMessages(DrillReportEmailSubject + " Report Email sent successfully", "Email Successful", false);
+                }
+                else
+                {
+                    LogMessages(DrillReportEmailSubject + " Report Email NOT sent successfully", "Email UnSuccessful", false);
+                }
+            }
+            catch (System.Exception ex)
+            {
+                blResult = false;
+                LogMessages(ex.ToString(), "Generating Patients Admitted NOT discharged after 14 Days", true);
+            }
+            finally
+            {
+                cmdDrillReport.Dispose();
+                dtDrillReportData.Dispose();
+                aimsEmailer = null;
+            }
         }
         #endregion
     }
