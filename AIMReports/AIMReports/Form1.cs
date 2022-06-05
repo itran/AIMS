@@ -33,7 +33,7 @@ namespace AIMS.EWS
 
             //GenerateInPatient("Bernadette@aims.org.za;Stanley@aims.org.za;Hendrikj@aims.org.za;dominicb@aims.org.za;interim@aims.org.za;operations@aims.org.za;eric@aims.org.za;annick@aims.org.za");
             //GenerateOutPatient("Bernadette@aims.org.za;Stanley@aims.org.za;Hendrikj@aims.org.za;dominicb@aims.org.za;interim@aims.org.za;operations@aims.org.za;eric@aims.org.za;annick@aims.org.za");
-            GenerateAdminDischargeList();
+            GenerateHighCost("eric@aims.org.za");
 
             //GenerateAfterHoursFiles();
             //GenerateWorkBaskets();
@@ -164,7 +164,7 @@ namespace AIMS.EWS
                     //Generate6677Providers();
                     GenerateFilesForPatientsDischargedInLast24Hours();
                     GenerateNotSentToAdminAfter48HrsDischarge();
-                    GenerateHighCost("eric@aims.org.za");
+                    GenerateHighCost("eric@aims.org.za;racheal@aims.org.za;jade@aims.org.za");
                 }
 
                 // Administration Productivity
@@ -9031,7 +9031,9 @@ namespace AIMS.EWS
                                 " left outer join AIMS_USERS as aum on  aum.user_name = a.FILE_OPERATOR_TO_USERID " +
                                " WHERE cancelled = 'N' " +
                                  " AND a.patient_file_active_yn = 'Y' " +
+                                 " AND a.sent_to_admin = 'N' " +
                                 " and a.HIGH_COST = 'Y' " +
+                                " and (patient_discharge_date IS NULL or patient_discharge_date = '') " +
                             " ORDER BY convert(smalldatetime,PATIENT_ADMISSION_DATE , 103) desc,  " +
                             " CAST (substring (a.patient_file_no, 1, 2) AS NUMERIC) desc, " +
                             " CAST (substring (a.patient_file_no, 4, 4) AS NUMERIC) desc";
