@@ -7589,6 +7589,7 @@ namespace AIMS.EWS
                 DataTable dtCasesFilesAllocated = dtOpsKPIFilesAllocated(KPIMonth);
                 DataTable dtCasesCancelledFiles = dtOpsKPICancelledFiles(KPIMonth);
                 DataTable dtCasesSentToAdmin = dtOpsKPISentToAdminFiles(KPIMonth);
+                DataTable dtCasesSentEmail = dtOpsKPISentEmails(KPIMonth);
                 
                 string DailyListFile = "";
                
@@ -7624,6 +7625,9 @@ namespace AIMS.EWS
                     OfficeOpenXml.ExcelWorksheet wsCasesSentToAdmin = package.Workbook.Worksheets.Add("No-Of-Cases-Sent-To-Admin");
                     wsCasesSentToAdmin.Cells[1, 1].LoadFromDataTable(dtCasesSentToAdmin, true);
 
+                    OfficeOpenXml.ExcelWorksheet wsCasesSentEmails = package.Workbook.Worksheets.Add("No-Of-Sent-Emails");
+                    wsCasesSentEmails.Cells[1, 1].LoadFromDataTable(dtCasesSentEmail, true);
+                    
                     package.Save();
 
                     wsAllocatedEmails.Dispose();
@@ -8104,6 +8108,45 @@ namespace AIMS.EWS
             {
                 cmdDrillReport.Dispose();
                 
+            }
+            return dtDrillReportData;
+        }
+
+        private DataTable dtOpsKPISentEmails(string rptMonth)
+        {
+            OleDbCommand cmdDrillReport = new OleDbCommand();
+            OleDbDataAdapter oleDrillDBAdaptor;
+            DataTable dtDrillReportData = new DataTable();
+            string SQLString = "";
+            string reportmonth = rptMonth;
+            int lastDay = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month); ;
+            //lastDay = 30;
+            try
+            {
+                SQLString = @" select COUNT(email_sent_by) count, email_sent_by COORDINATOR ";
+                SQLString = SQLString + @" from AIMS_PATIENT a, AIMS_EWS_PATIENT_SENT_EMAILS b, AIMS_USER_ROLE c ";
+                SQLString = SQLString + @" where a.CREATION_DTTM between ";
+                SQLString = SQLString + @" convert(datetime,'01 " + reportmonth + " " + rptYear + " 00:00:00',103) and ";
+                SQLString = SQLString + @" convert(datetime,'" + lastDay + " " + reportmonth + " " + rptYear + " 23:59:00',103) and ";
+                SQLString = SQLString + @" FILE_OPERATOR_TO_USERID is not null ";
+                SQLString = SQLString + @" and b.PATIENT_ID = a.PATIENT_ID ";
+                SQLString = SQLString + @" and c.ROLE_CD = 'Operations' and c.USER_NAME = b.EMAIL_SENT_BY ";
+                SQLString = SQLString + @" group by email_sent_by order by 1 desc ";
+
+                LogMessages(SQLString, " Generating Discharge List SQL: " + SQLString, false);
+                cmdDrillReport.Connection = oleDBConnection;
+                cmdDrillReport.CommandText = SQLString;
+                cmdDrillReport.CommandType = CommandType.Text;
+                oleDrillDBAdaptor = new OleDbDataAdapter(cmdDrillReport);
+                oleDrillDBAdaptor.Fill(dtDrillReportData);
+            }
+            catch (System.Exception ex)
+            {
+            }
+            finally
+            {
+                cmdDrillReport.Dispose();
+
             }
             return dtDrillReportData;
         }
