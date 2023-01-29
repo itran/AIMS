@@ -17,6 +17,17 @@ using Microsoft.Exchange.WebServices.Data;
 using Microsoft.Exchange.WebServices.Autodiscover;
 using System.Security.Cryptography.X509Certificates;
 using System.Net.Security;
+//using Microsoft.Identity.Client;
+using Newtonsoft.Json.Linq;
+using System.Linq;
+using System.Net.Http;
+using System.Net;
+//using System.IdentityModel;
+//using System.IdentityModel.Tokens;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
+using AIMReports.Properties;
+using System.Net.Sockets;
 
 namespace AIMS.EWS
 {
@@ -33,7 +44,21 @@ namespace AIMS.EWS
 
             //GenerateInPatient("Bernadette@aims.org.za;Stanley@aims.org.za;Hendrikj@aims.org.za;dominicb@aims.org.za;interim@aims.org.za;operations@aims.org.za;eric@aims.org.za;annick@aims.org.za");
             //GenerateOutPatient("Bernadette@aims.org.za;Stanley@aims.org.za;Hendrikj@aims.org.za;dominicb@aims.org.za;interim@aims.org.za;operations@aims.org.za;eric@aims.org.za;annick@aims.org.za");
-            GenerateHighCost("eric@aims.org.za");
+            //GenerateFilesCancelled7DaysAgo();
+            //GenerateFilesCourierAfterDischarge();
+            //GenerateFilesForPatientsDischargedInLast24Hours();
+            //DailyWorkbaskedActivity();
+
+            //GenerateAfterHoursFiles();
+            //GenerateWorkBaskets();
+            //GenerateWorkBasketsAdmin();
+            //GenerateFilesNotAssignedToAdmin();
+            //ProcessPendedCase();
+
+            //Generate6677Providers();
+            //GenerateNotSentToAdminAfter48HrsDischarge();
+            GenerateHighCost("eric@aims.org.za;racheal@aims.org.za;jade@aims.org.za");
+
 
             //GenerateAfterHoursFiles();
             //GenerateWorkBaskets();
@@ -92,26 +117,55 @@ namespace AIMS.EWS
         }
         private void Form1_Load(object sender, EventArgs e)
         {
+            //string clientId = "2efcf754-471e-4a9a-85fd-f3dd08b62c35";
+            ////string secret = "67ded17d-5d85-4368-825e-6449f029773a";
+            ////string secret = "uE08Q~BgmekX41aZOWUmtI0D~KcPNASSRfUOQb6X";
+            //string secret = "Vm18Q~OCxKXyH86soQDlJKx2xHAIJ9X7jeulCbfs";
+            //string tenantId = "9d40314f-1d37-457d-b900-21bc738c85bd";
+
+            ////MainAsync().GetAwaiter().GetResult();
+
+            //string MailboxBeingAccessed = ""; 
+            //string AccountAccessingMailbox = "";
+            //string sAuthority = "";
+            //string sAppId = "2efcf754-471e-4a9a-85fd-f3dd08b62c35";
+            //string sRedirectURL = "";
+            //string sServername = "";
+            //string sBearerToken = "";
+            //PromptBehavior oPromptBehavior = PromptBehavior.Auto;
+            ////SendEmail();
+            
+            //EWSSendEmailNow("FINAL TESTING ", "Operations@AIMS.org.za", "Operations@AIMS.org.za", "DrillReportEmailSubject", "martitian@Gmail.com;i.tran@yahoo.co.uk", "", false, "", "martitian@gmail.com");
+            
+            //Do_OAuth(ref MailboxBeingAccessed, ref AccountAccessingMailbox,
+            //             sAuthority, sAppId, sRedirectURL, sServername, ref sBearerToken, oPromptBehavior);
+            
+            //            AccessEmails();
+            //GenerateOAuth2AccessToken(clientId, secret, tenantId);
+
+            
+            //ProcessMailAsync("", "", "");
+            
             OpenDBConnection();
             CaseLastCommentSLA = System.Configuration.ConfigurationSettings.AppSettings["CaseLastCommentSLA"];
 
-            // ****************************************************MANUAL PROCESSING**
+            //// ****************************************************MANUAL PROCESSING**
             //MessageBox.Show(" Sending Report");
-            ////ProcessManual();
-            ////DailyWorkbaskedActivity();
-            ////GenerateAdminDischargeList();
-            ////EWSSendEmailNow("TEST EMAIL", "Operations@AIMS.org.za", "Operations@AIMS.org.za", "TEST", "martitian@gmail.com", "", false, "", "martitian@gmail.com");
-            ////GenerateGuarantorFiles();
-            ////OpsGuarantorCancelledSentToAdminFiles();
-            ////GenerateMonthlyOpsKPI();
-            ////GenerateMonthlyAdminKPI();
-            //GenerateInPatient("Bernadette@aims.org.za;Stanley@aims.org.za;Hendrikj@aims.org.za;dominicb@aims.org.za;interim@aims.org.za;operations@aims.org.za;eric@aims.org.za;annick@aims.org.za");
-            //GenerateOutPatient("Bernadette@aims.org.za;Stanley@aims.org.za;Hendrikj@aims.org.za;dominicb@aims.org.za;interim@aims.org.za;operations@aims.org.za;eric@aims.org.za;annick@aims.org.za");
+            //ProcessManual();
+            //////DailyWorkbaskedActivity();
+            //////GenerateAdminDischargeList();
+            //////EWSSendEmailNow("TEST EMAIL", "Operations@AIMS.org.za", "Operations@AIMS.org.za", "TEST", "martitian@gmail.com", "", false, "", "martitian@gmail.com");
+            //////GenerateGuarantorFiles();
+            //////OpsGuarantorCancelledSentToAdminFiles();
+            //////GenerateMonthlyOpsKPI();
+            //////GenerateMonthlyAdminKPI();
+            ////GenerateInPatient("Bernadette@aims.org.za;Stanley@aims.org.za;Hendrikj@aims.org.za;dominicb@aims.org.za;interim@aims.org.za;operations@aims.org.za;eric@aims.org.za;annick@aims.org.za");
+            ////GenerateOutPatient("Bernadette@aims.org.za;Stanley@aims.org.za;Hendrikj@aims.org.za;dominicb@aims.org.za;interim@aims.org.za;operations@aims.org.za;eric@aims.org.za;annick@aims.org.za");
             //CloseDBConnections();
             //MessageBox.Show("DONE Sending Report");
             //Application.ExitThread();
             //return;
-            //****************************************************
+            ////****************************************************
 
             try
             {
@@ -8912,7 +8966,7 @@ namespace AIMS.EWS
             return service;
         }
 
-        private bool ValidateRemoteCertificate(object sender, X509Certificate cert, X509Chain chain, SslPolicyErrors policyErrors)
+        private static bool ValidateRemoteCertificate(object sender, X509Certificate cert, X509Chain chain, SslPolicyErrors policyErrors)
         {
             bool result = false;
             //if (cert.Subject.ToUpper().Contains("DC1"))     {         
@@ -8921,7 +8975,7 @@ namespace AIMS.EWS
             return result;
         }
 
-        private void AssignCertificatesOffice365()
+        private static void AssignCertificatesOffice365()
         {
             System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Ssl3 | System.Net.SecurityProtocolType.Tls12 | System.Net.SecurityProtocolType.Tls11 | System.Net.SecurityProtocolType.Tls;
             System.Net.ServicePointManager.ServerCertificateValidationCallback = ((sender, certificate, chain, sslPolicyErrors) => true);
@@ -8942,16 +8996,131 @@ namespace AIMS.EWS
                                     string EmailBcc)
         {
             AIMReports.CommonFunctions cmmnFuncs = new AIMReports.CommonFunctions();
+            cmmnFuncs.ErrorLogger("Start Sending Using EWS Office - New Way of send emails");
+
+            string sAppId = "2efcf754-471e-4a9a-85fd-f3dd08b62c35";
+            string sRedirectURL = "";
+            string sServername = "";
+            string sBearerToken = "";
+
+            string secret = "Vm18Q~OCxKXyH86soQDlJKx2xHAIJ9X7jeulCbfs";
+            ExchangeCredentials oExchangeCredentials = null;
+            try
+            {
+                //System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
+                AssignCertificatesOffice365();
+
+                // See // https://msdn.microsoft.com/en-us/library/office/dn903761(v=exchg.150).aspx
+                // get authentication token
+                string authority = "https://login.microsoftonline.com/9d40314f-1d37-457d-b900-21bc738c85bd";
+                string clientID = sAppId;
+                Uri clientAppUri = new Uri("https://login.microsoftonline.com/common/oauth2/nativeclient");
+                string serverName = "https://outlook.office365.com";
+
+                AuthenticationContext authenticationContext = new AuthenticationContext(authority, false);
+                
+                AuthenticationResult authenticationResult = authenticationContext.AcquireTokenAsync(serverName, new ClientCredential(clientID, secret)).Result;
+
+                sBearerToken = authenticationResult.AccessToken;
+                oExchangeCredentials = new OAuthCredentials(authenticationResult.AccessToken);
+
+                ExchangeService service = new ExchangeService(ExchangeVersion.Exchange2013_SP1);
+                service.Credentials = new OAuthCredentials(authenticationResult.AccessToken);
+                service.TraceEnabled = true;
+                service.TraceFlags = TraceFlags.All;
+                service.Url = new Uri(serverName + "/EWS/Exchange.asmx");
+
+                if (EmailFrom.Equals("admin@aims.org.za", StringComparison.OrdinalIgnoreCase))
+                {
+                    service.ImpersonatedUserId = new ImpersonatedUserId(ConnectingIdType.SmtpAddress, "Admin@aims.org.za");
+                }
+                else
+                {
+                    service.ImpersonatedUserId = new ImpersonatedUserId(ConnectingIdType.SmtpAddress, "operations@aims.org.za");
+                }
+
+                EmailMessage email = new EmailMessage(service);
+
+                string[] globalTeamEmails = EmailTo.Split(new Char[] { ';' });
+                foreach (string globalEmail in globalTeamEmails)
+                {
+                    if (!globalEmail.Trim().Equals(""))
+                    {
+                        email.ToRecipients.Add(globalEmail.Trim());
+                    }
+                }
+
+                globalTeamEmails = EmailCC.Split(new Char[] { ';' });
+                foreach (string globalEmail in globalTeamEmails)
+                {
+                    if (!globalEmail.Trim().Equals(""))
+                    {
+                        email.CcRecipients.Add(globalEmail.Trim());
+                    }
+                }
+
+                globalTeamEmails = EmailBcc.Split(new Char[] { ';' });
+                foreach (string globalEmail in globalTeamEmails)
+                {
+                    if (!globalEmail.Trim().Equals(""))
+                    {
+                        email.BccRecipients.Add(globalEmail.Trim());
+                    }
+                }
+
+                globalTeamEmails = EmailAttachments.Split(new Char[] { ';' });
+                foreach (string globalEmail in globalTeamEmails)
+                {
+                    if (!globalEmail.Trim().Equals(""))
+                    {
+                        email.Attachments.AddFileAttachment(globalEmail);
+                    }
+                }
+
+                email.Subject = EmailSubject;
+                email.Body = EmailBody;
+                email.Body.BodyType = BodyType.HTML;
+                email.Send();
+                cmmnFuncs.ErrorLogger("Email Transmission Successfully sent to: " + EmailTo);
+                return true;               
+            }
+            catch (SmtpException exception)
+            {
+                cmmnFuncs.ErrorLogger("Email Transmission SmtpException Exception/ERROR: " + exception.ToString());
+                return false;
+            }
+            catch (AutodiscoverRemoteException exception)
+            {
+                cmmnFuncs.ErrorLogger("Email Transmission AutodiscoverRemoteException Exception/ERROR: " + exception.ToString());
+                return false;
+            }
+            catch (Exception exception)
+            {
+                cmmnFuncs.ErrorLogger("Email Transmission SmtpException Exception/ERROR: " + exception.ToString());
+                return false;
+            }
+        }
+        private bool EWSSendEmailNowOld(string EmailBody,
+                                    string EmailFrom,
+                                    string EmailFromName,
+                                    string EmailSubject,
+                                    string EmailTo,
+                                    string EmailAttachments,
+                                    bool KillFiles,
+                                    string EmailCC,
+                                    string EmailBcc)
+        {
+            AIMReports.CommonFunctions cmmnFuncs = new AIMReports.CommonFunctions();
             ExchangeService myservice = null;
             cmmnFuncs.ErrorLogger("Start Sending Using EWS Office");
             if (EmailFrom.Equals("admin@aims.org.za", StringComparison.OrdinalIgnoreCase))
             {
-                myservice = GetBindingOffice365("Admin@AIMS.org.za", "s@eCahU5", "Admin", "https://outlook.office365.com/EWS/Exchange.asmx");
+                myservice = GetBindingOffice365("Admin@AIMS.org.za", "@im5Bill2023", "Admin", "https://outlook.office365.com/EWS/Exchange.asmx");
             }
             else
             {
                 //myservice = GetBindingOffice365("operation@aims.org.za", "Tra2As+u", "operation", "https://outlook.office365.com/EWS/Exchange.asmx");
-                myservice = GetBindingOffice365("operations@aims.org.za", "Aims@august2021", "operations", "https://outlook.office365.com/EWS/Exchange.asmx");
+                myservice = GetBindingOffice365("operations@aims.org.za", "#FutuR3!5B", "operations", "https://outlook.office365.com/EWS/Exchange.asmx");
             }
 
             AssignCertificatesOffice365();
@@ -8961,6 +9130,7 @@ namespace AIMS.EWS
                 emailMessage.Subject = EmailSubject;
                 emailMessage.Body = EmailBody;
                 emailMessage.Body.BodyType = BodyType.HTML;
+                
 
                 string[] globalTeamEmails = EmailTo.Split(new Char[] { ';' });
                 foreach (string globalEmail in globalTeamEmails)
@@ -9132,7 +9302,15 @@ namespace AIMS.EWS
                         {
                             CaseHandler = "-";
                         }
-                        dtCommit = Convert.ToDateTime(AdmissionDate);
+                        if (string.IsNullOrWhiteSpace(AdmissionDate))
+                        {
+                            dtCommit = DateTime.Now;
+                        }
+                        else
+                        {
+                            dtCommit = Convert.ToDateTime(AdmissionDate);
+                        }
+                        
                         System.TimeSpan diffResult = dtCommit.Subtract(DateTime.Now);
 
                         if (diffResult.Days < 0 && reportPageBreak)
@@ -9197,6 +9375,443 @@ namespace AIMS.EWS
                 dtDrillReportData.Dispose();
                 aimsEmailer = null;
             }
+        }
+
+        // Generate OAuth 2.0 Access Token for EWS API 
+        
+        private static void ProcessMailAsync(string clientId, string clientSecret, string tenantId)
+        {
+            AssignCertificatesOffice365();
+            //var cca = ConfidentialClientApplicationBuilder
+            //    .Create(ConfigurationManager.AppSettings["appId"])
+            //    .WithClientSecret(ConfigurationManager.AppSettings["clientSecret"])
+            //    .WithTenantId(ConfigurationManager.AppSettings["tenantId"])
+            //    .Build();
+
+            //var ewsScopes = new string[] { "https://outlook.office365.com/.default" };
+            //var ewsScopes = new string[] { "https://outlook.office365.com/EWS.AccessAsUser.All" };
+            try
+            {
+                //var authResult = await cca.AcquireTokenForClient(ewsScopes).ExecuteAsync();
+                var ewsClient = new ExchangeService();
+                ewsClient.Url = new Uri("https://outlook.office365.com/EWS/Exchange.asmx");
+                
+                //ewsClient.Credentials = new OAuthCredentials(authResult.AccessToken);
+                //ewsClient.Credentials = new OAuthCredentials(new NetworkCredential("opstest@aims.org.za", "opst35t!2023"));
+                ewsClient.Credentials = new OAuthCredentials(new NetworkCredential("billings@aims.org.za", "Ab1ll@!2023"));
+
+                //ewsClient.ImpersonatedUserId =
+                //    new ImpersonatedUserId(ConnectingIdType.SmtpAddress, "Administration@aims.org.za");
+
+                //ewsClient.HttpHeaders.Add("X-AnchorMailbox", "Administration@aims.org.za");
+                //ewsClient.HttpHeaders.Add("X-PreferServerAffinity", "true");
+
+                var folders = ewsClient.FindFolders(WellKnownFolderName.Inbox, new FolderView(10));
+                FindItemsResults<Item> findResults = ewsClient.FindItems(WellKnownFolderName.Inbox, new ItemView(10));
+                //LogMessages("O-Auth OK", "findResults.Items: " + findResults.Items.Count.ToString(), true);
+
+                //foreach (Item item in findResults.Items)
+                //{
+                //    Console.WriteLine(item.Subject);
+                //}
+
+                //foreach (var folder in folders)
+                //{
+                //    Console.WriteLine($"Folder: {folder.DisplayName}");
+                //}
+
+            }
+            //catch (MsalException ex)
+            //{
+            //    //LogMessages(ex.ToString(), "1 - Generating OAuth 2.0 Access Token", true);
+            //    //Console.WriteLine($"Error acquiring access token: {ex}");
+            //}
+            catch (Exception ex)
+            {
+               // LogMessages(ex.ToString(), "2 - Generating OAuth 2.0 Access Token", true);
+                //Console.WriteLine($"Error: {ex}");
+            }
+            
+            void AssignCertificatesOffice365()
+            {
+                System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Ssl3 | System.Net.SecurityProtocolType.Tls12 | System.Net.SecurityProtocolType.Tls11 | System.Net.SecurityProtocolType.Tls;
+                System.Net.ServicePointManager.ServerCertificateValidationCallback = ((sender, certificate, chain, sslPolicyErrors) => true);
+
+                object obj1 = new object();
+
+                System.Net.ServicePointManager.ServerCertificateValidationCallback += new RemoteCertificateValidationCallback(ValidateRemoteCertificate);
+            }
+        }
+
+        //static async System.Threading.Tasks.Task MainAsync()
+        //{
+        //    // Using Microsoft.Identity.Client 4.22.0
+        //    //var cca = ConfidentialClientApplicationBuilder
+        //    //    .Create(ConfigurationManager.AppSettings["appId"])
+        //    //    .WithClientSecret(ConfigurationManager.AppSettings["clientSecret"])
+        //    //    .WithTenantId(ConfigurationManager.AppSettings["tenantId"])
+        //    //    .Build();
+
+        //    // The permission scope required for EWS access
+        //    //var ewsScopes = new string[] { "https://outlook.office365.com/.default" };
+
+        //    //Make the token request
+        //    var authResult = await cca.AcquireTokenForClient(ewsScopes).ExecuteAsync();
+            
+        //    try
+        //    {
+        //        // Configure the ExchangeService with the access token
+        //        var ewsClient = new ExchangeService();
+        //        ewsClient.Url = new Uri("https://outlook.office365.com/EWS/Exchange.asmx");
+        //        ewsClient.Credentials = new OAuthCredentials(authResult.AccessToken);
+                
+        //        //Impersonate the mailbox you'd like to access.
+        //        ewsClient.ImpersonatedUserId = new ImpersonatedUserId(ConnectingIdType.SmtpAddress, "opstest@aims.org.za");
+
+        //        //Include x-anchormailbox header
+        //        ewsClient.HttpHeaders.Add("X-AnchorMailbox", "opstest@aims.org.za");
+
+        //        // Make an EWS call
+        //        var folders = ewsClient.FindFolders(WellKnownFolderName.MsgFolderRoot, new FolderView(10));
+        //        foreach (var folder in folders)
+        //        {
+        //            Console.WriteLine($"Folder: {folder.DisplayName}");
+        //        }
+        //    }
+        //    //catch (MsalException ex)
+        //    //{
+        //    //    Console.WriteLine($"Error acquiring access token: {ex.ToString()}");
+        //    //}
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine($"Error: {ex.ToString()}");
+        //    }
+        //}
+
+        //static async System.Threading.Tasks.Task ProcessMail()
+        //{
+        //    // Using Microsoft.Identity.Client 4.22.0
+
+        //    // Configure the MSAL client to get tokens
+        //    var pcaOptions = new PublicClientApplicationOptions
+        //    {
+        //        ClientId = ConfigurationManager.AppSettings["appId"],
+        //        TenantId = ConfigurationManager.AppSettings["tenantId"]
+        //    };
+
+        //    var pca = PublicClientApplicationBuilder
+        //        .CreateWithApplicationOptions(pcaOptions).Build();
+
+        //    // The permission scope required for EWS access
+        //    var ewsScopes = new string[] { "https://outlook.office365.com/EWS.AccessAsUser.All" };
+        //    try
+        //    {
+        //        // Make the interactive token request
+        //        //var authResult = await pca.AcquireTokenByUsernamePassword(ewsScopes, "Operations", "A1m5@october2022").ExecuteAsync();
+        //        var authResult = await pca.AcquireTokenByUsernamePassword(ewsScopes, "billings@aims.org.za", "Ab1ll@!2023").ExecuteAsync();
+
+        //        // Configure the ExchangeService with the access token
+        //        var ewsClient = new ExchangeService();
+        //        ewsClient.Url = new Uri("https://outlook.office365.com/EWS/Exchange.asmx");
+        //        ewsClient.Credentials = new OAuthCredentials(authResult.AccessToken);
+
+        //        // Make an EWS call
+        //        var folders = ewsClient.FindFolders(WellKnownFolderName.MsgFolderRoot, new FolderView(10));
+        //        foreach (var folder in folders)
+        //        {
+        //            Console.WriteLine($"Folder: {folder.DisplayName}");
+        //        }
+        //    }
+        //    catch (MsalException ex)
+        //    {
+        //        Console.WriteLine($"Error acquiring access token: {ex}");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine($"Error: {ex}");
+        //    }
+
+        //    if (System.Diagnostics.Debugger.IsAttached)
+        //    {
+        //        Console.WriteLine("Hit any key to exit...");
+        //        Console.ReadKey();
+        //    }
+        //}
+
+        public void EWSConnectOauth()
+        {
+
+        } 
+
+        // Generate OAuth 2.0 Access Token for EWS API 
+        public string GenerateOAuth2AccessToken(string clientId, string clientSecret, string tenantId)
+        {
+            string token = string.Empty;
+            AssignCertificatesOffice365();
+            //var tokener = GetToken(clientId, clientSecret, tenantId);
+            //ProcessMailAsync(clientId, clientSecret, tenantId);
+            //return "";
+            try
+            {
+                string url = "https://login.microsoftonline.com/" + tenantId + "/oauth2/token";
+                //url = @"https://login.microsoftonline.com/9d40314f-1d37-457d-b900-21bc738c85bd/oauth2/token";
+                string body = "grant_type=client_credentials&client_id=" + clientId + "&client_secret=" + clientSecret + "&resource=";
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                request.Method = "POST";
+                request.ContentType = "application/x-www-form-urlencoded";
+
+                HttpContent httpContent = new FormUrlEncodedContent(
+                        new[]
+                        {
+                                        new KeyValuePair<string, string>("grant_type", "client_credentials"),
+                                        new KeyValuePair<string, string>("client_id", "2efcf754-471e-4a9a-85fd-f3dd08b62c35"),
+                                        new KeyValuePair<string, string>("client_secret", "uE08Q~BgmekX41aZOWUmtI0D~KcPNASSRfUOQb6X"),
+                                        new KeyValuePair<string, string>("resource", "https://outlook.office365.com/EWS/Exchange.asmx"),
+                        });
+
+                //request.KeepAlive = true;
+                //request.ContentLength = httpContent.ReadAsStringAsync().Result.Length;
+                //request.Credentials = new NetworkCredential("operation@aims.org.za", "Tra2As+u");
+
+                using (StreamWriter writer = new StreamWriter(request.GetRequestStream()))
+                {
+                    writer.Write(body);
+                }
+
+                //request.ContentLength = body.Length;
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                {
+                    string responseText = reader.ReadToEnd();
+                    JObject jObject = JObject.Parse(responseText);
+                    token = jObject["access_token"].ToString();
+                }
+
+                var ewsClient = new ExchangeService(ExchangeVersion.Exchange2013_SP1);
+                ewsClient.Url = new Uri("https://outlook.office365.com/EWS/Exchange.asmx");
+                //ewsClient.Url = new Uri("https://outlook.office365.com");
+                OAuthCredentials oUath = new OAuthCredentials(token);
+                ewsClient.Credentials = oUath;
+                //ewsClient.Credentials = new OAuthCredentials(token);
+                ewsClient.ImpersonatedUserId =
+                    new ImpersonatedUserId(ConnectingIdType.PrincipalName, "opstest");
+
+                //Include x-anchormailbox header
+                ewsClient.HttpHeaders.Add("X-AnchorMailbox", "opstest@aims.org.za");
+
+                // Make an EWS call
+                var folders = ewsClient.FindFolders(WellKnownFolderName.Inbox, new FolderView(10));
+            }
+            catch (Exception ex)
+            {
+                LogMessages(ex.ToString(), "Generating OAuth 2.0 Access Token", true);
+            }
+            return token;
+        }
+
+        public static string GenerateOAuth2Token(string clientId, string clientSecret, string tenantId)
+        {
+            string token = string.Empty;
+            AssignCertificatesOffice365();
+            //var tokener = GetToken(clientId, clientSecret, tenantId);
+            //ProcessMailAsync(clientId, clientSecret, tenantId);
+            //return "";
+            try
+            {
+                string url = "https://login.microsoftonline.com/" + tenantId + "/oauth2/token";
+                //url = @"https://login.microsoftonline.com/9d40314f-1d37-457d-b900-21bc738c85bd/oauth2/token";
+                string body = "grant_type=client_credentials&client_id=" + clientId + "&client_secret=" + clientSecret + "&resource=";
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                request.Method = "POST";
+                request.ContentType = "application/x-www-form-urlencoded";
+
+                HttpContent httpContent = new FormUrlEncodedContent(
+                        new[]
+                        {
+                                        new KeyValuePair<string, string>("grant_type", "client_credentials"),
+                                        new KeyValuePair<string, string>("client_id", clientId),
+                                        new KeyValuePair<string, string>("client_secret", clientSecret),
+                                        new KeyValuePair<string, string>("resource", "https://outlook.office365.com/EWS/Exchange.asmx"),
+                        });
+
+                using (StreamWriter writer = new StreamWriter(request.GetRequestStream()))
+                {
+                    writer.Write(body);
+                }
+
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                {
+                    string responseText = reader.ReadToEnd();
+                    JObject jObject = JObject.Parse(responseText);
+                    token = jObject["access_token"].ToString();
+                }
+                return token;
+            }
+            catch (Exception ex)
+            {
+                //LogMessages(ex.ToString(), "Generating OAuth 2.0 Access Token", true);
+            }
+            return token;
+        }
+        
+
+        private static void AccessEmails()
+        {
+            try
+            {
+
+
+
+
+                // Make the interactive token request
+                //var authResult = await pca.AcquireTokenInteractive(ewsScopes).ExecuteAsync();
+
+                // Configure the ExchangeService with the access token
+                var ewsClient = new ExchangeService();
+                ewsClient.Url = new Uri("https://outlook.office365.com/EWS/Exchange.asmx");
+
+                string clientId = "2efcf754-471e-4a9a-85fd-f3dd08b62c35";
+                //string secret = "67ded17d-5d85-4368-825e-6449f029773a";
+                //string secret = "uE08Q~BgmekX41aZOWUmtI0D~KcPNASSRfUOQb6X";
+                string secret = "Vm18Q~OCxKXyH86soQDlJKx2xHAIJ9X7jeulCbfs";
+                string tenantId = "9d40314f-1d37-457d-b900-21bc738c85bd";
+                string token = GenerateOAuth2Token(clientId,secret, tenantId);
+                ewsClient.Credentials = new OAuthCredentials(token);
+                
+                ewsClient.ImpersonatedUserId = new ImpersonatedUserId(ConnectingIdType.PrincipalName, "opstest");
+                ewsClient.HttpHeaders.Add("X-AnchorMailbox", "opstest@aims.org.za");
+
+                // Make an EWS call
+                var folders = ewsClient.FindFolders(WellKnownFolderName.Inbox, new FolderView(10));
+                foreach (var folder in folders)
+                {
+                    Console.WriteLine($"Folder: {folder.DisplayName}");
+                }
+            }
+            //catch (MsalException ex)
+            //{
+            //    Console.WriteLine($"Error acquiring access token: {ex}");
+            //}
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex}");
+            }
+
+        }
+
+        public ExchangeCredentials Do_OAuth(ref string MailboxBeingAccessed, ref string AccountAccessingMailbox,
+            string sAuthority, string sAppId, string sRedirectURL, string sServername, ref string sBearerToken, PromptBehavior oPromptBehavior)
+        {
+            string secret = "Vm18Q~OCxKXyH86soQDlJKx2xHAIJ9X7jeulCbfs";
+            ExchangeCredentials oExchangeCredentials = null;
+            try
+            {
+                //System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
+                AssignCertificatesOffice365();
+
+                // See // https://msdn.microsoft.com/en-us/library/office/dn903761(v=exchg.150).aspx
+                // get authentication token
+                string authority = "https://login.microsoftonline.com/9d40314f-1d37-457d-b900-21bc738c85bd";
+                string clientID = sAppId;
+                Uri clientAppUri = new Uri("https://login.microsoftonline.com/common/oauth2/nativeclient");
+                string serverName = "https://outlook.office365.com";
+
+                AuthenticationContext authenticationContext = new AuthenticationContext(authority, false);
+                PlatformParameters oPlatformParameters = new PlatformParameters(oPromptBehavior);
+
+                //AuthenticationResult authenticationResult = authenticationContext.AcquireTokenAsync(serverName, clientID, clientAppUri, oPlatformParameters).Result;
+                AuthenticationResult authenticationResult = authenticationContext.AcquireTokenAsync(serverName, new ClientCredential(clientID, secret)).Result;
+
+                sBearerToken = authenticationResult.AccessToken;
+
+                // Add authenticaiton token to requests
+                oExchangeCredentials = new OAuthCredentials(authenticationResult.AccessToken);
+
+                MailboxBeingAccessed = authenticationResult.UserInfo.DisplayableId;
+                AccountAccessingMailbox = authenticationResult.UserInfo.DisplayableId;  // oAuth at this time does not support delegate or impersonation access - may need to change this in the future.
+
+                ExchangeService service = new ExchangeService(ExchangeVersion.Exchange2013_SP1);
+                service.Credentials = new OAuthCredentials(authenticationResult.AccessToken);
+                service.TraceEnabled = true;
+                service.TraceFlags = TraceFlags.All;
+                service.Url = new Uri(serverName + "/EWS/Exchange.asmx");
+                service.ImpersonatedUserId = new ImpersonatedUserId(ConnectingIdType.SmtpAddress, "billings@aims.org.za");
+                FindItemsResults<Item> findResults = service.FindItems(WellKnownFolderName.Inbox, new ItemView(2));
+                string EmailUniqueID = "";
+                foreach (var item in findResults)
+                {
+                    EmailUniqueID = item.Id.UniqueId;
+                    Item mess = Item.Bind(service, EmailUniqueID);
+                }
+
+                /// Send an email 
+                EmailMessage email = new EmailMessage(service);
+                email.ToRecipients.Add("martitian@gmail.com");
+                email.Subject = "HelloWorld from EWS";
+                email.Body = new MessageBody("Test from EWS");
+                email.Send();
+                
+                return oExchangeCredentials;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }           
+        }
+
+        private void SendEmail()
+        {
+
+            string clientId = "2efcf754-471e-4a9a-85fd-f3dd08b62c35";
+            string clientSecret = "Vm18Q~OCxKXyH86soQDlJKx2xHAIJ9X7jeulCbfs";
+            string tenant = "9d40314f-1d37-457d-b900-21bc738c85bd";
+
+            string authority = "https://login.microsoftonline.com/" + tenant;            
+            string resource = "https://outlook.office365.com";
+            string username = "opstest@aims.org.za";
+            string password = "opst35t!2023";
+
+            AuthenticationResult authenticationResult = null;
+            AuthenticationContext authenticationContext = new AuthenticationContext(authority, false);
+
+            var userCred = new UserPasswordCredential(username, password);
+            ClientCredential clientCred = new ClientCredential(clientId, clientSecret);
+
+            string errorMessage = null;
+            try
+            {
+                Console.WriteLine("Trying to acquire token");
+                authenticationResult = authenticationContext.AcquireTokenAsync(resource, clientId, userCred).Result;
+            }
+            catch (AdalException ex)
+            {
+                errorMessage = ex.Message;
+                if (ex.InnerException != null)
+                {
+                    errorMessage += "\nInnerException : " + ex.InnerException.Message;
+                }
+            }
+            catch (ArgumentException ex)
+            {
+                errorMessage = ex.Message;
+            }
+            if (!string.IsNullOrEmpty(errorMessage))
+            {
+                Console.WriteLine("Failed: {0}" + errorMessage);
+                return;
+            }
+            Console.WriteLine("\nMaking the protocol call\n");
+            ExchangeService service = new ExchangeService(ExchangeVersion.Exchange2013_SP1);
+            service.Credentials = new OAuthCredentials(authenticationResult.AccessToken);
+            service.TraceEnabled = true;
+            service.TraceFlags = TraceFlags.All;
+            service.Url = new Uri(resource + "/EWS/Exchange.asmx");
+            EmailMessage email = new EmailMessage(service);
+            email.ToRecipients.Add("martitian@Gmail.com");
+            email.Subject = "Hello World from EWS - Brian";
+            email.Body = new MessageBody("Hello World from EWS - Brian");
+            email.Send();
         }
         #endregion
     }
