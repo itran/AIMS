@@ -117,6 +117,7 @@ namespace AIMS.EWS
         }
         private void Form1_Load(object sender, EventArgs e)
         {
+            //EWSSendEmailNowGIPF("TEST Email", "ihorizon@gipf.com.na", "From-Name", "Test","brian.maswanganye@itq.co.za","",false,"","");
             //string clientId = "2efcf754-471e-4a9a-85fd-f3dd08b62c35";
             ////string secret = "67ded17d-5d85-4368-825e-6449f029773a";
             ////string secret = "uE08Q~BgmekX41aZOWUmtI0D~KcPNASSRfUOQb6X";
@@ -134,18 +135,18 @@ namespace AIMS.EWS
             //string sBearerToken = "";
             //PromptBehavior oPromptBehavior = PromptBehavior.Auto;
             ////SendEmail();
-            
+
             //EWSSendEmailNow("FINAL TESTING ", "Operations@AIMS.org.za", "Operations@AIMS.org.za", "DrillReportEmailSubject", "martitian@Gmail.com;i.tran@yahoo.co.uk", "", false, "", "martitian@gmail.com");
-            
+
             //Do_OAuth(ref MailboxBeingAccessed, ref AccountAccessingMailbox,
             //             sAuthority, sAppId, sRedirectURL, sServername, ref sBearerToken, oPromptBehavior);
-            
+
             //            AccessEmails();
             //GenerateOAuth2AccessToken(clientId, secret, tenantId);
 
-            
+
             //ProcessMailAsync("", "", "");
-            
+
             OpenDBConnection();
             CaseLastCommentSLA = System.Configuration.ConfigurationSettings.AppSettings["CaseLastCommentSLA"];
 
@@ -179,9 +180,9 @@ namespace AIMS.EWS
 
                 if ((DateTime.Now.DayOfWeek > DayOfWeek.Sunday | DateTime.Now.DayOfWeek < DayOfWeek.Saturday) & (DateTime.Now.Hour == 16 && DateTime.Now.ToString("tt") == "PM")){
                     //GenerateFilesNotTaggedToOperators();
-                    GenerateInPatient("Stanley@aims.org.za;dominicb@aims.org.za;operations@aims.org.za;eric@aims.org.za;annick@aims.org.za");
-                    GenerateOutPatient("Stanley@aims.org.za;dominicb@aims.org.za;operations@aims.org.za;eric@aims.org.za;annick@aims.org.za");
-                    GenerateFilesNotAssignedToAdmin();
+                    //GenerateInPatient("Stanley@aims.org.za;dominicb@aims.org.za;operations@aims.org.za;eric@aims.org.za;annick@aims.org.za");
+                    //GenerateOutPatient("Stanley@aims.org.za;dominicb@aims.org.za;operations@aims.org.za;eric@aims.org.za;annick@aims.org.za");
+                    //GenerateFilesNotAssignedToAdmin();
                 }
 
                 if ((DateTime.Now.DayOfWeek > DayOfWeek.Sunday | DateTime.Now.DayOfWeek < DayOfWeek.Saturday) & (DateTime.Now.Hour == 17 && DateTime.Now.ToString("tt") == "PM"))
@@ -206,18 +207,18 @@ namespace AIMS.EWS
 
                 if ((DateTime.Now.DayOfWeek > DayOfWeek.Sunday | DateTime.Now.DayOfWeek < DayOfWeek.Saturday) & (DateTime.Now.Hour == 7 && DateTime.Now.ToString("tt") == "AM"))
                 {
-                    GenerateAfterHoursFiles();
+                    //GenerateAfterHoursFiles();
                     GenerateWorkBaskets();
                     GenerateWorkBasketsAdmin();
-                    GenerateFilesNotAssignedToAdmin();
+                    //GenerateFilesNotAssignedToAdmin();
                     ProcessPendedCase();
                 }
 
                 if (DateTime.Now.Hour == 7 && DateTime.Now.ToString("tt") == "AM")
                 {
                     //Generate6677Providers();
-                    GenerateFilesForPatientsDischargedInLast24Hours();
-                    GenerateNotSentToAdminAfter48HrsDischarge();
+                    //GenerateFilesForPatientsDischargedInLast24Hours();
+                    //GenerateNotSentToAdminAfter48HrsDischarge();
                     GenerateHighCost("eric@aims.org.za;racheal@aims.org.za;jade@aims.org.za");
                 }
 
@@ -240,7 +241,7 @@ namespace AIMS.EWS
                     DateTime.Now.DayOfWeek == DayOfWeek.Friday) & (DateTime.Now.Hour == 8 && DateTime.Now.ToString("tt") == "AM"))
                 {
                     DischargeFileSummary();
-                    GenerateOverDueTasks("stanley@aims.org.za;;;DanielM@aims.org.za");
+                    //GenerateOverDueTasks("stanley@aims.org.za;;;DanielM@aims.org.za");
                 }
                 if ((DateTime.Now.DayOfWeek == DayOfWeek.Monday) & (DateTime.Now.Hour == 8 && DateTime.Now.ToString("tt") == "AM"))
                 {
@@ -249,11 +250,11 @@ namespace AIMS.EWS
                 
                 if (DateTime.Now.Hour == 6 && DateTime.Now.ToString("tt") == "AM")
                 {
-                    GenerateFilesForPatientsDischargedInLast24Hours();
-                    GenerateInPatient("Bernadette@aims.org.za;Stanley@aims.org.za;Hendrikj@aims.org.za;dominicb@aims.org.za;interim@aims.org.za;operations@aims.org.za;eric@aims.org.za;annick@aims.org.za");
-                    GenerateOutPatient("Bernadette@aims.org.za;Stanley@aims.org.za;Hendrikj@aims.org.za;dominicb@aims.org.za;interim@aims.org.za;operations@aims.org.za;eric@aims.org.za;annick@aims.org.za");
+                    //GenerateFilesForPatientsDischargedInLast24Hours();
+                    //GenerateInPatient("Bernadette@aims.org.za;Stanley@aims.org.za;Hendrikj@aims.org.za;dominicb@aims.org.za;interim@aims.org.za;operations@aims.org.za;eric@aims.org.za;annick@aims.org.za");
+                    //GenerateOutPatient("Bernadette@aims.org.za;Stanley@aims.org.za;Hendrikj@aims.org.za;dominicb@aims.org.za;interim@aims.org.za;operations@aims.org.za;eric@aims.org.za;annick@aims.org.za");
                     //AdminActiveFiles();
-                    DailyWorkbaskedActivity();
+                    //DailyWorkbaskedActivity();
                 }
                 
                 //GenerateFilesTaggedToOperators();
@@ -8998,7 +8999,7 @@ namespace AIMS.EWS
             AIMReports.CommonFunctions cmmnFuncs = new AIMReports.CommonFunctions();
             cmmnFuncs.ErrorLogger("Start Sending Using EWS Office - New Way of send emails");
 
-            string sAppId = "2efcf754-471e-4a9a-85fd-f3dd08b62c35";
+            string sAppId = "2efcf754-471e-4a9a-85fd-f3dd08b62c35"; // appclient-id
             string sRedirectURL = "";
             string sServername = "";
             string sBearerToken = "";
@@ -9012,7 +9013,7 @@ namespace AIMS.EWS
 
                 // See // https://msdn.microsoft.com/en-us/library/office/dn903761(v=exchg.150).aspx
                 // get authentication token
-                string authority = "https://login.microsoftonline.com/9d40314f-1d37-457d-b900-21bc738c85bd";
+                string authority = "https://login.microsoftonline.com/9d40314f-1d37-457d-b900-21bc738c85bd"; // Tenantid 
                 string clientID = sAppId;
                 Uri clientAppUri = new Uri("https://login.microsoftonline.com/common/oauth2/nativeclient");
                 string serverName = "https://outlook.office365.com";
@@ -9100,6 +9101,7 @@ namespace AIMS.EWS
                 return false;
             }
         }
+
         private bool EWSSendEmailNowOld(string EmailBody,
                                     string EmailFrom,
                                     string EmailFromName,
@@ -9189,6 +9191,130 @@ namespace AIMS.EWS
             return true;
         }
 
+        private bool EWSSendEmailNowGIPF(string EmailBody,
+                                    string EmailFrom,
+                                    string EmailFromName,
+                                    string EmailSubject,
+                                    string EmailTo,
+                                    string EmailAttachments,
+                                    bool KillFiles,
+                                    string EmailCC,
+                                    string EmailBcc)
+        {
+            try
+            {
+                AIMReports.CommonFunctions cmmnFuncs = new AIMReports.CommonFunctions();
+                cmmnFuncs.ErrorLogger("Start Sending Using EWS Office - New Way of send emails");
+
+                //string sAppId = "f20a8fa9-4682-4b7c-956e-422c8f57cc5f";
+                string sAppId = "a14270da-8187-4391-86b8-7f4d04cef61e";
+                string sBearerToken = "";
+
+                //string secret = "cf03e72e-ef05-4f76-b650-42de2d8683b7";
+                string secret = "v7s8Q~A8.OcftBP9ElkUtQsQX4uh0_gzkoQbPaXA";
+                ExchangeCredentials oExchangeCredentials = null;
+                try
+                {
+                    //System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
+                    AssignCertificatesOffice365();
+
+                    // See // https://msdn.microsoft.com/en-us/library/office/dn903761(v=exchg.150).aspx
+                    // get authentication token
+                    string authority = "https://login.microsoftonline.com/9427e700-b087-4326-aad3-5616b32a5068";
+                    string clientID = sAppId;
+                    Uri clientAppUri = new Uri("https://login.microsoftonline.com/common/oauth2/nativeclient");
+                    string serverName = "https://outlook.office365.com";
+
+                    AuthenticationContext authenticationContext = new AuthenticationContext(authority, false);
+
+                    AuthenticationResult authenticationResult = authenticationContext.AcquireTokenAsync(serverName, new ClientCredential(clientID, secret)).Result;
+
+                    sBearerToken = authenticationResult.AccessToken;
+                    oExchangeCredentials = new OAuthCredentials(authenticationResult.AccessToken);
+
+                    ExchangeService service = new ExchangeService(ExchangeVersion.Exchange2013_SP1);
+                    service.Credentials = new OAuthCredentials(authenticationResult.AccessToken);
+                    service.TraceEnabled = true;
+                    service.TraceFlags = TraceFlags.All;
+                    service.Url = new Uri(serverName + "/EWS/Exchange.asmx");
+
+                    if (EmailFrom.Equals("ihorizon@gipf.com.na", StringComparison.OrdinalIgnoreCase))
+                    {
+                        service.ImpersonatedUserId = new ImpersonatedUserId(ConnectingIdType.SmtpAddress, "ihorizon@gipf.com.na");
+                    }
+                    else
+                    {
+                        service.ImpersonatedUserId = new ImpersonatedUserId(ConnectingIdType.SmtpAddress, "operations@aims.org.za");
+                    }
+
+                    EmailMessage email = new EmailMessage(service);
+
+                    string[] globalTeamEmails = EmailTo.Split(new Char[] { ';' });
+                    foreach (string globalEmail in globalTeamEmails)
+                    {
+                        if (!globalEmail.Trim().Equals(""))
+                        {
+                            email.ToRecipients.Add(globalEmail.Trim());
+                        }
+                    }
+
+                    globalTeamEmails = EmailCC.Split(new Char[] { ';' });
+                    foreach (string globalEmail in globalTeamEmails)
+                    {
+                        if (!globalEmail.Trim().Equals(""))
+                        {
+                            email.CcRecipients.Add(globalEmail.Trim());
+                        }
+                    }
+
+                    globalTeamEmails = EmailBcc.Split(new Char[] { ';' });
+                    foreach (string globalEmail in globalTeamEmails)
+                    {
+                        if (!globalEmail.Trim().Equals(""))
+                        {
+                            email.BccRecipients.Add(globalEmail.Trim());
+                        }
+                    }
+
+                    globalTeamEmails = EmailAttachments.Split(new Char[] { ';' });
+                    foreach (string globalEmail in globalTeamEmails)
+                    {
+                        if (!globalEmail.Trim().Equals(""))
+                        {
+                            email.Attachments.AddFileAttachment(globalEmail);
+                        }
+                    }
+
+                    email.Subject = EmailSubject;
+                    email.Body = EmailBody;
+                    email.Body.BodyType = BodyType.HTML;
+                    email.Send();
+                    cmmnFuncs.ErrorLogger("Email Transmission Successfully sent to: " + EmailTo);
+                    return true;
+                }
+                catch (SmtpException exception)
+                {
+                    cmmnFuncs.ErrorLogger("Email Transmission SmtpException Exception/ERROR: " + exception.ToString());
+                    return false;
+                }
+                catch (AutodiscoverRemoteException exception)
+                {
+                    cmmnFuncs.ErrorLogger("Email Transmission AutodiscoverRemoteException Exception/ERROR: " + exception.ToString());
+                    return false;
+                }
+                catch (Exception exception)
+                {
+                    cmmnFuncs.ErrorLogger("Email Transmission SmtpException Exception/ERROR: " + exception.ToString());
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        
         public void GenerateHighCost(string ReportRecipient)
         {
             AIMSEmailer.AIMS.Utility.eMailer aimsEmailer = new AIMSEmailer.AIMS.Utility.eMailer();
